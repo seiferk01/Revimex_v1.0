@@ -291,8 +291,10 @@ class Utilities: NSObject {
     public static func traerImagen(urlImagen: String) -> UIImage{
         var imagen = UIImage(named: "imagenNoEncontrada.png")
         
-        let imgURL = NSURL(string: urlImagen)
+         let urlImagen = urlImagen.replacingOccurrences(of: " ", with: "%20")
         
+        let imgURL = NSURL(string: urlImagen)
+        print(imgURL)
         if let data = imgURL as URL?{
             if let data = NSData(contentsOf: data){
                 if UIImage(data: data as Data) != nil{

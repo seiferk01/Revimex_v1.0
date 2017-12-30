@@ -132,13 +132,13 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
     //movimiento de camara del mapa
     func cameraMovement(){
         
-        mapView.setCenter(CLLocationCoordinate2D(latitude: Double(propiedad.lat)!, longitude: Double(propiedad.lon)!), animated: false)
-        
-        degrees += 180
-        
-        let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 60, heading: degrees)
-        
-        mapView.setCamera(camera, withDuration: 6, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+//        mapView.setCenter(CLLocationCoordinate2D(latitude: Double(propiedad.lat)!, longitude: Double(propiedad.lon)!), animated: false)
+//
+//        degrees += 180
+//
+//        let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 60, heading: degrees)
+//
+//        mapView.setCamera(camera, withDuration: 6, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
     }
     
     //request al api de google para localizar servicios
@@ -167,24 +167,30 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
                 do {
                     let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
                     
-                    let results = json["results"] as! NSObject
+                    if let results = json["results"] as? NSObject{
                     
-                    for result in results as! NSArray {
-                        let result = result as! NSDictionary
-                        let geometry = result["geometry"] as! NSDictionary
-                        let location = geometry["location"] as! NSDictionary
-                        
-                        print(result)
-                        var nombre = ""
-                        var direccion = ""
-                        if !(result["name"] is NSNull){
-                            nombre = result["name"] as! String
+                        if let resArray = results as? NSArray{
+                            for result in resArray {
+                                
+                                var nombre = ""
+                                var direccion = ""
+                                
+                                if let result = result as? NSDictionary{
+                                    let geometry = result["geometry"] as! NSDictionary
+                                    let location = geometry["location"] as! NSDictionary
+                                
+                                    print(result)
+                                    if !(result["name"] is NSNull){
+                                        nombre = result["name"] as! String
+                                    }
+                                    if !(result["vicinity"] is NSNull){
+                                        direccion = result["vicinity"] as! String
+                                    }
+                                
+                                    self.agregarMarcadorServicio(latitud: location["lat"] as! Double, longitud: location["lng"] as! Double,nombre: nombre ,direccion: direccion)
+                                }
+                            }
                         }
-                        if !(result["vicinity"] is NSNull){
-                            direccion = result["vicinity"] as! String
-                        }
-                        
-                        self.agregarMarcadorServicio(latitud: location["lat"] as! Double, longitud: location["lng"] as! Double,nombre: nombre ,direccion: direccion)
                     }
                     
                     

@@ -495,45 +495,52 @@
                                 <rect key="frame" x="0.0" y="310" width="374" height="308"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellCarritos" rowHeight="141" id="Ss7-IG-pAt" customClass="CarritoCellController" customModule="Revimex" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="374" height="141"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellCarritos" rowHeight="144" id="Ss7-IG-pAt" customClass="CarritoCellController" customModule="Revimex" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="374" height="144"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ss7-IG-pAt" id="iNQ-jf-nHD">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="140.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="143.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b72-bo-QQI">
-                                                    <rect key="frame" x="15" y="6" width="132" height="128"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b72-bo-QQI">
+                                                    <rect key="frame" x="5" y="5" width="130" height="130"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="130" id="TAM-XA-KYw"/>
+                                                        <constraint firstAttribute="width" constant="130" id="yqM-fL-GQl"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FTh-hy-sY7">
-                                                    <rect key="frame" x="164" y="17" width="189" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0wq-4h-aY6">
-                                                    <rect key="frame" x="164" y="100" width="189" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l7b-Yf-Rv9">
-                                                    <rect key="frame" x="164" y="57" width="189" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Cw-U8-cjq">
+                                                    <rect key="frame" x="136" y="5" width="238" height="130"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="130" id="UqA-RQ-wNV"/>
+                                                    </constraints>
+                                                </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V82-n4-8x9">
+                                                    <rect key="frame" x="5" y="5" width="363" height="130"/>
+                                                    <connections>
+                                                        <action selector="irDetalles:" destination="Ss7-IG-pAt" eventType="touchUpInside" id="A1S-I1-0Jp"/>
+                                                        <segue destination="bCG-VS-rd4" kind="show" identifier="carritoToDetails" id="kgP-w7-2HR"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="1Cw-U8-cjq" secondAttribute="bottom" constant="5" id="1Fr-bZ-VXV"/>
+                                                <constraint firstItem="1Cw-U8-cjq" firstAttribute="top" secondItem="iNQ-jf-nHD" secondAttribute="top" constant="5" id="7Jo-Q0-T9o"/>
+                                                <constraint firstAttribute="bottom" secondItem="b72-bo-QQI" secondAttribute="bottom" constant="5" id="BYv-L6-U7s"/>
+                                                <constraint firstItem="b72-bo-QQI" firstAttribute="leading" secondItem="iNQ-jf-nHD" secondAttribute="leading" constant="5" id="Ruh-ny-wgF"/>
+                                                <constraint firstAttribute="trailing" secondItem="1Cw-U8-cjq" secondAttribute="trailing" id="YDO-xX-cka"/>
+                                                <constraint firstItem="1Cw-U8-cjq" firstAttribute="leading" secondItem="b72-bo-QQI" secondAttribute="trailing" constant="1" id="bA1-wD-vPQ"/>
+                                                <constraint firstItem="V82-n4-8x9" firstAttribute="centerX" secondItem="iNQ-jf-nHD" secondAttribute="centerX" id="deA-ob-YpR"/>
+                                                <constraint firstAttribute="bottom" secondItem="V82-n4-8x9" secondAttribute="bottom" constant="5" id="fbD-Cj-yZu"/>
+                                                <constraint firstItem="b72-bo-QQI" firstAttribute="top" secondItem="iNQ-jf-nHD" secondAttribute="top" constant="5" id="iZM-D9-Mby"/>
+                                                <constraint firstItem="V82-n4-8x9" firstAttribute="leading" secondItem="iNQ-jf-nHD" secondAttribute="leading" constant="5" id="pWZ-Pu-HxB"/>
+                                                <constraint firstItem="V82-n4-8x9" firstAttribute="top" secondItem="iNQ-jf-nHD" secondAttribute="top" constant="5" id="yUj-aT-5vv"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="desalojo" destination="l7b-Yf-Rv9" id="hjD-mJ-AFc"/>
+                                            <outlet property="contenedorDatos" destination="1Cw-U8-cjq" id="jf7-ac-s0i"/>
                                             <outlet property="foto" destination="b72-bo-QQI" id="Z8W-kc-NdN"/>
-                                            <outlet property="precio" destination="FTh-hy-sY7" id="uD4-D1-V5w"/>
-                                            <outlet property="total" destination="0wq-4h-aY6" id="AKX-OK-2mY"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -570,7 +577,6 @@
                         <outlet property="contenedorTotales" destination="6fy-wl-iR4" id="RhJ-oZ-eix"/>
                         <outlet property="tablaCarritos" destination="7on-SJ-0sg" id="9dy-ik-KVS"/>
                         <outlet property="tituloCarrito" destination="y2P-jg-rRO" id="fOI-XN-QGf"/>
-                        <segue destination="bCG-VS-rd4" kind="show" identifier="carritoToDetails" id="DyS-j9-XMI"/>
                         <segue destination="4ck-kO-hfk" kind="show" identifier="carritoToLogin" id="prh-Pe-Z41"/>
                     </connections>
                 </viewController>
@@ -1223,7 +1229,7 @@
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JIt-C2-GIC">
-                                <rect key="frame" x="16" y="64" width="343" height="559"/>
+                                <rect key="frame" x="16" y="20" width="343" height="603"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2585,10 +2591,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sNS-pH-RMi"/>
-        <segue reference="ksp-Hn-lKT"/>
+        <segue reference="kgP-w7-2HR"/>
         <segue reference="4jM-kB-cRG"/>
         <segue reference="Ac6-tB-8Au"/>
         <segue reference="HFz-xn-k93"/>
-        <segue reference="v7J-A9-GYw"/>
+        <segue reference="prh-Pe-Z41"/>
     </inferredMetricsTieBreakers>
 </document>

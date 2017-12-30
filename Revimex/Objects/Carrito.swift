@@ -12,20 +12,22 @@ class Carrito: NSObject {
     
     var idPropiedad: String
     var estado: String
+    var municipio: String
+    var colonia: String
     var precio: String
-    var referencia: String
     var fechaAgregado: String
+    var total: String
     var foto: UIImage
-    var urlPropiedad: String
     
-    init(idPropiedad: String,estado: String, precio: String, referencia: String, fechaAgregado: String, foto: UIImage, urlPropiedad: String){
+    init(idPropiedad: String,estado: String, municipio: String, colonia: String, precio: String, fechaAgregado: String, total: String, foto: UIImage){
         self.idPropiedad = idPropiedad
         self.estado = estado
+        self.municipio = municipio
+        self.colonia = colonia
         self.precio = precio
-        self.referencia = referencia
         self.fechaAgregado = fechaAgregado
+        self.total = total
         self.foto = foto
-        self.urlPropiedad = urlPropiedad
     }
     
 }

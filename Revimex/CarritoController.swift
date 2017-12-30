@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Material
+import Motion
 
 class CarritoController: UIViewController,UITableViewDataSource {
     
@@ -40,6 +42,7 @@ class CarritoController: UIViewController,UITableViewDataSource {
         
         tituloCarrito.isHidden = true
         contenedorTotales.isHidden = true
+        tablaCarritos.isHidden = true
         
         crearVista()
         
@@ -69,22 +72,22 @@ class CarritoController: UIViewController,UITableViewDataSource {
         
         contenedorTotales.backgroundColor = .clear
         
-        subtotal.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        subtotal.backgroundColor = UIColor.white
         subtotal.text = "Subtotal"
         subtotal.textAlignment = NSTextAlignment.center
         subtotal.font = UIFont.boldSystemFont(ofSize: 17.0)
         
-        total.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        total.backgroundColor = UIColor.white
         total.text = "Total"
         total.textAlignment = NSTextAlignment.center
         total.font = UIFont.boldSystemFont(ofSize: 17.0)
         
-        subtotalMonto.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        subtotalMonto.backgroundColor = UIColor.white
         subtotalMonto.text = "$"+totalPago
         subtotalMonto.textAlignment = NSTextAlignment.center
         subtotalMonto.font = UIFont.boldSystemFont(ofSize: 17.0)
         
-        totalMonto.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        totalMonto.backgroundColor = UIColor.white
         totalMonto.text = "$"+totalPago
         totalMonto.textAlignment = NSTextAlignment.center
         totalMonto.font = UIFont.boldSystemFont(ofSize: 17.0)
@@ -93,6 +96,7 @@ class CarritoController: UIViewController,UITableViewDataSource {
         
         continuarBtn.layer.borderWidth = 1
         continuarBtn.layer.borderColor = UIColor.black.cgColor
+        continuarBtn.layer.backgroundColor = UIColor.white.cgColor
         continuarBtn.setTitle("Continuar", for: .normal)
         continuarBtn.setTitleColor(UIColor.black, for: .normal)
         
@@ -142,7 +146,7 @@ class CarritoController: UIViewController,UITableViewDataSource {
                                 print("************Empieza Carrito************")
                                 print(carrito)
                                 
-                                let objectCarrito = Carrito(idPropiedad: "", estado: "", precio: "", referencia: "", fechaAgregado: "", foto: UIImage(named: "imagenNoEncontrada.png")!, urlPropiedad: "")
+                                let objectCarrito = Carrito(idPropiedad: "", estado: "", municipio: "", colonia: "", precio: "", fechaAgregado: "", total: "", foto: UIImage(named: "imagenNoEncontrada.png")!)
                                 
                                 if let created = carrito["created_at"] as? String{
                                     objectCarrito.fechaAgregado = created
@@ -152,20 +156,25 @@ class CarritoController: UIViewController,UITableViewDataSource {
                                     objectCarrito.idPropiedad = String(idPropiedad)
                                 }
                                 
-                                if let favoritoPropiedad = carrito["propiedades"] as? NSArray{
-                                    for propiedad in favoritoPropiedad{
+                                if let carritoPropiedad = carrito["propiedades"] as? NSArray{
+                                    for propiedad in carritoPropiedad{
                                         if let atributoPropiedad = propiedad as? NSDictionary{
                                             if let estado = atributoPropiedad["Estado__c"] as? String{
                                                 objectCarrito.estado = estado
                                             }
+                                            
+                                            if let municipio = atributoPropiedad["Municipio__c"] as? String{
+                                                objectCarrito.municipio = municipio
+                                            }
+                                            
+                                            if let colonia = atributoPropiedad["Colonia__c"] as? String{
+                                                objectCarrito.colonia = colonia
+                                            }
                                             if let precio = atributoPropiedad["ValorReferencia__c"] as? String{
                                                 objectCarrito.precio = precio
                                             }
-                                            if let referencia = atributoPropiedad["Referencia"] as? String{
-                                                objectCarrito.referencia = referencia
-                                            }
-                                            if let urlPropiedad = atributoPropiedad["url_propiedad"] as? String{
-                                                objectCarrito.urlPropiedad = urlPropiedad
+                                            if let total = atributoPropiedad["totalPropiedad"] as? String{
+                                                objectCarrito.total = total
                                             }
                                             if let urlImagen = atributoPropiedad["url_imagen"] as? String{
                                                 objectCarrito.foto = Utilities.traerImagen(urlImagen: urlImagen)
@@ -175,7 +184,6 @@ class CarritoController: UIViewController,UITableViewDataSource {
                                 }
                                 
                                 self.arrayCarritos.append(objectCarrito)
-                                
                                 
                             }
                             
@@ -191,6 +199,7 @@ class CarritoController: UIViewController,UITableViewDataSource {
                     if self.arrayCarritos.count > 0 {
                         self.tituloCarrito.isHidden = false
                         self.contenedorTotales.isHidden = false
+                        self.tablaCarritos.isHidden = false
                         
                         if let labelSinCarritos = self.view.viewWithTag(101){
                             labelSinCarritos.removeFromSuperview()
@@ -199,6 +208,7 @@ class CarritoController: UIViewController,UITableViewDataSource {
                     else{
                         self.tituloCarrito.isHidden = true
                         self.contenedorTotales.isHidden = true
+                        self.tablaCarritos.isHidden = true
                         
                         let sinCarritos = UILabel()
                         sinCarritos.text = "Aun no hay propiedades en el carrito"
@@ -230,6 +240,13 @@ class CarritoController: UIViewController,UITableViewDataSource {
         
         if arrayCarritos.count > 1{
             
+            subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.3)
+            total.frame = CGRect(x:0,y:largo*0.3 + 1,width:ancho/2,height:largo*0.3)
+            subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.3)
+            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.3 + 1,width:ancho/2,height:largo*0.3)
+            buttonContainer.frame = CGRect(x:0,y:largo*0.6 + 2,width:ancho,height:largo*0.4)
+            continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.2,width:ancho*0.5,height:buttonContainer.bounds.height*0.6)
+            
         }
         else{
             
@@ -251,9 +268,14 @@ class CarritoController: UIViewController,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellCarritos = tableView.dequeueReusableCell(withIdentifier: "cellCarritos") as! CarritoCellController
+        cellCarritos.idOfertaActual = arrayCarritos[indexPath.row].idPropiedad
+        cellCarritos.direccion.text = arrayCarritos[indexPath.row].estado+" "+arrayCarritos[indexPath.row].municipio+" "+arrayCarritos[indexPath.row].colonia
         cellCarritos.precio.text = arrayCarritos[indexPath.row].precio
-        print(indexPath.row)
-        
+        cellCarritos.desalojo.text = "$20,000"
+        cellCarritos.total.text = arrayCarritos[indexPath.row].total
+        cellCarritos.foto.image = arrayCarritos[indexPath.row].foto
+        cellCarritos.foto.contentMode = .scaleAspectFill
+        cellCarritos.foto.clipsToBounds = true
         
         return cellCarritos
     }
