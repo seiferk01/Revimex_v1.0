@@ -11,11 +11,7 @@ class InfoUserController: UIViewController,UITableViewDataSource,UITableViewDele
     
     @IBOutlet weak var tableInfoUser: UITableView!
     
-    
     private var user_id : String!;
-    private var cuentaBtn: UIButton!;
-    private var tapGesture: UITapGestureRecognizer!;
-    private var menuContainer: UIView!;
     
     public var data:[InfoCells]?;
     
@@ -30,16 +26,6 @@ class InfoUserController: UIViewController,UITableViewDataSource,UITableViewDele
         self.hideKeyboard();
         data = [];
         self.navigationController?.isNavigationBarHidden = false;
-        
-        //Se obtiene de las subviews el Boton de información de usuario
-        let a = self.navigationController?.navigationBar.subviews;
-        cuentaBtn = a![5] as! UIButton;
-        
-        cuentaBtn.setBackgroundImage(UIImage(named:"menu-horizontal-100.png"), for: .normal);
-        tapGesture = UITapGestureRecognizer(target: self,action: #selector(InfoUserController.menuTapped(tapGestureRecognizer:)));
-        cuentaBtn.addGestureRecognizer(tapGesture);
-        
-        iniMenu();
         
         user_id = UserDefaults.standard.string(forKey: "userId")!;
         
@@ -58,11 +44,11 @@ class InfoUserController: UIViewController,UITableViewDataSource,UITableViewDele
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated);
+        imagenCuentaBtn.isHidden = false
+        instanciaMisLineasController.menuContextual();
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (self.data?.count)!;
@@ -215,38 +201,7 @@ class InfoUserController: UIViewController,UITableViewDataSource,UITableViewDele
         
     }
     
-    //Crear menu contextual
-    private func iniMenu(){
-        
-        let screenSize = UIScreen.main.bounds;
-        let navigation = navigationController?.navigationBar.frame;
-        let posY = navigation?.maxY;
-        let posX = navigation?.maxX;
-        
-        menuContainer = UIView(frame: CGRect(/*x: 200, y: 500, width: 100, height: 100*/));
-        menuContainer.frame = CGRect(x: posX! - (screenSize.width*(0.3)) - 5, y: posY!, width: screenSize.width*(0.3), height: 100);
-        menuContainer.backgroundColor = UIColor.white;
-        menuContainer.layer.masksToBounds = false;
-        menuContainer.layer.shadowRadius = 2.0;
-        menuContainer.layer.shadowColor = UIColor.black.cgColor;
-        menuContainer.layer.shadowOffset = CGSize(width: 0.7, height: 0.7);
-        menuContainer.layer.shadowOpacity = 0.5;
-        menuContainer.isHidden = true;
-        
-        let subScreen = menuContainer.bounds;
-        let logOutBtn = UIButton(type: .system);
-        logOutBtn.frame = CGRect(x: subScreen.minX + 4, y:0, width: subScreen.width * (0.90), height: screenSize.height * (0.04));
-        logOutBtn.setTitle("Cerrar Sesión", for: .normal);
-        logOutBtn.titleLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16);
-        logOutBtn.setTitleColor(UIColor.black, for: .normal);
-        logOutBtn.backgroundColor = UIColor.white;
-        logOutBtn.addTarget(self, action: #selector(logOut), for: .touchUpInside);
-        
-        menuContainer.frame.size = CGSize(width: menuContainer.frame.width, height: logOutBtn.frame.height);
-        menuContainer.addSubview(logOutBtn);
-        
-        view.addSubview(menuContainer);
-    }
+    
     
     //Obtiene la informacion del usuraio a partir de su numero de ID
     private func obtInfoUser(){
@@ -305,12 +260,6 @@ class InfoUserController: UIViewController,UITableViewDataSource,UITableViewDele
         super.viewWillAppear(animated);
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        cuentaBtn.setBackgroundImage(UIImage(named: "cuenta.png"), for: .normal);
-        cuentaBtn.removeGestureRecognizer(tapGesture);
-        super.viewWillDisappear(animated);
-    }
-    
     public func disable_EnableAllSub(){
         for item in data!{
             switch item{
@@ -329,18 +278,6 @@ class InfoUserController: UIViewController,UITableViewDataSource,UITableViewDele
                 break;
             }
         }
-    }
-    
-    @objc func menuTapped(tapGestureRecognizer: UITapGestureRecognizer){
-        menuContainer.isHidden = !menuContainer.isHidden
-    }
-    
-    @objc func logOut(){
-        UserDefaults.standard.removeObject(forKey: "usuario");
-        UserDefaults.standard.removeObject(forKey: "contraseña");
-        UserDefaults.standard.removeObject(forKey: "userId");
-        navBarStyleCase = 0;
-        performSegue(withIdentifier: "infoToLogin", sender: nil)
     }
     
     @objc func EnableEdit(){

@@ -50,6 +50,25 @@
             </objects>
             <point key="canvasLocation" x="-314.39999999999998" y="2778.2608695652175"/>
         </scene>
+        <!--Mis Lineas Controller-->
+        <scene sceneID="fY4-Ln-cdG">
+            <objects>
+                <viewController id="V7o-bJ-te3" customClass="MisLineasController" customModule="Revimex" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gZu-rU-fqS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="x13-pW-jNb"/>
+                    </view>
+                    <connections>
+                        <segue destination="Hru-Yj-JEb" kind="show" identifier="infoToUserInfo" id="LEY-Q8-U0f"/>
+                        <segue destination="4ck-kO-hfk" kind="show" identifier="infoToLogin" id="ous-lG-hLL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d22-yC-pAp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="839" y="3199"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="hA4-s1-IbA">
             <objects>
@@ -427,7 +446,7 @@
                         <segue destination="bCG-VS-rd4" kind="show" id="Jc2-OJ-Tv8"/>
                         <segue destination="4ck-kO-hfk" kind="show" identifier="stockToLogin" id="QYd-vS-5Ig"/>
                         <segue destination="HWC-lY-NMN" kind="show" identifier="stockToLineasInfo" id="Tgb-ft-bgy"/>
-                        <segue destination="Hru-Yj-JEb" kind="show" identifier="stockToInfo" id="jYi-hx-nWZ"/>
+                        <segue destination="V7o-bJ-te3" kind="show" identifier="stockToInfo" id="L8V-ky-do2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cQh-Uf-sya" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1229,7 +1248,7 @@
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JIt-C2-GIC">
-                                <rect key="frame" x="16" y="20" width="343" height="603"/>
+                                <rect key="frame" x="16" y="64" width="343" height="559"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1877,7 +1896,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N8p-3r-qkt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-174" y="3596"/>
+            <point key="canvasLocation" x="-314" y="4308"/>
         </scene>
         <!--Mis Propiedades Controller-->
         <scene sceneID="88E-6q-apn">
@@ -2111,7 +2130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OhD-aQ-OhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="500" y="3596"/>
+            <point key="canvasLocation" x="492" y="4248"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="sdc-gQ-dg3">
@@ -2375,12 +2394,11 @@
                     </view>
                     <connections>
                         <outlet property="tableInfoUser" destination="y4o-rn-d1U" id="wsg-oJ-Mbd"/>
-                        <segue destination="4ck-kO-hfk" kind="show" identifier="infoToLogin" id="9pP-Lr-hLn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pbc-cv-ynj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="665" y="2778"/>
+            <point key="canvasLocation" x="-314" y="3522"/>
         </scene>
         <!--Mis Brokerage View Controller-->
         <scene sceneID="vB0-Ut-h4P">
@@ -2591,10 +2609,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sNS-pH-RMi"/>
-        <segue reference="kgP-w7-2HR"/>
+        <segue reference="Jc2-OJ-Tv8"/>
         <segue reference="4jM-kB-cRG"/>
         <segue reference="Ac6-tB-8Au"/>
         <segue reference="HFz-xn-k93"/>
-        <segue reference="prh-Pe-Z41"/>
+        <segue reference="ous-lG-hLL"/>
     </inferredMetricsTieBreakers>
 </document>

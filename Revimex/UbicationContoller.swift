@@ -132,17 +132,26 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
     //movimiento de camara del mapa
     func cameraMovement(){
         
-//        mapView.setCenter(CLLocationCoordinate2D(latitude: Double(propiedad.lat)!, longitude: Double(propiedad.lon)!), animated: false)
-//
-//        degrees += 180
-//
-//        let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 60, heading: degrees)
-//
-//        mapView.setCamera(camera, withDuration: 6, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+        Thread.sleep(forTimeInterval: 0.5)
+        
+        mapView.setCenter(CLLocationCoordinate2D(latitude: Double(propiedad.lat)!, longitude: Double(propiedad.lon)!), animated: false)
+
+        degrees += 180
+
+        let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 60, heading: degrees)
+
+        mapView.setCamera(camera, withDuration: 4, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
     }
     
     //request al api de google para localizar servicios
     func buscarServicios(servicio: String){
+        
+        //indicador de loading
+        let activityIndicator = UIActivityIndicatorView()
+        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
+        background.center = self.view.center
+        view.addSubview(background)
+        activityIndicator.startAnimating()
         
         marcador = servicio
         
@@ -176,23 +185,32 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
                                 var direccion = ""
                                 
                                 if let result = result as? NSDictionary{
-                                    let geometry = result["geometry"] as! NSDictionary
-                                    let location = geometry["location"] as! NSDictionary
-                                
+                                    
                                     print(result)
-                                    if !(result["name"] is NSNull){
-                                        nombre = result["name"] as! String
+                                    if let nom = result["name"] as? String {
+                                        nombre = nom
                                     }
-                                    if !(result["vicinity"] is NSNull){
-                                        direccion = result["vicinity"] as! String
+                                    if let dir = result["vicinity"] as? String {
+                                        direccion = dir
                                     }
-                                
-                                    self.agregarMarcadorServicio(latitud: location["lat"] as! Double, longitud: location["lng"] as! Double,nombre: nombre ,direccion: direccion)
+                                    
+                                    if let geometry = result["geometry"] as? NSDictionary {
+                                        if let location = geometry["location"] as? NSDictionary{
+                                            if let lat = location["lat"] as? Double, let lon = location["lng"] as? Double {
+                                                self.agregarMarcadorServicio(latitud: lat, longitud: lon,nombre: nombre ,direccion: direccion)
+                                            }
+                                        }
+                                    }
+                                    
                                 }
                             }
                         }
                     }
                     
+                    OperationQueue.main.addOperation({
+                        activityIndicator.stopAnimating()
+                        background.removeFromSuperview()
+                    })
                     
                 }catch {
                     print(error)

@@ -22,12 +22,17 @@ class CarritoController: UIViewController,UITableViewDataSource {
     
     let subtotal = UILabel()
     let total = UILabel()
+    let totalOferta = UILabel()
     let subtotalMonto = UILabel()
     let totalMonto = UILabel()
+    let totalMontoOferta = UILabel()
+    let tituloOferta = UILabel()
+    let labelOferta = UILabel()
     let buttonContainer = UIButton()
+    let sliderOferta = UISlider()
     let continuarBtn = UIButton()
     
-    var totalPago: String = "0"
+    var totalPago = "0"
     
     var arrayCarritos = [Carrito]()
     
@@ -82,15 +87,38 @@ class CarritoController: UIViewController,UITableViewDataSource {
         total.textAlignment = NSTextAlignment.center
         total.font = UIFont.boldSystemFont(ofSize: 17.0)
         
+        totalOferta.backgroundColor = UIColor.white
+        totalOferta.text = "Total Oferta"
+        totalOferta.textAlignment = NSTextAlignment.center
+        totalOferta.font = UIFont.boldSystemFont(ofSize: 17.0)
+        
         subtotalMonto.backgroundColor = UIColor.white
-        subtotalMonto.text = "$"+totalPago
+        subtotalMonto.text = "$0"
         subtotalMonto.textAlignment = NSTextAlignment.center
         subtotalMonto.font = UIFont.boldSystemFont(ofSize: 17.0)
         
         totalMonto.backgroundColor = UIColor.white
-        totalMonto.text = "$"+totalPago
+        totalMonto.text = "$0"
         totalMonto.textAlignment = NSTextAlignment.center
         totalMonto.font = UIFont.boldSystemFont(ofSize: 17.0)
+        
+        totalMontoOferta.backgroundColor = UIColor.white
+        totalMontoOferta.text = "$0"
+        totalMontoOferta.textAlignment = NSTextAlignment.center
+        totalMontoOferta.font = UIFont.boldSystemFont(ofSize: 17.0)
+        
+        tituloOferta.text = "Ofertar por:"
+        tituloOferta.font = UIFont.boldSystemFont(ofSize: 17.0)
+        
+        labelOferta.text = "100%"
+        labelOferta.textAlignment = .center
+        labelOferta.font = UIFont.boldSystemFont(ofSize: 17.0)
+        
+        sliderOferta.minimumValue = 50
+        sliderOferta.maximumValue = 100
+        sliderOferta.isContinuous = true
+        sliderOferta.tintColor = azul
+        sliderOferta.addTarget(self, action: #selector(sliderValueDidChangeSliderOferta(_:)), for: .valueChanged)
         
         buttonContainer.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         
@@ -100,12 +128,6 @@ class CarritoController: UIViewController,UITableViewDataSource {
         continuarBtn.setTitle("Continuar", for: .normal)
         continuarBtn.setTitleColor(UIColor.black, for: .normal)
         
-        contenedorTotales.addSubview(subtotal)
-        contenedorTotales.addSubview(total)
-        contenedorTotales.addSubview(subtotalMonto)
-        contenedorTotales.addSubview(totalMonto)
-        contenedorTotales.addSubview(buttonContainer)
-        buttonContainer.addSubview(continuarBtn)
         
     }
     
@@ -237,19 +259,37 @@ class CarritoController: UIViewController,UITableViewDataSource {
         
         subtotalMonto.text = "$"+totalPago
         totalMonto.text = "$"+totalPago
+        totalMontoOferta.text = "$"+totalPago
         
         if arrayCarritos.count > 1{
             
-            subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.3)
-            total.frame = CGRect(x:0,y:largo*0.3 + 1,width:ancho/2,height:largo*0.3)
-            subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.3)
-            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.3 + 1,width:ancho/2,height:largo*0.3)
-            buttonContainer.frame = CGRect(x:0,y:largo*0.6 + 2,width:ancho,height:largo*0.4)
-            continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.2,width:ancho*0.5,height:buttonContainer.bounds.height*0.6)
+            labelOferta.text = "100%"
+            subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.15)
+            total.frame = CGRect(x:0,y:largo*0.15 + 1,width:ancho/2,height:largo*0.15)
+            totalOferta.frame = CGRect(x:0,y:largo*0.3 + 2,width:ancho/2,height:largo*0.15)
+            subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.15)
+            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.15 + 1,width:ancho/2,height:largo*0.15)
+            totalMontoOferta.frame = CGRect(x:ancho/2,y:largo*0.3 + 2,width:ancho/2,height:largo*0.15)
+            buttonContainer.frame = CGRect(x:0,y:largo*0.45 + 3,width:ancho,height:largo*0.55)
+            tituloOferta.frame = CGRect(x:0,y:0,width:ancho*0.8,height:buttonContainer.bounds.height*0.2)
+            sliderOferta.frame = CGRect(x:ancho*0.05,y:buttonContainer.bounds.height*0.2,width:ancho*0.8,height:buttonContainer.bounds.height*0.4)
+            labelOferta.frame = CGRect(x:ancho*0.85,y:buttonContainer.bounds.height*0.2,width:ancho*0.15,height:buttonContainer.bounds.height*0.4)
+            continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.6 + 1,width:ancho*0.5,height:buttonContainer.bounds.height*0.4 - 6)
+            
+            buttonContainer.addSubview(tituloOferta)
+            buttonContainer.addSubview(sliderOferta)
+            buttonContainer.addSubview(labelOferta)
+            
+            contenedorTotales.addSubview(totalOferta)
+            contenedorTotales.addSubview(totalMontoOferta)
             
         }
         else{
             
+            for vista in buttonContainer.subviews{
+                vista.removeFromSuperview()
+            }
+            
             subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.3)
             total.frame = CGRect(x:0,y:largo*0.3 + 1,width:ancho/2,height:largo*0.3)
             subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.3)
@@ -257,6 +297,24 @@ class CarritoController: UIViewController,UITableViewDataSource {
             buttonContainer.frame = CGRect(x:0,y:largo*0.6 + 2,width:ancho,height:largo*0.4)
             continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.2,width:ancho*0.5,height:buttonContainer.bounds.height*0.6)
         }
+        
+        
+        contenedorTotales.addSubview(subtotal)
+        contenedorTotales.addSubview(total)
+        contenedorTotales.addSubview(subtotalMonto)
+        contenedorTotales.addSubview(totalMonto)
+        contenedorTotales.addSubview(buttonContainer)
+        buttonContainer.addSubview(continuarBtn)
+        
+    }
+    
+    @objc func sliderValueDidChangeSliderOferta(_ sender:UISlider!){
+
+        sender.value = round(sender.value)
+        labelOferta.text = String(format: "%.0f", round(sender.value))+"%"
+        let unoPorciento = (totalPago.replacingOccurrences(of: ",", with: "") as NSString).doubleValue / 100
+        let porcentaje = unoPorciento * Double(round(sender.value))
+        totalMontoOferta.text = "$"+String(format: "%.2f", porcentaje)
         
         
     }

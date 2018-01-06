@@ -110,6 +110,7 @@
 		524EBBCB1FF6E48300C31D0A /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBBC61FF6E48300C31D0A /* Usuario.swift */; };
 		524EBBCC1FF6E48300C31D0A /* Favorito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBBC71FF6E48300C31D0A /* Favorito.swift */; };
 		524EBBCD1FF6E48300C31D0A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBBC81FF6E48300C31D0A /* Utilities.swift */; };
+		524EBBCF1FFC69FD00C31D0A /* MisLineasController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBBCE1FFC69FD00C31D0A /* MisLineasController.swift */; };
 		8A76A7A86CA34F241DDD9AF9 /* Pods_Revimex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */; };
 /* End PBXBuildFile section */
 
@@ -220,6 +221,7 @@
 		524EBBC61FF6E48300C31D0A /* Usuario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Usuario.swift; sourceTree = "<group>"; };
 		524EBBC71FF6E48300C31D0A /* Favorito.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favorito.swift; sourceTree = "<group>"; };
 		524EBBC81FF6E48300C31D0A /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		524EBBCE1FFC69FD00C31D0A /* MisLineasController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MisLineasController.swift; sourceTree = "<group>"; };
 		750D9608BEC693F8EAD3A928 /* Pods-Revimex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Revimex.release.xcconfig"; path = "Pods/Target Support Files/Pods-Revimex/Pods-Revimex.release.xcconfig"; sourceTree = "<group>"; };
 		F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Revimex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -297,6 +299,7 @@
 				524EBA711FF6CFA100C31D0A /* Assets.xcassets */,
 				524EBA541FF6CE7400C31D0A /* LaunchScreen.storyboard */,
 				524EBA4F1FF6CE7400C31D0A /* Main.storyboard */,
+				524EBBCE1FFC69FD00C31D0A /* MisLineasController.swift */,
 				524EBA521FF6CE7400C31D0A /* Assets.xcassets */,
 			);
 			path = Revimex;
@@ -684,6 +687,7 @@
 				524EBA921FF6CFA600C31D0A /* UbicationContoller.swift in Sources */,
 				524EBA8E1FF6CFA600C31D0A /* InfoUserController.swift in Sources */,
 				524EBA8A1FF6CFA600C31D0A /* DatosPersonalesCellController.swift in Sources */,
+				524EBBCF1FFC69FD00C31D0A /* MisLineasController.swift in Sources */,
 				524EBA901FF6CFA600C31D0A /* LogInController.swift in Sources */,
 				524EBBCD1FF6E48300C31D0A /* Utilities.swift in Sources */,
 				524EBA841FF6CFA600C31D0A /* CuentasAsociadasCellController.swift in Sources */,

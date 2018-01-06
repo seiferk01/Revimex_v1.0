@@ -258,6 +258,9 @@ var lineaSeleccionada = 0
 //variable para contener los datos entregados por el json de detalles(InfoController,UbicationController)
 var propiedad: Details = Details(Id: "",calle: "",colonia: "",construccion: "",cp: "",estacionamiento: "",estado: "",habitaciones: "",idp: "",lat: "0",lon: "0",municipio: "",niveles: "",origen_propiedad: "",patios: "",precio: "",terreno: "",tipo: "",descripcion: "",pros: "",wcs: "",fotos: [])
 
+//instancia para mostrar el boton de enu contextual en informacion de usuario
+var instanciaMisLineasController: MisLineasController!
+
 //variable para obtener la imagen de fondo de la descripcion
 var descriptionImageBackground = UIImage()
 
