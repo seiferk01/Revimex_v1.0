@@ -41,7 +41,6 @@
 		524EBA9E1FF6CFA600C31D0A /* PropiedadesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA7B1FF6CFA400C31D0A /* PropiedadesController.swift */; };
 		524EBA9F1FF6CFA600C31D0A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA7C1FF6CFA400C31D0A /* TableViewCell.swift */; };
 		524EBB371FF6E0A000C31D0A /* DetallesInmuebleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBB361FF6E09F00C31D0A /* DetallesInmuebleController.swift */; };
-		524EBB391FF6E0CB00C31D0A /* FormContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBB381FF6E0CB00C31D0A /* FormContainerController.swift */; };
 		524EBB3B1FF6E0D600C31D0A /* FormValidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBB3A1FF6E0D500C31D0A /* FormValidate.swift */; };
 		524EBB711FF6E0FF00C31D0A /* banMercadoAbierto.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB3C1FF6E0EA00C31D0A /* banMercadoAbierto.png */; };
 		524EBB721FF6E0FF00C31D0A /* cuenta.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB3D1FF6E0EB00C31D0A /* cuenta.png */; };
@@ -152,7 +151,6 @@
 		524EBA7B1FF6CFA400C31D0A /* PropiedadesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropiedadesController.swift; sourceTree = "<group>"; };
 		524EBA7C1FF6CFA400C31D0A /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		524EBB361FF6E09F00C31D0A /* DetallesInmuebleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetallesInmuebleController.swift; sourceTree = "<group>"; };
-		524EBB381FF6E0CB00C31D0A /* FormContainerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormContainerController.swift; sourceTree = "<group>"; };
 		524EBB3A1FF6E0D500C31D0A /* FormValidate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidate.swift; sourceTree = "<group>"; };
 		524EBB3C1FF6E0EA00C31D0A /* banMercadoAbierto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banMercadoAbierto.png; sourceTree = "<group>"; };
 		524EBB3D1FF6E0EB00C31D0A /* cuenta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cuenta.png; sourceTree = "<group>"; };
@@ -260,7 +258,6 @@
 			isa = PBXGroup;
 			children = (
 				524EBBC31FF6E46F00C31D0A /* Objects */,
-				524EBB311FF6D65C00C31D0A /* ReusableControllers */,
 				524EBB2E1FF6D60300C31D0A /* Interfaces */,
 				524EBAC31FF6D5C500C31D0A /* Images */,
 				524EBAB61FF6D59900C31D0A /* CustomViews */,
@@ -394,14 +391,6 @@
 				524EBB3A1FF6E0D500C31D0A /* FormValidate.swift */,
 			);
 			path = Interfaces;
-			sourceTree = "<group>";
-		};
-		524EBB311FF6D65C00C31D0A /* ReusableControllers */ = {
-			isa = PBXGroup;
-			children = (
-				524EBB381FF6E0CB00C31D0A /* FormContainerController.swift */,
-			);
-			path = ReusableControllers;
 			sourceTree = "<group>";
 		};
 		524EBBC31FF6E46F00C31D0A /* Objects */ = {
@@ -679,7 +668,6 @@
 				524EBBB71FF6E13D00C31D0A /* NuevoBrokerageViewController.swift in Sources */,
 				524EBA981FF6CFA600C31D0A /* StockController.swift in Sources */,
 				524EBA951FF6CFA600C31D0A /* SubirPropiedadViewController.swift in Sources */,
-				524EBB391FF6E0CB00C31D0A /* FormContainerController.swift in Sources */,
 				524EBA821FF6CFA600C31D0A /* UbicacionInmuebleController.swift in Sources */,
 				524EBA831FF6CFA600C31D0A /* DescriptionViewController.swift in Sources */,
 				524EBA891FF6CFA600C31D0A /* SearchController.swift in Sources */,

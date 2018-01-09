@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import Material
 
 class MisPropiedadesController: UIViewController,UITableViewDataSource {
     
-    
+    @IBOutlet weak var subirPropiedad: FABButton!
     
     @IBOutlet public weak var tableMisPropiedades: UITableView!
     public var data: [String]!;
@@ -18,6 +19,8 @@ class MisPropiedadesController: UIViewController,UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         data = [];
+        iniFlBtn();
+        
         tableMisPropiedades.dataSource = self;
         tableMisPropiedades.translatesAutoresizingMaskIntoConstraints = true;
     }
@@ -25,6 +28,13 @@ class MisPropiedadesController: UIViewController,UITableViewDataSource {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func iniFlBtn(){
+        subirPropiedad.image = Icon.cm.add;
+        subirPropiedad.tintColor = Color.white;
+        subirPropiedad.backgroundColor = Color.black;
+        subirPropiedad.addTarget(self, action: #selector(nuevaPropiedad), for: .touchUpInside);
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -39,4 +49,11 @@ class MisPropiedadesController: UIViewController,UITableViewDataSource {
         let cell = tableMisPropiedades.dequeueReusableCell(withIdentifier: "cellMisPropiedades") as! MisPropiedadesCellController;
         return cell;
     }
+    
+    @objc func nuevaPropiedad() {
+        performSegue(withIdentifier: "nuevaPropiedad", sender: nil);
+    }
+    
+    
+    
 }

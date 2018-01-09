@@ -11,6 +11,8 @@ import UIKit
 class MisLineasController: UIViewController {
     
     @IBOutlet weak var vistasContainer: UIView!
+    
+    
     var misPropiedadesBtn = UIButton()
     var misInversionesBtn = UIButton()
     var misBrokeragesBtn = UIButton()
