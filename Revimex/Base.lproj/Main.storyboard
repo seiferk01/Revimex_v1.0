@@ -57,17 +57,25 @@
                     <view key="view" contentMode="scaleToFill" id="gZu-rU-fqS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bGF-uf-Aff">
+                                <rect key="frame" x="37" y="138" width="301" height="462"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="x13-pW-jNb"/>
                     </view>
                     <connections>
+                        <outlet property="vistasContainer" destination="bGF-uf-Aff" id="rE0-aP-CKY"/>
                         <segue destination="Hru-Yj-JEb" kind="show" identifier="infoToUserInfo" id="LEY-Q8-U0f"/>
                         <segue destination="4ck-kO-hfk" kind="show" identifier="infoToLogin" id="ous-lG-hLL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d22-yC-pAp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="839" y="3199"/>
+            <point key="canvasLocation" x="1020" y="3520.3898050974517"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hA4-s1-IbA">
@@ -671,7 +679,7 @@
         <!--Mis Propiedades-->
         <scene sceneID="70k-K4-TKI">
             <objects>
-                <viewController id="XVQ-pa-MHR" customClass="PropiedadesController" customModule="Revimex" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TabMisPropiedades" id="XVQ-pa-MHR" customClass="PropiedadesController" customModule="Revimex" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gmn-0r-SOo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1896,7 +1904,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N8p-3r-qkt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-314" y="4308"/>
+            <point key="canvasLocation" x="-1062" y="3581"/>
         </scene>
         <!--Mis Propiedades Controller-->
         <scene sceneID="88E-6q-apn">
@@ -1937,12 +1945,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oA3-1o-lAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6633" y="405"/>
+            <point key="canvasLocation" x="6633" y="677"/>
         </scene>
         <!--Inversionista Controller-->
         <scene sceneID="AnP-Gc-uQH">
             <objects>
-                <viewController id="7MU-4I-WLp" customClass="InversionistaController" customModule="Revimex" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MisInversiones" id="7MU-4I-WLp" customClass="InversionistaController" customModule="Revimex" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dD0-Xr-M0j">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2130,23 +2138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OhD-aQ-OhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="492" y="4248"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="sdc-gQ-dg3">
-            <objects>
-                <viewController storyboardIdentifier="MisInversiones" id="imK-yn-WE6" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="FSQ-Ud-RIL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Bsi-0x-g0z"/>
-                    </view>
-                    <size key="freeformSize" width="375" height="375"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jmi-a3-k4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6633" y="813"/>
+            <point key="canvasLocation" x="-1810" y="3520"/>
         </scene>
         <!--Info User Controller-->
         <scene sceneID="GIW-cn-b6K">
