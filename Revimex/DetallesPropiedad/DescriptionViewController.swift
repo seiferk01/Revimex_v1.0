@@ -31,6 +31,14 @@ class DescriptionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if self.navigationController == nil{
+            let regresarPagina = UITapGestureRecognizer(target: self, action: #selector(cargarPaginaAnterior(tapGestureRecognizer:)))
+            let regresar = UIButton()
+            regresar.setBackgroundImage(UIImage(named: "backBtn.png"), for: .normal)
+            regresar.frame = CGRect(x:0,y: 20,width:view.bounds.width*0.15,height:view.bounds.width*0.15)
+            regresar.addGestureRecognizer(regresarPagina)
+            view.addSubview(regresar)
+        }
         
         instanciaDescripcionController = self
         
@@ -139,6 +147,11 @@ class DescriptionViewController: UIViewController {
     func detenerCarga(){
         activityIndicator.stopAnimating()
         background.removeFromSuperview()
+    }
+    
+    @objc func cargarPaginaAnterior(tapGestureRecognizer: UITapGestureRecognizer) {
+        navigationController?.popViewController(animated:true)
+        self.dismiss(animated: true, completion: nil)
     }
     
 }

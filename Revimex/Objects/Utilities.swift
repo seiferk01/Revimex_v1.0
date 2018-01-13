@@ -91,6 +91,11 @@ extension UIViewController{
         self.view.backgroundColor = UIColor(patternImage: UIImage(named:"fondo.png")!)
 
     }
+    
+    func back(vista: UIViewController){
+        navigationController?.popViewController(animated:true)
+        vista.dismiss(animated: true, completion: nil)
+    }
 }
 
 //oculta el teclado al dar tap fuera del campo de texto

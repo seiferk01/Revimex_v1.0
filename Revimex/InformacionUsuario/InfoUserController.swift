@@ -47,7 +47,7 @@ class InfoUserController: UIViewController,UITableViewDataSource,UITableViewDele
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated);
         imagenCuentaBtn.isHidden = false
-        instanciaMisLineasController.menuContextual();
+        instanciaMisLineasController.menuContextual()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

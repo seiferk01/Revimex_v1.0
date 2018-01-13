@@ -81,8 +81,6 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
         
         let url = URL(string: "mapbox://styles/mapbox/light-v9")
         
-        print(searchField.bounds.height)
-        
         mapView = MGLMapView(frame: CGRect(x: 0.0,y: (navigationController?.navigationBar.bounds.height)! + 20,width: screenSize.width,height: screenSize.height - ((navigationController?.navigationBar.bounds.height)! + 20)), styleURL: url)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.setCenter(CLLocationCoordinate2D(latitude: 23.634501, longitude: -102.552784), zoomLevel: 4, animated: false)

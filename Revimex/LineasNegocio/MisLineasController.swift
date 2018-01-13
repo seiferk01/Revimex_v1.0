@@ -139,7 +139,7 @@ class MisLineasController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         misPropiedades = storyboard.instantiateViewController(withIdentifier: "MisPropiedades") as! MisPropiedadesController
-        misInversiones = storyboard.instantiateViewController(withIdentifier: "MisInversiones") as! InversionistaController
+        misInversiones = storyboard.instantiateViewController(withIdentifier: "MisInversiones") as! MisInversionesController
         misBrokerages = storyboard.instantiateViewController(withIdentifier: "MisBrokerages") as! MisBrokerageViewController
         
         arrayViews = [misPropiedades,misInversiones,misBrokerages]

@@ -42,7 +42,18 @@ class CarritoController: UIViewController,UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setCustomBackgroundAndNavbar()
+        if self.navigationController != nil{
+            self.setCustomBackgroundAndNavbar()
+        }
+        else{
+            let regresarPagina = UITapGestureRecognizer(target: self, action: #selector(back(tapGestureRecognizer:)))
+            let regresar = UIButton()
+            regresar.setBackgroundImage(UIImage(named: "backBtn.png"), for: .normal)
+            regresar.frame = CGRect(x:0,y: 20,width:view.bounds.width*0.15,height:view.bounds.width*0.15)
+            regresar.addGestureRecognizer(regresarPagina)
+            view.addSubview(regresar)
+            self.view.backgroundColor = UIColor(patternImage: UIImage(named:"fondo.png")!)
+        }
         instanciaCarritoController = self
         
         tituloCarrito.isHidden = true
@@ -69,7 +80,18 @@ class CarritoController: UIViewController,UITableViewDataSource {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.setCustomBackgroundAndNavbar()
+        if self.navigationController != nil{
+            self.setCustomBackgroundAndNavbar()
+        }
+        else{
+            let regresarPagina = UITapGestureRecognizer(target: self, action: #selector(back(tapGestureRecognizer:)))
+            let regresar = UIButton()
+            regresar.setBackgroundImage(UIImage(named: "backBtn.png"), for: .normal)
+            regresar.frame = CGRect(x:0,y: 20,width:view.bounds.width*0.15,height:view.bounds.width*0.15)
+            regresar.addGestureRecognizer(regresarPagina)
+            view.addSubview(regresar)
+            self.view.backgroundColor = UIColor(patternImage: UIImage(named:"fondo.png")!)
+        }
         
     }
     
@@ -265,12 +287,12 @@ class CarritoController: UIViewController,UITableViewDataSource {
             
             labelOferta.text = "100%"
             subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.15)
-            total.frame = CGRect(x:0,y:largo*0.15 + 1,width:ancho/2,height:largo*0.15)
-            totalOferta.frame = CGRect(x:0,y:largo*0.3 + 2,width:ancho/2,height:largo*0.15)
+            total.frame = CGRect(x:0,y:largo*0.15,width:ancho/2,height:largo*0.15)
+            totalOferta.frame = CGRect(x:0,y:largo*0.3,width:ancho/2,height:largo*0.15)
             subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.15)
-            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.15 + 1,width:ancho/2,height:largo*0.15)
-            totalMontoOferta.frame = CGRect(x:ancho/2,y:largo*0.3 + 2,width:ancho/2,height:largo*0.15)
-            buttonContainer.frame = CGRect(x:0,y:largo*0.45 + 3,width:ancho,height:largo*0.55)
+            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.15,width:ancho/2,height:largo*0.15)
+            totalMontoOferta.frame = CGRect(x:ancho/2,y:largo*0.3,width:ancho/2,height:largo*0.15)
+            buttonContainer.frame = CGRect(x:0,y:largo*0.45,width:ancho,height:largo*0.55)
             tituloOferta.frame = CGRect(x:0,y:0,width:ancho*0.8,height:buttonContainer.bounds.height*0.2)
             sliderOferta.frame = CGRect(x:ancho*0.05,y:buttonContainer.bounds.height*0.2,width:ancho*0.8,height:buttonContainer.bounds.height*0.4)
             labelOferta.frame = CGRect(x:ancho*0.85,y:buttonContainer.bounds.height*0.2,width:ancho*0.15,height:buttonContainer.bounds.height*0.4)
@@ -291,10 +313,10 @@ class CarritoController: UIViewController,UITableViewDataSource {
             }
             
             subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.3)
-            total.frame = CGRect(x:0,y:largo*0.3 + 1,width:ancho/2,height:largo*0.3)
+            total.frame = CGRect(x:0,y:largo*0.3,width:ancho/2,height:largo*0.3)
             subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.3)
-            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.3 + 1,width:ancho/2,height:largo*0.3)
-            buttonContainer.frame = CGRect(x:0,y:largo*0.6 + 2,width:ancho,height:largo*0.4)
+            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.3,width:ancho/2,height:largo*0.3)
+            buttonContainer.frame = CGRect(x:0,y:largo*0.6,width:ancho,height:largo*0.4)
             continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.2,width:ancho*0.5,height:buttonContainer.bounds.height*0.6)
         }
         
@@ -378,6 +400,10 @@ class CarritoController: UIViewController,UITableViewDataSource {
         print(tapGestureRecognizer.idPropiedad!)
         idOfertaSeleccionada = tapGestureRecognizer.idPropiedad!
         performSegue(withIdentifier: "carritoToDetails", sender: nil)
+    }
+    
+    @objc func back(tapGestureRecognizer: UITapGestureRecognizer) {
+        back(vista: self)
     }
     
 }
