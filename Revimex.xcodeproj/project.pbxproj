@@ -112,6 +112,7 @@
 		524EBBE02005730E00C31D0A /* MisInversionesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBBDF2005730E00C31D0A /* MisInversionesController.swift */; };
 		52590F592008409300742E31 /* InversionesViewCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52590F582008409200742E31 /* InversionesViewCellController.swift */; };
 		52590F5B20096DE300742E31 /* backBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 52590F5A20096DE100742E31 /* backBtn.png */; };
+		52590F5D200D30C100742E31 /* DatosInversionistaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52590F5C200D30B000742E31 /* DatosInversionistaController.swift */; };
 		8A76A7A86CA34F241DDD9AF9 /* Pods_Revimex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */; };
 /* End PBXBuildFile section */
 
@@ -224,6 +225,7 @@
 		524EBBDF2005730E00C31D0A /* MisInversionesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MisInversionesController.swift; sourceTree = "<group>"; };
 		52590F582008409200742E31 /* InversionesViewCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InversionesViewCellController.swift; sourceTree = "<group>"; };
 		52590F5A20096DE100742E31 /* backBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backBtn.png; sourceTree = "<group>"; };
+		52590F5C200D30B000742E31 /* DatosInversionistaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatosInversionistaController.swift; sourceTree = "<group>"; };
 		750D9608BEC693F8EAD3A928 /* Pods-Revimex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Revimex.release.xcconfig"; path = "Pods/Target Support Files/Pods-Revimex/Pods-Revimex.release.xcconfig"; sourceTree = "<group>"; };
 		F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Revimex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -396,6 +398,7 @@
 				52590F582008409200742E31 /* InversionesViewCellController.swift */,
 				524EBA621FF6CF9F00C31D0A /* InversionistaController.swift */,
 				524EBBDF2005730E00C31D0A /* MisInversionesController.swift */,
+				52590F5C200D30B000742E31 /* DatosInversionistaController.swift */,
 			);
 			path = Inversionista;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 				524EBA821FF6CFA600C31D0A /* UbicacionInmuebleController.swift in Sources */,
 				524EBA831FF6CFA600C31D0A /* DescriptionViewController.swift in Sources */,
 				524EBA891FF6CFA600C31D0A /* SearchController.swift in Sources */,
+				52590F5D200D30C100742E31 /* DatosInversionistaController.swift in Sources */,
 				524EBBB51FF6E13D00C31D0A /* MisBrokerageViewController.swift in Sources */,
 				524EBA921FF6CFA600C31D0A /* UbicationContoller.swift in Sources */,
 				524EBA8E1FF6CFA600C31D0A /* InfoUserController.swift in Sources */,

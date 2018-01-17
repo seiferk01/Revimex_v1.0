@@ -609,6 +609,21 @@
             </objects>
             <point key="canvasLocation" x="4870" y="1303"/>
         </scene>
+        <!--Datos Inversionista Controller-->
+        <scene sceneID="Jq1-mb-J1Z">
+            <objects>
+                <viewController storyboardIdentifier="datosInversionista" id="mBW-ij-oFa" customClass="DatosInversionistaController" customModule="Revimex" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Qk-Md-9rH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="Zog-JY-FQl"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="smZ-Oc-pLM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5984.8000000000002" y="1302.9985007496252"/>
+        </scene>
         <!--Subir Propiedad View Controller-->
         <scene sceneID="ojP-Gk-cxF">
             <objects>
@@ -1012,7 +1027,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Presione para agregar una Fotografía" lineBreakMode="tailTruncation" numberOfLines="2" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qa4-HW-2gG">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Presione para agregar una Foto" lineBreakMode="tailTruncation" numberOfLines="2" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qa4-HW-2gG">
                                                     <rect key="frame" x="108" y="75" width="267" height="42"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="42" id="oQw-m8-bBu"/>
@@ -1692,7 +1707,6 @@
         <!--Inversionista Controller-->
         <scene sceneID="AnP-Gc-uQH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g8P-ed-aoJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="NuevaInversion" id="7MU-4I-WLp" customClass="InversionistaController" customModule="Revimex" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dD0-Xr-M0j">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1744,6 +1758,7 @@
                         <segue destination="8F5-Rg-Pvz" kind="show" identifier="inversionToCart" id="cy4-ca-MAK"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g8P-ed-aoJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3450.4000000000001" y="5022.6386806596702"/>
         </scene>

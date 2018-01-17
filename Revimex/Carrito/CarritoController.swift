@@ -144,12 +144,13 @@ class CarritoController: UIViewController,UITableViewDataSource {
         
         buttonContainer.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         
+        let continuar = UITapGestureRecognizer(target: self, action: #selector(continuarProceso(tapGestureRecognizer:)))
         continuarBtn.layer.borderWidth = 1
         continuarBtn.layer.borderColor = UIColor.black.cgColor
         continuarBtn.layer.backgroundColor = UIColor.white.cgColor
         continuarBtn.setTitle("Continuar", for: .normal)
         continuarBtn.setTitleColor(UIColor.black, for: .normal)
-        
+        continuarBtn.addGestureRecognizer(continuar)
         
     }
     
@@ -404,6 +405,12 @@ class CarritoController: UIViewController,UITableViewDataSource {
     
     @objc func back(tapGestureRecognizer: UITapGestureRecognizer) {
         back(vista: self)
+    }
+    
+    @objc func continuarProceso(tapGestureRecognizer: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let nuevaInversionCtrl = storyboard.instantiateViewController(withIdentifier: "datosInversionista") as! DatosInversionistaController
+        navigationController?.present(nuevaInversionCtrl, animated: true, completion: nil)
     }
     
 }
