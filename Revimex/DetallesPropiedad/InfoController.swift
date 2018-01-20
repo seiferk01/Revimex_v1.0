@@ -226,31 +226,51 @@ class InfoController: UIViewController, UIScrollViewDelegate {
     //muestra las fotos
     func showPhotos() {
         
-        var temporal: Int = 0
-        var arrayFotos:[InputSource] = []
-        for foto in propiedad.fotos{
-            let photo = ImageSource(image: Utilities.traerImagen(urlImagen: foto))
-            arrayFotos.append(photo)
-            //hacer asincrona la carga del arreglo y borrar esto
-            temporal += 1
-            if temporal > 4 {
-                break
-            }
-        }
+        
+        var arrayFotos:[InputSource] = [ImageSource(image: Utilities.traerImagen(urlImagen: propiedad.fotos[0]))]
+        
         contenedorCarousel.setImageInputs(arrayFotos)
         
+        contenedorCarousel.backgroundColor = UIColor.white
         contenedorCarousel.slideshowInterval = 5.0
         contenedorCarousel.pageControl.currentPageIndicatorTintColor = UIColor.black
         contenedorCarousel.pageControl.pageIndicatorTintColor = UIColor.white
         contenedorCarousel.contentScaleMode = UIViewContentMode.scaleAspectFill
         
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTap))
-        contenedorCarousel.addGestureRecognizer(recognizer)
-        
-        //detiene el indicador de carga
-        if instanciaDescripcionController != nil {
-            instanciaDescripcionController.detenerCarga()
+        DispatchQueue.global(qos: .userInitiated).async {
+            // Download file or perform expensive task
+            
+            arrayFotos = []
+            for foto in propiedad.fotos{
+                
+                let photo = ImageSource(image: Utilities.traerImagen(urlImagen: foto))
+                arrayFotos.append(photo)
+                
+            }
+            
+            DispatchQueue.main.async {
+                // Update the UI
+                
+                self.contenedorCarousel.setImageInputs(arrayFotos)
+                
+                self.contenedorCarousel.slideshowInterval = 5.0
+                self.contenedorCarousel.pageControl.currentPageIndicatorTintColor = UIColor.black
+                self.contenedorCarousel.pageControl.pageIndicatorTintColor = UIColor.white
+                self.contenedorCarousel.contentScaleMode = UIViewContentMode.scaleAspectFill
+                
+                let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTap))
+                self.contenedorCarousel.addGestureRecognizer(recognizer)
+                
+                //detiene el indicador de carga
+                if instanciaDescripcionController != nil {
+                    instanciaDescripcionController.detenerCarga()
+                }
+                
+            }
         }
+        
+        
+        
     }
     
     @objc func didTap() {

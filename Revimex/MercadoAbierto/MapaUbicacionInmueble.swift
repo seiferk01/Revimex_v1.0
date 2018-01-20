@@ -182,7 +182,7 @@ class MapaUbicacionInmueble: UIViewController,MGLMapViewDelegate,UIGestureRecogn
                         completado(datos as [String:Any?]);
                     }catch{
                         OperationQueue.main.addOperation {
-                            self.present(Utilities.showAlertSimple("ERROR", "Error en JSON_ZIP_CODE"), animated: true);
+                            self.present(Utilities.showAlertSimple("Aviso", "Servidor no disponible, ubique manualmente su propiedad por favor"), animated: true);
                         }
                     }
                 }

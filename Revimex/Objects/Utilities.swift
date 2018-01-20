@@ -278,6 +278,9 @@ var instanciaCarritoController: CarritoController!
 //instancia para mostrar/ocultar indicador de carga en descripcion
 var instanciaDescripcionController: DescriptionViewController!
 
+//instancia para continuar con proceso Brokerage al tapear una propiedad en el controller
+var instanciaNuevoBrokerageViewController: NuevoBrokerageViewController!
+
 
 class Utilities: NSObject {
 
@@ -299,7 +302,7 @@ class Utilities: NSObject {
     public static func traerImagen(urlImagen: String) -> UIImage{
         var imagen = UIImage(named: "imagenNoEncontrada.png")
         
-         let urlImagen = urlImagen.replacingOccurrences(of: " ", with: "%20")
+        let urlImagen = urlImagen.replacingOccurrences(of: " ", with: "%20")
         
         let imgURL = NSURL(string: urlImagen)
         print(imgURL)

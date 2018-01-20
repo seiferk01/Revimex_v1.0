@@ -9,35 +9,7 @@
 import UIKit
 import Material
 //
-public class NuevoBrokerage{
-    
-    public var id:String!;
-    public var id_ai:Int!;
-    public var estado:String!;
-    public var municipio:String!;
-    public var valorReferencia:String!;
-    public var precioOriginal:String!;
-    public var tipo:String!;
-    public var construccion:String!;
-    public var terreno:String!;
-    public var urlFotoPrincipal:String!;
-    public var urlFotos:[[String:Any?]]!;
-    
-    init(id:String!,id_ai:Int!,estado:String!,municipio:String!,valorReferencia:String!,precioOriginal:String!,tipo:String!,construccion:String!,terreno:String!,urlFotoPrincipal:String!, urlFotos:[[String:Any?]]!) {
-        self.id = id;
-        self.id_ai = id_ai;
-        self.estado = estado;
-        self.municipio = municipio;
-        self.valorReferencia = valorReferencia;
-        self.precioOriginal = precioOriginal;
-        self.tipo = tipo;
-        self.construccion = construccion;
-        self.terreno = terreno;
-        self.urlFotoPrincipal = urlFotoPrincipal;
-        self.urlFotos = urlFotos;
-    }
-    
-}
+
 
 class NuevoBrokerageCellController: UITableViewCell {
     
@@ -47,6 +19,10 @@ class NuevoBrokerageCellController: UITableViewCell {
     @IBOutlet weak var txLbPrecioOriginal: TextField!
     @IBOutlet weak var imgPrincipal: UIImageView!
     
+    var idBrokerage = -1
+    
+    var datos = UIView()
+    var tabla = UITableView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -76,6 +52,7 @@ class NuevoBrokerageCellController: UITableViewCell {
     }
     
     public func setNuevoBrokerage(nuevoBrokerage:NuevoBrokerage!){
+        idBrokerage = nuevoBrokerage.id_ai
         txLbEstado.text = nuevoBrokerage.estado;
         txLbMunicipio.text = nuevoBrokerage.municipio;
         txLbValorReferencia.text = nuevoBrokerage.valorReferencia;
@@ -92,14 +69,30 @@ class NuevoBrokerageCellController: UITableViewCell {
     }
     
     public func obtnerImage(url:String!,completado:@escaping(_ image:UIImage)->Void){
-        guard let url = URL(string: url)else{return};
+        let urlEncoded = url.replacingOccurrences(of: " ", with: "%20")
+        guard let url = URL(string: urlEncoded)else{return}
         URLSession.shared.dataTask(with: url){ (data,response,error) in
             guard let data = data else{return};
             print(data.base64EncodedData());
             
             completado(UIImage(data: data)!);
-            }.resume();
+        }.resume();
     }
+    
+    @IBAction func continuar(_ sender: Any) {
+        UIView.animate(withDuration: 1, animations: {
+            instanciaNuevoBrokerageViewController.contenedorDatos.alpha = 0
+            instanciaNuevoBrokerageViewController.tableBrokerage.alpha = 0
+            instanciaNuevoBrokerageViewController.descripcion.alpha = 1
+            instanciaNuevoBrokerageViewController.datosUsuario.alpha = 1
+        },completion: nil)
+        
+        instanciaNuevoBrokerageViewController.idBrokerageSeleccionado = idBrokerage
+        instanciaNuevoBrokerageViewController.requestDetails()
+        instanciaNuevoBrokerageViewController.verificarDatos()
+        
+    }
+    
     
 }
 

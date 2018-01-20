@@ -144,14 +144,14 @@ class StockController: UIViewController,UITableViewDataSource {
         arrayLineas.append(inversionista)
         arrayLineas.append(brokerage)
         
-        contenedorLineas.frame = CGRect(x: 0,y: 0,width: lineasDeNegocio.bounds.width,height: lineasDeNegocio.bounds.height)
-        contenedorLineas.contentSize = CGSize(width: (lineasDeNegocio.bounds.width * CGFloat(arrayLineas.count)), height: lineasDeNegocio.bounds.height)
+        contenedorLineas.frame = CGRect(x: 0,y: 0,width: view.bounds.width,height: lineasDeNegocio.bounds.height)
+        contenedorLineas.contentSize = CGSize(width: (view.bounds.width * CGFloat(arrayLineas.count)), height: lineasDeNegocio.bounds.height)
         contenedorLineas.isPagingEnabled = true
         contenedorLineas.showsHorizontalScrollIndicator = false
         contenedorLineas.isUserInteractionEnabled = true
         
         for (index, linea) in arrayLineas.enumerated() {
-            linea.frame = CGRect(x: (lineasDeNegocio.bounds.width * CGFloat(index)),y: 0,width: lineasDeNegocio.frame.width,height: lineasDeNegocio.bounds.height)
+            linea.frame = CGRect(x: (view.bounds.width * CGFloat(index)),y: 0,width: view.frame.width,height: lineasDeNegocio.bounds.height)
             
             contenedorLineas.addSubview(linea)
         }

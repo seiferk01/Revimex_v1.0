@@ -215,8 +215,8 @@ class CarritoController: UIViewController,UITableViewDataSource {
                                             if let colonia = atributoPropiedad["Colonia__c"] as? String{
                                                 objectCarrito.colonia = colonia
                                             }
-                                            if let precio = atributoPropiedad["ValorReferencia__c"] as? String{
-                                                objectCarrito.precio = precio
+                                            if let precio = atributoPropiedad["ValorReferencia__c"] as? Int{
+                                                objectCarrito.precio = String(precio)
                                             }
                                             if let total = atributoPropiedad["totalPropiedad"] as? String{
                                                 objectCarrito.total = total
@@ -410,7 +410,7 @@ class CarritoController: UIViewController,UITableViewDataSource {
     @objc func continuarProceso(tapGestureRecognizer: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let nuevaInversionCtrl = storyboard.instantiateViewController(withIdentifier: "datosInversionista") as! DatosInversionistaController
-        navigationController?.present(nuevaInversionCtrl, animated: true, completion: nil)
+        self.present(nuevaInversionCtrl, animated: true, completion: nil)
     }
     
 }
