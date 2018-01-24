@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5205B2CF2018EEB100CB353D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */; };
 		524EBA4C1FF6CE7400C31D0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */; };
 		524EBA4E1FF6CE7400C31D0A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA4D1FF6CE7400C31D0A /* ViewController.swift */; };
 		524EBA511FF6CE7400C31D0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 524EBA4F1FF6CE7400C31D0A /* Main.storyboard */; };
@@ -115,11 +116,14 @@
 		52590F5D200D30C100742E31 /* DatosInversionistaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52590F5C200D30B000742E31 /* DatosInversionistaController.swift */; };
 		52D8A5B620102C89002B7D13 /* cargandoFotos.gif in Resources */ = {isa = PBXBuildFile; fileRef = 52D8A5B520102C86002B7D13 /* cargandoFotos.gif */; };
 		52D8A5BA20125F74002B7D13 /* NuevoBrokerage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D8A5B920125F6E002B7D13 /* NuevoBrokerage.swift */; };
+		52D8A5BC2016CDAD002B7D13 /* formasPago.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D8A5BB2016CD98002B7D13 /* formasPago.png */; };
+		52D8A5BE2016D323002B7D13 /* contratoDemo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52D8A5BD2016D322002B7D13 /* contratoDemo.jpg */; };
 		8A76A7A86CA34F241DDD9AF9 /* Pods_Revimex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		227FE8CC3384304ABFD1340B /* Pods-Revimex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Revimex.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Revimex/Pods-Revimex.debug.xcconfig"; sourceTree = "<group>"; };
+		5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		524EBA481FF6CE7400C31D0A /* Revimex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Revimex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		524EBA4D1FF6CE7400C31D0A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +234,8 @@
 		52590F5C200D30B000742E31 /* DatosInversionistaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatosInversionistaController.swift; sourceTree = "<group>"; };
 		52D8A5B520102C86002B7D13 /* cargandoFotos.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = cargandoFotos.gif; sourceTree = "<group>"; };
 		52D8A5B920125F6E002B7D13 /* NuevoBrokerage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuevoBrokerage.swift; sourceTree = "<group>"; };
+		52D8A5BB2016CD98002B7D13 /* formasPago.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = formasPago.png; sourceTree = "<group>"; };
+		52D8A5BD2016D322002B7D13 /* contratoDemo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = contratoDemo.jpg; sourceTree = "<group>"; };
 		750D9608BEC693F8EAD3A928 /* Pods-Revimex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Revimex.release.xcconfig"; path = "Pods/Target Support Files/Pods-Revimex/Pods-Revimex.release.xcconfig"; sourceTree = "<group>"; };
 		F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Revimex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -269,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				524EBA521FF6CE7400C31D0A /* Assets.xcassets */,
+				5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */,
 				524EBA571FF6CE7400C31D0A /* Info.plist */,
 				524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */,
 				524EBAAF1FF6D57300C31D0A /* Brokerage */,
@@ -334,6 +341,7 @@
 				524EBB421FF6E0EC00C31D0A /* centroComercial.png */,
 				524EBB4C1FF6E0F000C31D0A /* clienteFinal.jpg */,
 				524EBB3F1FF6E0EB00C31D0A /* compartir.ico */,
+				52D8A5BD2016D322002B7D13 /* contratoDemo.jpg */,
 				524EBB441FF6E0ED00C31D0A /* convenience_store.png */,
 				524EBB3D1FF6E0EB00C31D0A /* cuenta.png */,
 				524EBB5E1FF6E0F700C31D0A /* entrarConFcebook.png */,
@@ -343,6 +351,7 @@
 				524EBB3E1FF6E0EB00C31D0A /* favoritos.png */,
 				524EBB6F1FF6E0FE00C31D0A /* favoritoSeleccionado.png */,
 				524EBB521FF6E0F200C31D0A /* favoritosSinLogin.png */,
+				52D8A5BB2016CD98002B7D13 /* formasPago.png */,
 				524EBB561FF6E0F400C31D0A /* filterButton.png */,
 				524EBB5A1FF6E0F600C31D0A /* fondo.png */,
 				524EBB641FF6E0F900C31D0A /* google.png */,
@@ -627,16 +636,19 @@
 				524EBB7A1FF6E0FF00C31D0A /* habitaciones.png in Resources */,
 				524EBB821FF6E0FF00C31D0A /* Tiendas.png in Resources */,
 				524EBA941FF6CFA600C31D0A /* Assets.xcassets in Resources */,
+				52D8A5BC2016CDAD002B7D13 /* formasPago.png in Resources */,
 				524EBB841FF6E0FF00C31D0A /* banClienteFinal.png in Resources */,
 				524EBB861FF6E0FF00C31D0A /* thumSlider.png in Resources */,
 				524EBB831FF6E0FF00C31D0A /* carrito.png in Resources */,
 				524EBBAF1FF6E12D00C31D0A /* UserInfoCell.xib in Resources */,
 				524EBB871FF6E0FF00C31D0A /* favoritosSinLogin.png in Resources */,
+				52D8A5BE2016D323002B7D13 /* contratoDemo.jpg in Resources */,
 				524EBA531FF6CE7400C31D0A /* Assets.xcassets in Resources */,
 				524EBB7D1FF6E0FF00C31D0A /* navBarBackground.png in Resources */,
 				524EBB8E1FF6E0FF00C31D0A /* lineas.png in Resources */,
 				524EBBA11FF6E0FF00C31D0A /* baños.png in Resources */,
 				524EBB721FF6E0FF00C31D0A /* cuenta.png in Resources */,
+				5205B2CF2018EEB100CB353D /* GoogleService-Info.plist in Resources */,
 				524EBB791FF6E0FF00C31D0A /* convenience_store.png in Resources */,
 				524EBBA41FF6E0FF00C31D0A /* favoritoSeleccionado.png in Resources */,
 				524EBBAC1FF6E12D00C31D0A /* FormView.xib in Resources */,
@@ -665,6 +677,7 @@
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlacePicker/Frameworks/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -709,6 +722,9 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/FontAwesome.swift/FontAwesome_swift.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
@@ -728,6 +744,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FontAwesome_swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",

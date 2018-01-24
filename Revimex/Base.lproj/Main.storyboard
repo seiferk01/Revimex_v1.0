@@ -1134,7 +1134,7 @@
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JIt-C2-GIC">
-                                <rect key="frame" x="16" y="64" width="343" height="559"/>
+                                <rect key="frame" x="16" y="20" width="343" height="603"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2201,7 +2201,7 @@
         <image name="restaurantes.png" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Jc2-OJ-Tv8"/>
+        <segue reference="Hka-ye-7Og"/>
         <segue reference="cy4-ca-MAK"/>
         <segue reference="HFz-xn-k93"/>
         <segue reference="2Bu-Q8-OKY"/>

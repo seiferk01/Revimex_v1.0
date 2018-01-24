@@ -20,6 +20,7 @@ target 'Revimex' do
   pod 'GooglePlaces'
   pod 'GooglePlacePicker'
   pod 'Mapbox-iOS-SDK', '~> 3.7'
+  pod 'GoogleSignIn'
 
 
 end

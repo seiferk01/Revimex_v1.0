@@ -9,16 +9,18 @@
 import UIKit
 import Material
 import Motion
+import AVFoundation
+import Photos.PHPhotoLibrary
 
 class DatosInversionistaController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
-//    class addImageGestureRecognizer: UITapGestureRecognizer {
-//        var imageTag: Int!
-//    }
-//
-//    let imagePicker = UIImagePickerController()
-//
-//    var documentoImagen = UIImageView() 
+    class addImageGestureRecognizer: UITapGestureRecognizer {
+        var imageTag: Int!
+        var nombrerDocumento: String!
+    }
+    
+    let imagePicker = UIImagePickerController()
+    var identificadorImagen:Int = -1
     
     var ancho = CGFloat()
     var largo = CGFloat()
@@ -316,8 +318,9 @@ class DatosInversionistaController: UIViewController,UIImagePickerControllerDele
         let preview = UIImageView()
         preview.frame = CGRect(x: 0, y: 0, width: ancho*0.25, height: (largo*0.2)-2)
         preview.image = UIImage.fontAwesomeIcon(name: .camera,textColor: UIColor.black,size: CGSize(width: 80, height: 80))
-        preview.contentMode = .scaleAspectFill
+        preview.contentMode = .scaleAspectFit
         preview.clipsToBounds = true
+        preview.tag = Int(posicion)+100
         
         let etiqueta = UILabel()
         etiqueta.frame = CGRect(x: ancho*0.25, y: 0, width: ancho*0.75, height: (largo*0.2)-2)
@@ -326,15 +329,92 @@ class DatosInversionistaController: UIViewController,UIImagePickerControllerDele
         etiqueta.font = UIFont.fontAwesome(ofSize: 15.0)
         etiqueta.textAlignment = .left
         
-//        let selectImageGestureRecognizer = addImageGestureRecognizer(target: self, action: #selector(obtenerImagen(tapGestureRecognizer: )))
-//        selectImageGestureRecognizer.imageTag = posicion
+        let selectImageGestureRecognizer = addImageGestureRecognizer(target: self, action: #selector(obtenerImagen(tapGestureRecognizer: )))
+        selectImageGestureRecognizer.imageTag = preview.tag
+        selectImageGestureRecognizer.nombrerDocumento = documento
         
-//        row.addGestureRecognizer(selectImageGestureRecognizer)
+        row.addGestureRecognizer(selectImageGestureRecognizer)
         
         row.addSubview(preview)
         row.addSubview(etiqueta)
         
         return row
+    }
+    
+    
+    @objc func obtenerImagen(tapGestureRecognizer: addImageGestureRecognizer){
+        
+        identificadorImagen = tapGestureRecognizer.imageTag
+        
+        let alert = UIAlertController(title: "Agregar "+tapGestureRecognizer.nombrerDocumento, message: "¿Desea tomar una fotografía o agregar una imagen de su galería?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title:"Cámara",style: UIAlertActionStyle.default,handler: { action in
+            if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized {
+                // Already Authorized
+                self.tomarFoto()
+            } else {
+                AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted: Bool) -> Void in
+                    if granted == true {
+                        // User granted
+                        self.tomarFoto()
+                    } else {
+                        // User Rejected
+                        self.present(Utilities.showAlertSimple("Permiso denegado anteriormente", "Por favor concede el permiso de la camara desde la configuracion de tu iPhone"), animated: true)
+                    }
+                })
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Galería", style: UIAlertActionStyle.default, handler: { action in
+            
+            if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+                self.abrirGaleria()
+            }
+            else{
+                PHPhotoLibrary.requestAuthorization(){ (status) -> Void in
+                    if status == .authorized{
+                        self.abrirGaleria()
+                    } else {
+                        self.present(Utilities.showAlertSimple("Permiso denegado anteriormente", "Por favor concede el permiso de la galeria desde la configuracion de tu iPhone"), animated: true)
+                    }
+                }
+            }
+            
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    func tomarFoto(){
+        if(UIImagePickerController.isSourceTypeAvailable(.camera)){
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .camera
+            self.imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }else{
+            self.present(Utilities.showAlertSimple("Error", "La camara de su dispositivo no esta disponible"), animated: true)
+        }
+    }
+    
+    func abrirGaleria(){
+        if(UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+            
+        }else{
+            self.present(Utilities.showAlertSimple("Error", "La Galería no esta disponible"), animated: true)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        if let rowImage = view.viewWithTag(identificadorImagen) as? UIImageView{
+            rowImage.image = image
+        }
+        
+        self.imagePicker.dismiss(animated: true, completion: nil)
     }
     
     

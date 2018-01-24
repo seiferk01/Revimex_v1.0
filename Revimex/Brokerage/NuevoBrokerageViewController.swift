@@ -7,9 +7,26 @@
 //
 
 import UIKit
-import Material;
+import Material
+import AVFoundation
+import Photos.PHPhotoLibrary
 //
-class NuevoBrokerageViewController: UIViewController {
+class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    
+    class navigationGestureRecognizer: UITapGestureRecognizer {
+        var anterior: [UIView]!
+        var actual: [UIView]!
+        var siguiente: [UIView]!
+    }
+    
+    class addImageGestureRecognizer: UITapGestureRecognizer {
+        var imageTag: Int!
+        var nombrerDocumento: String!
+    }
+
+    let imagePicker = UIImagePickerController()
+    var identificadorImagen:Int = -1
+
     
     var ancho = CGFloat()
     var largo = CGFloat()
@@ -23,6 +40,13 @@ class NuevoBrokerageViewController: UIViewController {
     let datosUsuario = UIView()
     
     let contenedorCarga = UIView()
+    
+    let contenedorFormaPago = UIView()
+    
+    let contenedorContrato = UIView()
+    
+    
+    
     
     var idBrokerageSeleccionado = -1
     var brokerageSeleccionado:NuevoBrokerage = NuevoBrokerage(id:"",id_ai:0,estado:"",municipio:"",valorReferencia:"",precioOriginal:"",tipo:"",construccion:"",terreno:"",urlFotoPrincipal:"", urlFotos:[[:]])
@@ -82,6 +106,10 @@ class NuevoBrokerageViewController: UIViewController {
         datosInversionista()
         
         cargarDocumentos()
+        
+        formaPago()
+        
+        contrato()
     }
     
     
@@ -111,7 +139,7 @@ class NuevoBrokerageViewController: UIViewController {
         txFlMontoInversion.frame = CGRect(x:anchoContenedor*0.05, y:0, width: anchoContenedor*0.9, height: (largoContenedor*0.3/2))
         txFlMontoInversion.placeholder = "Monto de Inversión"
         txFlMontoInversion.colorEnable()
-        txFlMontoInversion.tag = 1
+        txFlMontoInversion.tag = 15
         txFlMontoInversion.delegate = self
         
         txFlTiempoInversion.frame = CGRect(x:anchoContenedor*0.05, y:largoContenedor*0.3, width: anchoContenedor*0.9, height: (largoContenedor*0.3)/2)
@@ -250,7 +278,9 @@ class NuevoBrokerageViewController: UIViewController {
         direccion.placeholder = "Direccion"
         direccion.font = UIFont.fontAwesome(ofSize: 12.0)
         
-         let regreso = UITapGestureRecognizer(target: self, action: #selector(regresar(tapGestureRecognizer:)))
+        let regreso = navigationGestureRecognizer(target: self, action: #selector(regresar(tapGestureRecognizer:)))
+        regreso.anterior = [contenedorDatos,tableBrokerage]
+        regreso.actual = [descripcion,datosUsuario]
         let regresar = UIButton()
         regresar.frame = CGRect(x:anchoDatosUsuario*0.05, y:largoDatosUsuario*0.8, width: anchoDatosUsuario*0.4, height: largoDatosUsuario*0.06)
         regresar.setTitle("Regresar", for: .normal)
@@ -259,7 +289,9 @@ class NuevoBrokerageViewController: UIViewController {
         regresar.layer.borderWidth = 0.5
         regresar.addGestureRecognizer(regreso)
         
-         let siguiente = UITapGestureRecognizer(target: self, action: #selector(continuar(tapGestureRecognizer:)))
+        let siguiente = navigationGestureRecognizer(target: self, action: #selector(continuar(tapGestureRecognizer:)))
+        siguiente.actual = [descripcion,datosUsuario]
+        siguiente.siguiente = [contenedorCarga]
         let continuar = UIButton()
         continuar.frame = CGRect(x:anchoDatosUsuario*0.55, y:largoDatosUsuario*0.8, width: anchoDatosUsuario*0.4, height: largoDatosUsuario*0.06)
         continuar.setTitle("Continuar", for: .normal)
@@ -303,9 +335,136 @@ class NuevoBrokerageViewController: UIViewController {
         contenedorCarga.addSubview(rowDocumento(documento: "COMPROBANTE DE DOMICILIO", posicion: 2))
         contenedorCarga.addSubview(rowDocumento(documento: "ESTADO DE CUENTA BANCARIO", posicion: 3))
         
+        let siguiente = navigationGestureRecognizer(target: self, action: #selector(continuar(tapGestureRecognizer:)))
+        siguiente.actual = [contenedorCarga]
+        siguiente.siguiente = [contenedorFormaPago]
+        let continuar = UIButton()
+        continuar.frame = CGRect(x:ancho*0.55, y:largo*0.83, width: ancho*0.4, height: largo*0.035)
+        continuar.setTitle("Continuar", for: .normal)
+        continuar.setTitleColor(UIColor.black, for: .normal)
+        continuar.layer.borderColor = UIColor.black.cgColor
+        continuar.layer.borderWidth = 0.5
+        continuar.addGestureRecognizer(siguiente)
+        
+        let regreso = navigationGestureRecognizer(target: self, action: #selector(regresar(tapGestureRecognizer:)))
+        regreso.anterior = [descripcion,datosUsuario]
+        regreso.actual = [contenedorCarga]
+        let regresar = UIButton()
+        regresar.frame = CGRect(x:ancho*0.05, y:largo*0.83, width: ancho*0.4, height: largo*0.035)
+        regresar.setTitle("Regresar", for: .normal)
+        regresar.setTitleColor(UIColor.black, for: .normal)
+        regresar.layer.borderColor = UIColor.black.cgColor
+        regresar.layer.borderWidth = 0.5
+        regresar.addGestureRecognizer(regreso)
         
         
+        contenedorCarga.addSubview(regresar)
+        contenedorCarga.addSubview(continuar)
         view.addSubview(contenedorCarga)
+    }
+    
+    func formaPago(){
+        
+        contenedorFormaPago.alpha = 0
+        
+        contenedorFormaPago.frame = CGRect(x:0, y:0, width: ancho, height: largo)
+        
+        let titulo = UILabel()
+        titulo.text = "Formas de pago"
+        titulo.frame = CGRect(x:0, y:largo*0.05, width: ancho, height: largo*0.15)
+        
+        let subtitulo = UILabel()
+        subtitulo.text = "Fecha limite para realizar el pago"
+        subtitulo.textAlignment = .center
+        subtitulo.frame = CGRect(x:0, y:largo*0.15, width: ancho, height: largo*0.15)
+        
+        let imagen = UIImageView(image: UIImage(named: "formasPago.png"))
+        imagen.frame = CGRect(x:ancho*0.05, y:largo*0.3, width: ancho*0.9, height: largo*0.4)
+        imagen.contentMode = .scaleAspectFit
+        imagen.clipsToBounds = true
+        
+        let siguiente = navigationGestureRecognizer(target: self, action: #selector(continuar(tapGestureRecognizer:)))
+        siguiente.actual = [contenedorFormaPago]
+        siguiente.siguiente = [contenedorContrato]
+        let continuar = UIButton()
+        continuar.frame = CGRect(x:ancho*0.55, y:largo*0.93, width: ancho*0.4, height: largo*0.035)
+        continuar.setTitle("Continuar", for: .normal)
+        continuar.setTitleColor(UIColor.black, for: .normal)
+        continuar.layer.borderColor = UIColor.black.cgColor
+        continuar.layer.borderWidth = 0.5
+        continuar.addGestureRecognizer(siguiente)
+        
+        let regreso = navigationGestureRecognizer(target: self, action: #selector(regresar(tapGestureRecognizer:)))
+        regreso.anterior = [contenedorCarga]
+        regreso.actual = [contenedorFormaPago]
+        let regresar = UIButton()
+        regresar.frame = CGRect(x:ancho*0.05, y:largo*0.93, width: ancho*0.4, height: largo*0.035)
+        regresar.setTitle("Regresar", for: .normal)
+        regresar.setTitleColor(UIColor.black, for: .normal)
+        regresar.layer.borderColor = UIColor.black.cgColor
+        regresar.layer.borderWidth = 0.5
+        regresar.addGestureRecognizer(regreso)
+        
+        contenedorFormaPago.addSubview(titulo)
+        contenedorFormaPago.addSubview(subtitulo)
+        contenedorFormaPago.addSubview(imagen)
+        contenedorFormaPago.addSubview(regresar)
+        contenedorFormaPago.addSubview(continuar)
+        view.addSubview(contenedorFormaPago)
+        
+    }
+    
+    func contrato(){
+        
+        contenedorContrato.alpha = 0
+        
+        contenedorContrato.frame = CGRect(x:0, y:0, width: ancho, height: largo)
+        
+        let titulo = UILabel()
+        titulo.text = "Contrato"
+        titulo.font = UIFont.fontAwesome(ofSize: 20.0)
+        titulo.textAlignment = .center
+        titulo.frame = CGRect(x:0, y:largo*0.05, width: ancho, height: largo*0.1)
+        
+        let imagen = UIImageView(image: UIImage(named: "contratoDemo.jpg"))
+        imagen.frame = CGRect(x:ancho*0.05, y:largo*0.15, width: ancho*0.9, height: largo*0.6)
+        imagen.contentMode = .scaleAspectFit
+        imagen.clipsToBounds = true
+        
+        let firma = TextField()
+        firma.frame = CGRect(x:ancho*0.1, y:largo*0.75, width: ancho*0.8, height: largo*0.05)
+        firma.placeholder = "Realizar Firma Digital"
+        firma.textAlignment = .center
+        firma.font = UIFont.fontAwesome(ofSize: 20.0)
+        firma.isEnabled = false
+        
+        let cancelarProceso = UITapGestureRecognizer(target: self, action: #selector(cancelProcess(tapGestureRecognizer:)))
+        let finalizar = UIButton()
+        finalizar.frame = CGRect(x:ancho*0.55, y:largo*0.93, width: ancho*0.4, height: largo*0.035)
+        finalizar.setTitle("Finalizar", for: .normal)
+        finalizar.setTitleColor(UIColor.black, for: .normal)
+        finalizar.layer.borderColor = UIColor.black.cgColor
+        finalizar.layer.borderWidth = 0.5
+        finalizar.addGestureRecognizer(cancelarProceso)
+        
+        let regreso = navigationGestureRecognizer(target: self, action: #selector(regresar(tapGestureRecognizer:)))
+        regreso.anterior = [contenedorFormaPago]
+        regreso.actual = [contenedorContrato]
+        let regresar = UIButton()
+        regresar.frame = CGRect(x:ancho*0.05, y:largo*0.93, width: ancho*0.4, height: largo*0.035)
+        regresar.setTitle("Regresar", for: .normal)
+        regresar.setTitleColor(UIColor.black, for: .normal)
+        regresar.layer.borderColor = UIColor.black.cgColor
+        regresar.layer.borderWidth = 0.5
+        regresar.addGestureRecognizer(regreso)
+        
+        contenedorContrato.addSubview(titulo)
+        contenedorContrato.addSubview(imagen)
+        contenedorContrato.addSubview(firma)
+        contenedorContrato.addSubview(regresar)
+        contenedorContrato.addSubview(finalizar)
+        view.addSubview(contenedorContrato)
+        
     }
     
     
@@ -315,7 +474,7 @@ class NuevoBrokerageViewController: UIViewController {
         let alertPicker = UIAlertController(title: "Elija el Monto de su Inversión", message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .alert);
         let pickerMonto = UIPickerView(frame: CGRect(x:0, y: 20, width: 250, height: 162));
         pickerMonto.backgroundColor = UIColor(white: 1, alpha: 0.7);
-        pickerMonto.tag = 1;
+        pickerMonto.tag = 10;
         pickerMonto.delegate = self;
         pickerMonto.dataSource = self;
         alertPicker.view.addSubview(pickerMonto);
@@ -334,6 +493,7 @@ class NuevoBrokerageViewController: UIViewController {
         let alertPicker = UIAlertController(title: "Defina el tiempo de Inversión", message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .alert);
         let pickerTiempo = UIPickerView(frame: CGRect(x:0, y:20, width: 250, height: 162));
         pickerTiempo.backgroundColor = UIColor(white: 1, alpha: 0.7);
+        pickerTiempo.tag = 11;
         pickerTiempo.delegate = self;
         pickerTiempo.dataSource = self;
         alertPicker.view.addSubview(pickerTiempo);
@@ -444,14 +604,16 @@ class NuevoBrokerageViewController: UIViewController {
         back(vista: self)
     }
     
-    @objc func regresar(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc func regresar(tapGestureRecognizer: navigationGestureRecognizer) {
         
         UIView.animate(withDuration: 0.5, animations: {
             
-            self.descripcion.alpha = 0
-            self.datosUsuario.alpha = 0
-            self.contenedorDatos.alpha = 1
-            self.tableBrokerage.alpha = 1
+            for vista in tapGestureRecognizer.actual{
+                vista.alpha = 0
+            }
+            for vista in tapGestureRecognizer.anterior{
+                vista.alpha = 1
+            }
             
         },completion: { (finished: Bool) in
             
@@ -459,13 +621,16 @@ class NuevoBrokerageViewController: UIViewController {
         
     }
     
-    @objc func continuar(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc func continuar(tapGestureRecognizer: navigationGestureRecognizer) {
         
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             
-            self.descripcion.alpha = 0
-            self.datosUsuario.alpha = 0
-            self.contenedorCarga.alpha = 1
+            for vista in tapGestureRecognizer.actual{
+                vista.alpha = 0
+            }
+            for vista in tapGestureRecognizer.siguiente{
+                vista.alpha = 1
+            }
             
         },completion: { (finished: Bool) in
             
@@ -552,11 +717,11 @@ class NuevoBrokerageViewController: UIViewController {
     
     func verificarDatos(){
         //indicador de loading
-        let activityIndicator = UIActivityIndicatorView()
-        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
-        background.center = self.view.center
-        view.addSubview(background)
-        activityIndicator.startAnimating()
+//        let activityIndicator = UIActivityIndicatorView()
+//        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
+//        background.center = self.view.center
+//        view.addSubview(background)
+//        activityIndicator.startAnimating()
         
         
         if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
@@ -587,8 +752,8 @@ class NuevoBrokerageViewController: UIViewController {
                     }
                     
                     OperationQueue.main.addOperation({
-                        activityIndicator.stopAnimating()
-                        background.removeFromSuperview()
+//                        activityIndicator.stopAnimating()
+//                        background.removeFromSuperview()
                         if let nom = self.json["name"] as? String{
                             self.nombre.text = nom
                         }
@@ -698,8 +863,9 @@ class NuevoBrokerageViewController: UIViewController {
         let preview = UIImageView()
         preview.frame = CGRect(x: 0, y: 0, width: ancho*0.25, height: (largo*0.2)-2)
         preview.image = UIImage.fontAwesomeIcon(name: .camera,textColor: UIColor.black,size: CGSize(width: 80, height: 80))
-        preview.contentMode = .scaleAspectFill
+        preview.contentMode = .scaleAspectFit
         preview.clipsToBounds = true
+        preview.tag = Int(posicion)+100
         
         let etiqueta = UILabel()
         etiqueta.frame = CGRect(x: ancho*0.25, y: 0, width: ancho*0.75, height: (largo*0.2)-2)
@@ -708,16 +874,96 @@ class NuevoBrokerageViewController: UIViewController {
         etiqueta.font = UIFont.fontAwesome(ofSize: 15.0)
         etiqueta.textAlignment = .left
         
-        //        let selectImageGestureRecognizer = addImageGestureRecognizer(target: self, action: #selector(obtenerImagen(tapGestureRecognizer: )))
-        //        selectImageGestureRecognizer.imageTag = posicion
-        
-        //        row.addGestureRecognizer(selectImageGestureRecognizer)
+        let selectImageGestureRecognizer = addImageGestureRecognizer(target: self, action: #selector(obtenerImagen(tapGestureRecognizer: )))
+        selectImageGestureRecognizer.imageTag = preview.tag
+        selectImageGestureRecognizer.nombrerDocumento = documento
+
+        row.addGestureRecognizer(selectImageGestureRecognizer)
         
         row.addSubview(preview)
         row.addSubview(etiqueta)
         
         return row
     }
+    
+    
+    @objc func obtenerImagen(tapGestureRecognizer: addImageGestureRecognizer){
+        
+        identificadorImagen = tapGestureRecognizer.imageTag
+        
+        let alert = UIAlertController(title: "Agregar "+tapGestureRecognizer.nombrerDocumento, message: "¿Desea tomar una fotografía o agregar una imagen de su galería?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title:"Cámara",style: UIAlertActionStyle.default,handler: { action in
+            if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized {
+                // Already Authorized
+                self.tomarFoto()
+            } else {
+                AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted: Bool) -> Void in
+                    if granted == true {
+                        // User granted
+                        self.tomarFoto()
+                    } else {
+                        // User Rejected
+                        self.present(Utilities.showAlertSimple("Permiso denegado anteriormente", "Por favor concede el permiso de la camara desde la configuracion de tu iPhone"), animated: true)
+                    }
+                })
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Galería", style: UIAlertActionStyle.default, handler: { action in
+            
+            if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+                self.abrirGaleria()
+            }
+            else{
+                PHPhotoLibrary.requestAuthorization(){ (status) -> Void in
+                    if status == .authorized{
+                        self.abrirGaleria()
+                    } else {
+                        self.present(Utilities.showAlertSimple("Permiso denegado anteriormente", "Por favor concede el permiso de la galeria desde la configuracion de tu iPhone"), animated: true)
+                    }
+                }
+            }
+            
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    func tomarFoto(){
+        if(UIImagePickerController.isSourceTypeAvailable(.camera)){
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .camera
+            self.imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }else{
+            self.present(Utilities.showAlertSimple("Error", "La camara de su dispositivo no esta disponible"), animated: true)
+        }
+    }
+    
+    func abrirGaleria(){
+        if(UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+            
+        }else{
+            self.present(Utilities.showAlertSimple("Error", "La Galería no esta disponible"), animated: true)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        if let rowImage = view.viewWithTag(identificadorImagen) as? UIImageView{
+            rowImage.image = image
+        }
+        
+        self.imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
     
 }
 
@@ -748,7 +994,7 @@ extension NuevoBrokerageViewController: TextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if(textField.tag == 1){
+        if(textField.tag == 15){
             seleccionarMonto();
         }else{
             seleccionarTiempo();
@@ -765,7 +1011,7 @@ extension NuevoBrokerageViewController: UIPickerViewDelegate,UIPickerViewDataSou
     
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if(pickerView.tag == 1){
+        if(pickerView.tag == 10){
             return dataMonto.count;
         }else{
             return dataTiempo.count;
@@ -773,7 +1019,7 @@ extension NuevoBrokerageViewController: UIPickerViewDelegate,UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if(pickerView.tag == 1){
+        if(pickerView.tag == 10){
             let numberF = NumberFormatter();
             numberF.numberStyle = .decimal;
             let valor = "$ "+numberF.string(from: NSNumber(value: dataMonto[row]))!;
@@ -789,7 +1035,7 @@ extension NuevoBrokerageViewController: UIPickerViewDelegate,UIPickerViewDataSou
         let numberF = NumberFormatter();
         numberF.numberStyle = .decimal;
         
-        if(pickerView.tag == 1){
+        if(pickerView.tag == 10){
             self.indexMonto = row;
             self.txFlMontoInversion.text = "$ "+numberF.string(from: NSNumber(value: dataMonto[row]))!;
         }else{
