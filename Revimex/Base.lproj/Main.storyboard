@@ -31,6 +31,14 @@
                                     <segue destination="vsU-5q-cxT" kind="show" identifier="" id="h0d-7C-YOx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUW-XJ-gIG">
+                                <rect key="frame" x="207" y="462" width="65" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="googlePlus.png"/>
+                                <connections>
+                                    <action selector="googleButtonClicked:" destination="4ck-kO-hfk" eventType="touchUpInside" id="1Of-nD-ykn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -42,6 +50,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Tkv-JG-i3U"/>
                     <connections>
+                        <outlet property="google" destination="XUW-XJ-gIG" id="9V3-ix-Yjo"/>
                         <outlet property="invitadoBtn" destination="dyD-B0-3BT" id="Uue-7v-WgF"/>
                         <segue destination="vsU-5q-cxT" kind="show" identifier="logedIn" id="HFz-xn-k93"/>
                     </connections>
@@ -2194,6 +2203,7 @@
         <image name="compartir.ico" width="256" height="256"/>
         <image name="escuelas.png" width="64" height="64"/>
         <image name="favoritos.png" width="20" height="20"/>
+        <image name="googlePlus.png" width="512" height="512"/>
         <image name="hospitales.png" width="64" height="64"/>
         <image name="imagenNoEncontrada.png" width="250" height="160"/>
         <image name="parques.png" width="64" height="64"/>

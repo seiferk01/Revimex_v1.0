@@ -12,11 +12,13 @@ import FBSDKLoginKit
 import Material
 import Motion
 
-class LogInController: UIViewController {
+class LogInController: UIViewController, GIDSignInUIDelegate {
     
     let passwordField = TextField()
     let emailField = TextField()
     @IBOutlet var invitadoBtn: UIButton!
+    @IBOutlet weak var google: GIDSignInButton!
+    
     
     var usuario = ""
     var contraseña = ""
@@ -28,7 +30,7 @@ class LogInController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //pculta el boton de inicio de secion
+        //oculta el boton de inicio de secion
         incioSesionBtn.isHidden = true
         
         //permite que el teclado se esconda al hacer click en otro lugar de la pantalla
@@ -50,16 +52,23 @@ class LogInController: UIViewController {
 
         }
         
-        crearCampos()
-        
-        crearBotones()
-        
-        
+       
         
         //pide a facebook los datos de ususario en caso de que ya se haya logueado anteriormente
         if let accessToken = FBSDKAccessToken.current(){
-            getFBUserData()
+            //getFBUserData()
         }
+        
+        //para inicio de sesion con google
+        GIDSignIn.sharedInstance().uiDelegate = self
+        // Uncomment to automatically sign in the user.
+        //GIDSignIn.sharedInstance().signInSilently()
+        
+        
+        
+        crearCampos()
+        
+        crearBotones()
         
     }
     
@@ -135,7 +144,7 @@ class LogInController: UIViewController {
         crearCuenta.addGestureRecognizer(crearCuentaTapped)
         view.addSubview(crearCuenta)
         
-        let facebookTapped = UITapGestureRecognizer(target: self, action: #selector(loginButtonClicked(tapGestureRecognizer:)))
+        let facebookTapped = UITapGestureRecognizer(target: self, action: #selector(facebokButtonClicked(tapGestureRecognizer:)))
         
         let facebook = FABButton(image: UIImage(named: "facebook.png"), tintColor: .white)
         facebook.frame = CGRect(x: screenSize.width * 0.31,y:screenSize.height * 0.73,width:screenSize.width * 0.16,height:screenSize.width * 0.16)
@@ -143,10 +152,8 @@ class LogInController: UIViewController {
         facebook.addGestureRecognizer(facebookTapped)
         view.addSubview(facebook)
         
-        let google = FABButton(image: UIImage(named: "google.png"), tintColor: .white)
+        
         google.frame = CGRect(x: screenSize.width * 0.53,y:screenSize.height * 0.73,width:screenSize.width * 0.16,height:screenSize.width * 0.16)
-        google.pulseColor = .white
-        view.addSubview(google)
         
         invitadoBtn.titleLabel?.font =  UIFont.boldSystemFont(ofSize: 20.0)
         invitadoBtn.frame = CGRect(x: 0, y:view.bounds.height - screenSize.height * 0.2 - 20 ,width:screenSize.width,height:screenSize.width * 0.2)
@@ -341,7 +348,7 @@ class LogInController: UIViewController {
     
     //*******************************Funciones para loggin con facebook******************************
     //when login button clicked
-    @objc func loginButtonClicked(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc func facebokButtonClicked(tapGestureRecognizer: UITapGestureRecognizer) {
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions: [ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
             switch loginResult {
@@ -366,6 +373,12 @@ class LogInController: UIViewController {
                 }
             })
         }
+    }
+    
+    
+    //*******************************Funciones para loggin con google******************************
+    @IBAction func googleButtonClicked(_ sender: Any) {
+        GIDSignIn.sharedInstance().signIn()
     }
     
 

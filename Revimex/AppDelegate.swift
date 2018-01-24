@@ -17,14 +17,17 @@ import Material
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+    
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        //para ocultar la barra de status en el splashScreen
         application.isStatusBarHidden = true;
         
+        //???????
         IQKeyboardManager.sharedManager().enable = true;
         
         //si ya se tiene un id de usuario hace una llamada al login para verificar que sigue activo
@@ -32,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             logIn()
         }
         
+        //para el uso del sdk de places de google
         GMSServices.provideAPIKey("AIzaSyBuwBiNaQQcYb6yXDoxEDBASvrtjWgc03Q")
         GMSPlacesClient.provideAPIKey("AIzaSyBuwBiNaQQcYb6yXDoxEDBASvrtjWgc03Q")
         
@@ -53,6 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.makeKeyAndVisible()
         }
         
+        
+        //para el login con google
+        GIDSignIn.sharedInstance().clientID = "1096846608841-27vv0035g8t3u84ea1i9hnamikc8r9kg.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().delegate = self
+        
+        
         //para el loggin con facebook
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -65,9 +75,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
+    
+    
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        //para login con facebook
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
+    
+    
+    //para login con google
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
+              withError error: Error!) {
+        if (error == nil) {
+            // Perform any operations on signed in user here.
+            let userId = user.userID                  // For client-side use only!
+            let idToken = user.authentication.idToken // Safe to send to the server
+            let fullName = user.profile.name
+            let givenName = user.profile.givenName
+            let familyName = user.profile.familyName
+            let email = user.profile.email
+            print(userId)
+            print(idToken)
+            print(fullName)
+            print(givenName)
+            print(familyName)
+            print(email)
+            // ...
+        } else {
+            print("\(error.localizedDescription)")
+        }
+    }
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
+              withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // [START_EXCLUDE]
+        NotificationCenter.default.post(
+            name: Notification.Name(rawValue: "ToggleAuthUINotification"),
+            object: nil,
+            userInfo: ["statusText": "User has disconnected."])
+        // [END_EXCLUDE]
+    }
+
     
 
     func applicationDidEnterBackground(_ application: UIApplication) {

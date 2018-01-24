@@ -82,7 +82,7 @@
 		524EBB961FF6E0FF00C31D0A /* menu-horizontal-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB611FF6E0F800C31D0A /* menu-horizontal-100.png */; };
 		524EBB971FF6E0FF00C31D0A /* carritoDisponible.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB621FF6E0F900C31D0A /* carritoDisponible.png */; };
 		524EBB981FF6E0FF00C31D0A /* houseMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB631FF6E0F900C31D0A /* houseMarker.png */; };
-		524EBB991FF6E0FF00C31D0A /* google.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB641FF6E0F900C31D0A /* google.png */; };
+		524EBB991FF6E0FF00C31D0A /* googlePlus.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB641FF6E0F900C31D0A /* googlePlus.png */; };
 		524EBB9A1FF6E0FF00C31D0A /* menu-vertical-24.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB651FF6E0FA00C31D0A /* menu-vertical-24.png */; };
 		524EBB9B1FF6E0FF00C31D0A /* brokerage.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB661FF6E0FA00C31D0A /* brokerage.jpeg */; };
 		524EBB9C1FF6E0FF00C31D0A /* hospital.png in Resources */ = {isa = PBXBuildFile; fileRef = 524EBB671FF6E0FB00C31D0A /* hospital.png */; };
@@ -124,6 +124,7 @@
 /* Begin PBXFileReference section */
 		227FE8CC3384304ABFD1340B /* Pods-Revimex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Revimex.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Revimex/Pods-Revimex.debug.xcconfig"; sourceTree = "<group>"; };
 		5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5205B2D32019170A00CB353D /* Revimex-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Revimex-Bridging-Header.h"; sourceTree = "<group>"; };
 		524EBA481FF6CE7400C31D0A /* Revimex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Revimex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		524EBA4D1FF6CE7400C31D0A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -200,7 +201,7 @@
 		524EBB611FF6E0F800C31D0A /* menu-horizontal-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-horizontal-100.png"; sourceTree = "<group>"; };
 		524EBB621FF6E0F900C31D0A /* carritoDisponible.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carritoDisponible.png; sourceTree = "<group>"; };
 		524EBB631FF6E0F900C31D0A /* houseMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = houseMarker.png; sourceTree = "<group>"; };
-		524EBB641FF6E0F900C31D0A /* google.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google.png; sourceTree = "<group>"; };
+		524EBB641FF6E0F900C31D0A /* googlePlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = googlePlus.png; sourceTree = "<group>"; };
 		524EBB651FF6E0FA00C31D0A /* menu-vertical-24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-vertical-24.png"; sourceTree = "<group>"; };
 		524EBB661FF6E0FA00C31D0A /* brokerage.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = brokerage.jpeg; sourceTree = "<group>"; };
 		524EBB671FF6E0FB00C31D0A /* hospital.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hospital.png; sourceTree = "<group>"; };
@@ -295,6 +296,7 @@
 				524EBBD9200470DB00C31D0A /* Search */,
 				524EBA541FF6CE7400C31D0A /* LaunchScreen.storyboard */,
 				524EBA4F1FF6CE7400C31D0A /* Main.storyboard */,
+				5205B2D32019170A00CB353D /* Revimex-Bridging-Header.h */,
 			);
 			path = Revimex;
 			sourceTree = "<group>";
@@ -354,7 +356,7 @@
 				52D8A5BB2016CD98002B7D13 /* formasPago.png */,
 				524EBB561FF6E0F400C31D0A /* filterButton.png */,
 				524EBB5A1FF6E0F600C31D0A /* fondo.png */,
-				524EBB641FF6E0F900C31D0A /* google.png */,
+				524EBB641FF6E0F900C31D0A /* googlePlus.png */,
 				524EBB451FF6E0ED00C31D0A /* habitaciones.png */,
 				524EBB671FF6E0FB00C31D0A /* hospital.png */,
 				524EBB581FF6E0F500C31D0A /* hospitales.png */,
@@ -569,6 +571,7 @@
 				TargetAttributes = {
 					524EBA471FF6CE7400C31D0A = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -600,7 +603,7 @@
 				524EBBA31FF6E0FF00C31D0A /* shopping_mall.png in Resources */,
 				524EBBA51FF6E0FF00C31D0A /* escuelas.png in Resources */,
 				524EBB8D1FF6E0FF00C31D0A /* hospitales.png in Resources */,
-				524EBB991FF6E0FF00C31D0A /* google.png in Resources */,
+				524EBB991FF6E0FF00C31D0A /* googlePlus.png in Resources */,
 				524EBB8A1FF6E0FF00C31D0A /* park.png in Resources */,
 				524EBB9C1FF6E0FF00C31D0A /* hospital.png in Resources */,
 				52590F5B20096DE300742E31 /* backBtn.png in Resources */,
@@ -950,6 +953,7 @@
 			baseConfigurationReference = 227FE8CC3384304ABFD1340B /* Pods-Revimex.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9K97DWZW76;
 				INFOPLIST_FILE = Revimex/Info.plist;
@@ -957,6 +961,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Revimex1.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Revimex/Revimex-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -967,6 +973,7 @@
 			baseConfigurationReference = 750D9608BEC693F8EAD3A928 /* Pods-Revimex.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9K97DWZW76;
 				INFOPLIST_FILE = Revimex/Info.plist;
@@ -974,6 +981,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Revimex1.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Revimex/Revimex-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
