@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5205B2CF2018EEB100CB353D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */; };
+		5205B2D720193F4600CB353D /* customWhiteStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 5205B2D620193F4500CB353D /* customWhiteStyle.json */; };
 		524EBA4C1FF6CE7400C31D0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */; };
 		524EBA4E1FF6CE7400C31D0A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA4D1FF6CE7400C31D0A /* ViewController.swift */; };
 		524EBA511FF6CE7400C31D0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 524EBA4F1FF6CE7400C31D0A /* Main.storyboard */; };
@@ -125,6 +126,7 @@
 		227FE8CC3384304ABFD1340B /* Pods-Revimex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Revimex.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Revimex/Pods-Revimex.debug.xcconfig"; sourceTree = "<group>"; };
 		5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5205B2D32019170A00CB353D /* Revimex-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Revimex-Bridging-Header.h"; sourceTree = "<group>"; };
+		5205B2D620193F4500CB353D /* customWhiteStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = customWhiteStyle.json; sourceTree = "<group>"; };
 		524EBA481FF6CE7400C31D0A /* Revimex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Revimex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		524EBA4D1FF6CE7400C31D0A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				524EBA521FF6CE7400C31D0A /* Assets.xcassets */,
 				5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */,
 				524EBA571FF6CE7400C31D0A /* Info.plist */,
+				5205B2D620193F4500CB353D /* customWhiteStyle.json */,
 				524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */,
 				524EBAAF1FF6D57300C31D0A /* Brokerage */,
 				524EBBD320046FAC00C31D0A /* Carrito */,
@@ -631,6 +634,7 @@
 				524EBB8B1FF6E0FF00C31D0A /* filterButton.png in Resources */,
 				524EBB931FF6E0FF00C31D0A /* entrarConFcebook.png in Resources */,
 				524EBB731FF6E0FF00C31D0A /* favoritos.png in Resources */,
+				5205B2D720193F4600CB353D /* customWhiteStyle.json in Resources */,
 				524EBB921FF6E0FF00C31D0A /* menu-vertical-100.png in Resources */,
 				524EBB751FF6E0FF00C31D0A /* restaurant.png in Resources */,
 				524EBBA21FF6E0FF00C31D0A /* restaurantes.png in Resources */,

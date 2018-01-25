@@ -7,15 +7,15 @@
 //
 
 import UIKit
-import Mapbox
 import GooglePlaces
+import GoogleMaps
 
 
-class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegate, GMSAutocompleteViewControllerDelegate {
+class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate {
     
-    
-    var mapView: MGLMapView = MGLMapView(frame: CGRect(x: 0.0,y: 0.0,width: 0,height: 0), styleURL: URL(string: "mapbox://styles/mapbox/light-v9"))
-    
+    var mapView: GMSMapView!
+    var markerList = [GMSMarker]()
+    var locationManager = CLLocationManager()
     
     var formatedAddress = "México"
     var searchField = UITextField()
@@ -59,6 +59,7 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
         precioMaxLabel.text = "0"
         
         self.hideKeyboard()
+        
         inicio()
         
     }
@@ -79,14 +80,44 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
         
         let screenSize = UIScreen.main.bounds
         
-        let url = URL(string: "mapbox://styles/mapbox/light-v9")
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         
-        mapView = MGLMapView(frame: CGRect(x: 0.0,y: (navigationController?.navigationBar.bounds.height)! + 20,width: screenSize.width,height: screenSize.height - ((navigationController?.navigationBar.bounds.height)! + 20)), styleURL: url)
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.setCenter(CLLocationCoordinate2D(latitude: 23.634501, longitude: -102.552784), zoomLevel: 4, animated: false)
-        mapView.showsUserLocation = true
-        mapView.delegate = self
+        var camera = GMSCameraPosition.camera(withLatitude: 23.634501, longitude: -102.552784, zoom: 4)
+        
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted, .denied:
+                camera = GMSCameraPosition.camera(withLatitude: 23.634501, longitude: -102.552784, zoom: 4)
+            case .authorizedAlways, .authorizedWhenInUse:
+                camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15)
+            }
+        } else {
+            camera = GMSCameraPosition.camera(withLatitude: 23.634501, longitude: -102.552784, zoom: 4)
+        }
+        
+        mapView = GMSMapView.map(withFrame: CGRect(x: 0.0,y: (navigationController?.navigationBar.bounds.height)! + 20,width: screenSize.width,height: screenSize.height - ((navigationController?.navigationBar.bounds.height)! + 20)), camera: camera)
+        
+        
+        mapView.settings.myLocationButton = true
+        
+        do {
+            if let styleURL = Bundle.main.url(forResource: "customWhiteStyle", withExtension: "json") {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
+        
+        //para la ubicacion del usuario
+        mapView.isMyLocationEnabled = true
+        
         view.addSubview(mapView)
+        
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(searchFieldTapped(tapGestureRecognizer:)))
         searchField.frame = CGRect(x: (screenSize.width * (0.06))+(screenSize.height * (0.06)),y: screenSize.height/6,width: (screenSize.width * (0.88))-(screenSize.height * (0.06)),height: screenSize.height * (0.06))
@@ -182,6 +213,10 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
     //***********************funciones al hacer tap en un elemento*******************************
     //muestra la vista de autocomplete al hacer top en el campo de busqueda
     @objc func searchFieldTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        
+        let camera = GMSCameraPosition.camera(withLatitude: 23.634501, longitude: -102.552784, zoom: 6)
+        mapView.animate(to: camera)
+        
         //filtro para autocomplete
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
@@ -193,10 +228,15 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
     }
     //"toggle" para la vista de los filtros al presionar el boton
     @objc func filterButtonTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        
+        let camera = GMSCameraPosition.camera(withLatitude: 23.634501, longitude: -102.552784, zoom: 6)
+        mapView.animate(to: camera)
+        
         self.filtrosContainer.isHidden = !self.filtrosContainer.isHidden
     }
     //"toggle" para la vista de los filtros al presionar el boton
     @objc func searchButtonTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        
         beforeRequest()
     }
     
@@ -352,10 +392,9 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
     
     //*********************request del geojson a google con la direccion seleccionada**************************
     func beforeRequest(){
-        if self.mapView.annotations != nil {
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations!)
-        }
+        
+        mapView.clear()
+        
         if formatedAddress != "" {
             getLocationDetails()
         }
@@ -427,18 +466,7 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
     //**********request a las propiedades dentro de los limites del lugar elegido de las sugerencias*************
     func getPropertiesNearTo(lat: Double,lng: Double,swlat: Double,swlng: Double,nelat: Double,nelng: Double){
         
-        /*
-        let bounds = MGLCoordinateBounds(
-            sw: CLLocationCoordinate2D(latitude: 43.7115, longitude: 10.3725),
-            ne: CLLocationCoordinate2D(latitude: 43.7318, longitude: 10.4222))
-        mapView.setVisibleCoordinateBounds(bounds, animated: false)
-        */
-        
-        mapView.setCenter(CLLocationCoordinate2D(latitude: lat, longitude: lng ), zoomLevel: 15, animated: false)
-        
-        let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 5000, pitch: 12, heading: 180)
-        
-        mapView.setCamera(camera, withDuration: 2, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+        markerList = []
         
         let urlRequestFiltros = "http://18.221.106.92/api/public/propiedades/filtros"
 
@@ -525,7 +553,17 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
                                                 idOferta = (id)
                                             }
                                             
-                                            self.agregarMarcadorPropiedad(latitud:lat!, longitud: lng!,direccion: direccion,precio: precio,idOferta: idOferta)
+                                            
+                                            let position = CLLocationCoordinate2D(latitude: lat!, longitude: lng!)
+                                            let marker = GMSMarker(position: position)
+                                            marker.icon = UIImage(named: "houseMarker.png")
+                                            marker.appearAnimation = GMSMarkerAnimation.pop
+                                            marker.title = direccion
+                                            
+                                                
+                                            self.markerList.append(marker)
+                                            
+                                            
                                             
                                         }
                                     }
@@ -546,7 +584,7 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
                 }
 
                 OperationQueue.main.addOperation({
-                    
+                    self.fitAllMarkers()
                 })
 
             }
@@ -556,74 +594,82 @@ class SearchController: UIViewController, MGLMapViewDelegate, UITextFieldDelegat
     
     
     //***********************************funciones del mapa**************************************
-    //obtiene la ubicacion actual del usuario y centra la vista ahi
-    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                print("No access")
-            case .authorizedAlways, .authorizedWhenInUse:
-                let userLoc = mapView.userLocation!
-                
-                let userLat = userLoc.coordinate.latitude as Double
-                let userLon = userLoc.coordinate.longitude as Double
-                
-                mapView.setCenter(CLLocationCoordinate2D(latitude: userLat, longitude: userLon), zoomLevel: 8, animated: false)
-                let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 15, heading: 180)
-                mapView.setCamera(camera, withDuration: 3, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
-            }
-        } else {
-            print("Location services are not enabled")
-        }
-        
-    }
     //agrega un marcador en la propiedad
-    func agregarMarcadorPropiedad(latitud: Double, longitud: Double,direccion: String,precio: String,idOferta: Int){
+    func fitAllMarkers(){
         
-        let propiedad = MGLPointAnnotation()
-        propiedad.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitud), longitude: CLLocationDegrees(longitud))
-        propiedad.title = direccion
-        propiedad.subtitle = String(idOferta)
+        var bounds = GMSCoordinateBounds()
         
-        mapView.addAnnotation(propiedad)
-    }
-    //permite anotaciones en el mapa
-    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
-        return true
-    }
-    //asigna una imagen personalizada al marcador
-    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
-        
-        var annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "propiedad")
-        
-        if annotationImage == nil {
-            
-            var image = UIImage(named: "houseMarker.png")!
-            image = image.withAlignmentRectInsets(UIEdgeInsets(top: 0, left: 0, bottom: image.size.height/2, right: 0))
-            
-            annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "propiedad")
+        for marker in markerList {
+            bounds = bounds.includingCoordinate(marker.position)
+            marker.map = mapView
         }
-        return annotationImage
         
+        CATransaction.begin()
+        CATransaction.setValue(NSNumber(value: 2.0), forKey: kCATransactionAnimationDuration)
+        mapView.animate(with: GMSCameraUpdate.fit(bounds))
+        CATransaction.commit()
     }
-    //agrega un boton al pop up de la anotacion
-    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-        
-        let image = UIImage(named: "info.png") as UIImage?
-        let detailsButton = UIButton()
-        
-        detailsButton.setImage(image, for: .normal)
-        detailsButton.frame = CGRect(x: 0.0,y: 0.0,width: 30,height: 30)
-        
-        return detailsButton
-    }
-    //realiza una accion al presionar el boton de la anotacion
-    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
-        print("ocultar id de la informacion")
-        idOfertaSeleccionada = annotation.subtitle as! String
-        performSegue(withIdentifier: "searchToDetails", sender: nil)
-    }
+
+    
+//    //obtiene la ubicacion actual del usuario y centra la vista ahi
+//    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+//
+//        if CLLocationManager.locationServicesEnabled() {
+//            switch(CLLocationManager.authorizationStatus()) {
+//            case .notDetermined, .restricted, .denied:
+//                print("No access")
+//            case .authorizedAlways, .authorizedWhenInUse:
+//                let userLoc = mapView.userLocation!
+//
+//                let userLat = userLoc.coordinate.latitude as Double
+//                let userLon = userLoc.coordinate.longitude as Double
+//
+//                mapView.setCenter(CLLocationCoordinate2D(latitude: userLat, longitude: userLon), zoomLevel: 8, animated: false)
+//                let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 15, heading: 180)
+//                mapView.setCamera(camera, withDuration: 3, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+//            }
+//        } else {
+//            print("Location services are not enabled")
+//        }
+//
+//    }
+    
+//    //permite anotaciones en el mapa
+//    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+//        return true
+//    }
+//    //asigna una imagen personalizada al marcador
+//    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+//
+//        var annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "propiedad")
+//
+//        if annotationImage == nil {
+//
+//            var image = UIImage(named: "houseMarker.png")!
+//            image = image.withAlignmentRectInsets(UIEdgeInsets(top: 0, left: 0, bottom: image.size.height/2, right: 0))
+//
+//            annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "propiedad")
+//        }
+//        return annotationImage
+//
+//    }
+//    //agrega un boton al pop up de la anotacion
+//    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+//
+//        let image = UIImage(named: "info.png") as UIImage?
+//        let detailsButton = UIButton()
+//
+//        detailsButton.setImage(image, for: .normal)
+//        detailsButton.frame = CGRect(x: 0.0,y: 0.0,width: 30,height: 30)
+//
+//        return detailsButton
+//    }
+//    //realiza una accion al presionar el boton de la anotacion
+//    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+//        print("ocultar id de la informacion")
+//        idOfertaSeleccionada = annotation.subtitle as! String
+//        performSegue(withIdentifier: "searchToDetails", sender: nil)
+//    }
     
 
 }
