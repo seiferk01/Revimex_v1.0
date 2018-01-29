@@ -11,7 +11,11 @@ import GooglePlaces
 import GoogleMaps
 
 
-class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate {
+class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
+    
+    class setIdGestureRecognizer: UITapGestureRecognizer {
+        var idOferta: String!
+    }
     
     var mapView: GMSMapView!
     var markerList = [GMSMarker]()
@@ -115,6 +119,7 @@ class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteVi
         
         //para la ubicacion del usuario
         mapView.isMyLocationEnabled = true
+        mapView.delegate = self
         
         view.addSubview(mapView)
         
@@ -538,13 +543,14 @@ class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteVi
                                         
                                             var direccion = ""
                                             var precio = ""
-                                            var idOferta = 0
+                                            var idOferta = -1
+                                            var urlImagen = ""
                                             
                                             if let calle = properties["calle"] as? String{
                                                 direccion = direccion + (calle)
                                             }
                                             if let estado = properties["estado"] as? String {
-                                                direccion = direccion + (estado)
+                                                direccion = direccion + " " + (estado)
                                             }
                                             if let prec = properties["precio"] as? String {
                                                 precio = "Precio: $" + (prec)
@@ -552,13 +558,17 @@ class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteVi
                                             if let id = properties["ai"] as? Int{
                                                 idOferta = (id)
                                             }
-                                            
+                                            if let url = properties["urlimage"] as? String{
+                                                urlImagen = (url)
+                                            }
                                             
                                             let position = CLLocationCoordinate2D(latitude: lat!, longitude: lng!)
                                             let marker = GMSMarker(position: position)
                                             marker.icon = UIImage(named: "houseMarker.png")
                                             marker.appearAnimation = GMSMarkerAnimation.pop
                                             marker.title = direccion
+                                            marker.snippet = String(idOferta)
+                                            marker.userData = [urlImagen,precio]
                                             
                                                 
                                             self.markerList.append(marker)
@@ -605,11 +615,84 @@ class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteVi
         }
         
         CATransaction.begin()
-        CATransaction.setValue(NSNumber(value: 2.0), forKey: kCATransactionAnimationDuration)
+        CATransaction.setValue(NSNumber(value: 1.0), forKey: kCATransactionAnimationDuration)
         mapView.animate(with: GMSCameraUpdate.fit(bounds))
         CATransaction.commit()
     }
-
+    
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        
+        let vista = UIView()
+        
+        vista.frame = CGRect(x:0,y:0,width: 250,height: 100)
+        vista.backgroundColor = UIColor.white
+        vista.layer.borderWidth = 1
+        vista.layer.borderColor = UIColor.gray.cgColor
+        vista.layer.cornerRadius = 10
+        
+        let datos:[String] = marker.userData as! [String]
+        
+        let imagenPropiedad = Utilities.traerImagen(urlImagen: datos[0] )
+        
+        let direccion = UILabel()
+        direccion.frame = CGRect(x:5, y:0, width: 150, height: 70)
+        direccion.numberOfLines = 5
+        direccion.font = UIFont.boldSystemFont(ofSize: 12.0)
+        direccion.textColor = UIColor.white
+        direccion.text = marker.title
+        
+        let precio = UILabel()
+        precio.frame = CGRect(x:5, y:70, width: 150, height: 30)
+        precio.font = UIFont.boldSystemFont(ofSize: 12.0)
+        precio.textColor = UIColor.white
+        precio.text = datos[1]
+        
+        let foto = UIImageView(image: imagenPropiedad)
+        foto.frame = CGRect(x:150, y:0, width: 100, height: 100)
+        foto.layer.cornerRadius = 10
+        foto.contentMode = .scaleAspectFill
+        foto.clipsToBounds = true
+        
+        
+        let image = UIImage(named: "info.png") as UIImage?
+        let detailsButton = UIButton()
+        detailsButton.setImage(image, for: .normal)
+        detailsButton.frame = CGRect(x: 35,y: 35,width: 30,height: 30)
+        detailsButton.alpha = 0.7
+        
+        foto.addSubview(detailsButton)
+        
+        vista.addSubview(direccion)
+        vista.addSubview(precio)
+        vista.addSubview(foto)
+        
+        let contenedorImagen = UIImageView(image: imagenPropiedad)
+        contenedorImagen.frame = vista.bounds
+        contenedorImagen.layer.cornerRadius = 10
+        contenedorImagen.contentMode = .scaleAspectFill
+        contenedorImagen.clipsToBounds = true
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        visualEffectView.frame = vista.bounds
+        visualEffectView.layer.cornerRadius = 10
+        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        contenedorImagen.addSubview(visualEffectView)
+        vista.addSubview(contenedorImagen)
+        vista.sendSubview(toBack: contenedorImagen)
+        
+        return vista
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        idOfertaSeleccionada = marker.snippet!
+        performSegue(withIdentifier: "searchToDetails", sender: nil)
+    }
+//    @objc func irDetalles(tapGestureRecognizer: setIdGestureRecognizer){
+//        print(tapGestureRecognizer.idOferta)
+//        idOfertaSeleccionada = tapGestureRecognizer.idOferta
+//
+//        performSegue(withIdentifier: "searchToDetails", sender: nil)
+//
+//    }
     
 //    //obtiene la ubicacion actual del usuario y centra la vista ahi
 //    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
