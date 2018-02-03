@@ -686,73 +686,7 @@ class SearchController: UIViewController, UITextFieldDelegate, GMSAutocompleteVi
         idOfertaSeleccionada = marker.snippet!
         performSegue(withIdentifier: "searchToDetails", sender: nil)
     }
-//    @objc func irDetalles(tapGestureRecognizer: setIdGestureRecognizer){
-//        print(tapGestureRecognizer.idOferta)
-//        idOfertaSeleccionada = tapGestureRecognizer.idOferta
-//
-//        performSegue(withIdentifier: "searchToDetails", sender: nil)
-//
-//    }
-    
-//    //obtiene la ubicacion actual del usuario y centra la vista ahi
-//    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-//
-//        if CLLocationManager.locationServicesEnabled() {
-//            switch(CLLocationManager.authorizationStatus()) {
-//            case .notDetermined, .restricted, .denied:
-//                print("No access")
-//            case .authorizedAlways, .authorizedWhenInUse:
-//                let userLoc = mapView.userLocation!
-//
-//                let userLat = userLoc.coordinate.latitude as Double
-//                let userLon = userLoc.coordinate.longitude as Double
-//
-//                mapView.setCenter(CLLocationCoordinate2D(latitude: userLat, longitude: userLon), zoomLevel: 8, animated: false)
-//                let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 15, heading: 180)
-//                mapView.setCamera(camera, withDuration: 3, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
-//            }
-//        } else {
-//            print("Location services are not enabled")
-//        }
-//
-//    }
-    
-//    //permite anotaciones en el mapa
-//    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
-//        return true
-//    }
-//    //asigna una imagen personalizada al marcador
-//    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
-//
-//        var annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "propiedad")
-//
-//        if annotationImage == nil {
-//
-//            var image = UIImage(named: "houseMarker.png")!
-//            image = image.withAlignmentRectInsets(UIEdgeInsets(top: 0, left: 0, bottom: image.size.height/2, right: 0))
-//
-//            annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "propiedad")
-//        }
-//        return annotationImage
-//
-//    }
-//    //agrega un boton al pop up de la anotacion
-//    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-//
-//        let image = UIImage(named: "info.png") as UIImage?
-//        let detailsButton = UIButton()
-//
-//        detailsButton.setImage(image, for: .normal)
-//        detailsButton.frame = CGRect(x: 0.0,y: 0.0,width: 30,height: 30)
-//
-//        return detailsButton
-//    }
-//    //realiza una accion al presionar el boton de la anotacion
-//    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
-//        print("ocultar id de la informacion")
-//        idOfertaSeleccionada = annotation.subtitle as! String
-//        performSegue(withIdentifier: "searchToDetails", sender: nil)
-//    }
+
     
 
 }

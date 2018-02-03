@@ -32,8 +32,8 @@ class MisPropiedadesController: UIViewController,UITableViewDataSource {
     
     func iniFlBtn(){
         subirPropiedad.image = Icon.cm.add;
-        subirPropiedad.tintColor = Color.white;
-        subirPropiedad.backgroundColor = Color.black;
+        subirPropiedad.tintColor = UIColor.white
+        subirPropiedad.backgroundColor = rojo
         subirPropiedad.addTarget(self, action: #selector(nuevaPropiedad), for: .touchUpInside);
     }
     

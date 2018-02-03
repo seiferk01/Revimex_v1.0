@@ -98,13 +98,14 @@ class UbicacionExtraInmuebleController: UIViewController, FormValidate{
     func esValido() -> Bool {
         var valido = false;
         let alert = UIAlertController(title: " ¡Aviso! ", message: "¿Esta seguro que ha comprobado su información?", preferredStyle: UIAlertControllerStyle.alert);
+        alert.addAction(UIAlertAction(title: "NO", style: .default){action in
+            valido = false;
+        });
         alert.addAction(UIAlertAction(title: "OK", style: .default){action in
             self.subirPropiedad.byPass();
             valido = true;
         });
-        alert.addAction(UIAlertAction(title: "NO", style: .default){action in
-            valido = false;
-        });
+        
         self.present(alert, animated: true, completion: nil);
         return valido;
     }

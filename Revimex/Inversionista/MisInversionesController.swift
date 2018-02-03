@@ -27,8 +27,8 @@ class MisInversionesController: UIViewController,UITableViewDataSource {
     
     func iniFlBtn(){
         nuevaInversionBtn.image = Icon.cm.add
-        nuevaInversionBtn.tintColor = Color.white
-        nuevaInversionBtn.backgroundColor = Color.black
+        nuevaInversionBtn.tintColor = UIColor.white
+        nuevaInversionBtn.backgroundColor = azulObscuro
         nuevaInversionBtn.addTarget(self, action: #selector(nuevaInversion), for: .touchUpInside)
     }
     

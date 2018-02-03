@@ -7,17 +7,16 @@
 //
 
 import UIKit
-import Mapbox
+import GoogleMaps
 
-class UbicationContoller: UIViewController, MGLMapViewDelegate {
+class UbicationContoller: UIViewController, GMSMapViewDelegate {
     
     @IBOutlet weak var sevicesConatiner: UIView!
     
-    //variables para mapbox
-    var mapView: MGLMapView = MGLMapView(frame: CGRect(x: 0.0,y: 0.0,width: 0,height: 0), styleURL: URL(string: "mapbox://styles/mapbox/light-v9"))
-    var nombreImagenMarker: String = ""
-    var degrees: Double = 180
-    var marcador = "houseMarker"
+    
+    var mapView: GMSMapView!
+    var markerList = [GMSMarker]()
+    var marcadorServicio = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,14 +32,23 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
     
     func crearMapa(){
         //inicia asignacion de valores al mapa
-        let screenSize = UIScreen.main.bounds
+        let screenSize = instanciaDescripcionController.vistasContainer.bounds
         
-        let url = URL(string: "mapbox://styles/mapbox/light-v9")
+        let camera = GMSCameraPosition.camera(withLatitude: Double(propiedad.lat)!, longitude: Double(propiedad.lon)!, zoom: 15)
         
-        mapView = MGLMapView(frame: CGRect(x: 0,y: 0,width: screenSize.width,height: screenSize.height), styleURL: url)
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.setCenter(CLLocationCoordinate2D(latitude: Double(propiedad.lat)!, longitude: Double(propiedad.lon)!), zoomLevel: 10, animated: false)
+        mapView = GMSMapView.map(withFrame: CGRect(x: 0,y: 0,width: screenSize.width,height: screenSize.height), camera: camera)
         mapView.delegate = self
+        
+        do {
+            if let styleURL = Bundle.main.url(forResource: "customWhiteStyle", withExtension: "json") {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
+        
         view.addSubview(mapView)
         view.sendSubview(toBack: mapView)
         
@@ -50,97 +58,64 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
     
     //funciones para mostrar servicios
     @IBAction func mostrarSuperMercados(_ sender: Any) {
-        if self.mapView.annotations != nil{
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations!)
-            addPrincipalMarker()
-        }
-        nombreImagenMarker = "centroComercial"
+        
+        mapView.clear()
+        addPrincipalMarker()
         buscarServicios(servicio: "shopping_mall")
-        cameraMovement()
+        
     }
     
     @IBAction func mostrarRestaurantes(_ sender: Any) {
-        if self.mapView.annotations != nil{
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations!)
-            addPrincipalMarker()
-        }
-        nombreImagenMarker = "restaurantes"
+        
+        mapView.clear()
+        addPrincipalMarker()
         buscarServicios(servicio: "restaurant")
-        cameraMovement()
+        
     }
     
     @IBAction func mostrarEscuelas(_ sender: Any) {
-        if self.mapView.annotations != nil{
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations!)
-            addPrincipalMarker()
-        }
-        nombreImagenMarker = "escuelas"
+        
+        mapView.clear()
+        addPrincipalMarker()
         buscarServicios(servicio: "school")
-        cameraMovement()
+        
     }
     
     @IBAction func mostrarTiendas(_ sender: Any) {
-        if self.mapView.annotations != nil{
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations!)
-            addPrincipalMarker()
-        }
-        nombreImagenMarker = "Tiendas"
+        
+        mapView.clear()
+        addPrincipalMarker()
         buscarServicios(servicio: "convenience_store")
-        cameraMovement()
+        
     }
     
     @IBAction func mostrarHospitales(_ sender: Any) {
-        if self.mapView.annotations != nil{
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations!)
-            addPrincipalMarker()
-        }
-        nombreImagenMarker = "hospitales"
+        
+        mapView.clear()
+        addPrincipalMarker()
         buscarServicios(servicio: "hospital")
-        cameraMovement()
+        
     }
     
     @IBAction func mostrarParques(_ sender: Any) {
-        if self.mapView.annotations != nil{
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations!)
-            addPrincipalMarker()
-        }
         
-        nombreImagenMarker = "parques"
+        mapView.clear()
+        addPrincipalMarker()
         buscarServicios(servicio: "park")
-        cameraMovement()
+        
     }
     
     
     //agrega el marcador principal al mapa
     func addPrincipalMarker(){
         
-        marcador = "houseMarker"
-        let marcadorPrincipal = MGLPointAnnotation()
-        marcadorPrincipal.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(propiedad.lat)!, longitude: CLLocationDegrees(propiedad.lon)!)
-        marcadorPrincipal.title = propiedad.estado
-        marcadorPrincipal.subtitle = propiedad.precio
+        let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(propiedad.lat)!, longitude: CLLocationDegrees(propiedad.lon)!)
+        let marker = GMSMarker(position: position)
+        marker.icon = UIImage(named: "houseMarker.png")
+        marker.appearAnimation = GMSMarkerAnimation.pop
+        marker.title = propiedad.estado
+        marker.map = mapView
         
-        mapView.addAnnotation(marcadorPrincipal)
-    }
-    
-    //movimiento de camara del mapa
-    func cameraMovement(){
-        
-        Thread.sleep(forTimeInterval: 0.5)
-        
-        mapView.setCenter(CLLocationCoordinate2D(latitude: Double(propiedad.lat)!, longitude: Double(propiedad.lon)!), animated: false)
-
-        degrees += 180
-
-        let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 3000, pitch: 60, heading: degrees)
-
-        mapView.setCamera(camera, withDuration: 4, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
     }
     
     //request al api de google para localizar servicios
@@ -153,7 +128,8 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
         view.addSubview(background)
         activityIndicator.startAnimating()
         
-        marcador = servicio
+        markerList = []
+        marcadorServicio = servicio
         
         let apiGoogle = "AIzaSyBuwBiNaQQcYb6yXDoxEDBASvrtjWgc03Q"
         
@@ -197,7 +173,14 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
                                     if let geometry = result["geometry"] as? NSDictionary {
                                         if let location = geometry["location"] as? NSDictionary{
                                             if let lat = location["lat"] as? Double, let lon = location["lng"] as? Double {
-                                                self.agregarMarcadorServicio(latitud: lat, longitud: lon,nombre: nombre ,direccion: direccion)
+                                                
+                                                let position = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                                                let marker = GMSMarker(position: position)
+                                                marker.appearAnimation = GMSMarkerAnimation.pop
+                                                marker.title = nombre + "\n" + direccion
+                                                
+                                                self.markerList.append(marker)
+                                                
                                             }
                                         }
                                     }
@@ -208,6 +191,7 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
                     }
                     
                     OperationQueue.main.addOperation({
+                        self.agregarMarcadorServicio()
                         activityIndicator.stopAnimating()
                         background.removeFromSuperview()
                     })
@@ -223,63 +207,47 @@ class UbicationContoller: UIViewController, MGLMapViewDelegate {
     }
     
     //agrega los marcadores de servicios encontrados
-    func agregarMarcadorServicio(latitud: Double, longitud: Double,nombre: String,direccion: String){
+    func agregarMarcadorServicio(){
         
-        let servicio = MGLPointAnnotation()
-        servicio.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitud), longitude: CLLocationDegrees(longitud))
-        servicio.title = nombre
-        servicio.subtitle = direccion
         
-        mapView.addAnnotation(servicio)
-    }
-    
-    
-    
-    // Allow callout view to appear when an annotation is tapped.
-    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
-        return true
-    }
-    
-    
-    
-    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        var bounds = GMSCoordinateBounds()
         
-        let camera = MGLMapCamera(lookingAtCenter: mapView.centerCoordinate, fromDistance: 2000, pitch: 50, heading: 180)
-        
-        mapView.setCamera(camera, withDuration: 3, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
-    }
-    
-    
-    
-    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
-        
-        var annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "")
-        
-        if marcador == "houseMarker" {
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "marcadorPrincipal")
+        for marker in markerList {
+            bounds = bounds.includingCoordinate(marker.position)
             
-            if annotationImage == nil {
-                
-                var image = UIImage(named: marcador+".png")!
-                image = image.withAlignmentRectInsets(UIEdgeInsets(top: 0, left: 0, bottom: image.size.height/2, right: 0))
-                
-                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "marcadorPrincipal")
+            switch marcadorServicio{
+            case "shopping_mall":
+                marker.icon = UIImage(named: "shopping_mall.png")
+                break
+            case "restaurant":
+                marker.icon = UIImage(named: "restaurant.png")
+                break
+            case "school":
+                marker.icon = UIImage(named: "school.png")
+                break
+            case "convenience_store":
+                marker.icon = UIImage(named: "convenience_store.png")
+                break
+            case "hospital":
+                marker.icon = UIImage(named: "hospital.png")
+                break
+            case "park":
+                marker.icon = UIImage(named: "park.png")
+                break
+            default:
+                marker.icon = UIImage(named: "houseMarker.png")
+                break
             }
             
-        }
-        else {
-            print(marcador)
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: marcador)
-            
-            var image = UIImage(named: marcador+".png")!
-            image = image.withAlignmentRectInsets(UIEdgeInsets(top: 0, left: 0, bottom: image.size.height/2, right: 0))
-            
-            annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: marcador)
-            
+            marker.map = self.mapView
         }
         
-        return annotationImage
+        CATransaction.begin()
+        CATransaction.setValue(NSNumber(value: 1.5), forKey: kCATransactionAnimationDuration)
+        mapView.animate(with: GMSCameraUpdate.fit(bounds))
+        CATransaction.commit()
         
     }
+    
 
 }

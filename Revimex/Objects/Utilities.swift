@@ -18,8 +18,26 @@ import Material
 
 //
 
-//genera un borde inferior en un campo de texto
+extension UIImageView {
+    public func imageFromServerURL(urlString: String) {
+        
+        URLSession.shared.dataTask(with: NSURL(string: urlString)! as URL, completionHandler: { (data, response, error) -> Void in
+            
+            if error != nil {
+                print(error)
+                return
+            }
+            DispatchQueue.main.async(execute: { () -> Void in
+                let image = UIImage(data: data!)
+                self.image = image
+            })
+            
+        }).resume()
+    }}
 
+
+
+//genera un borde inferior en un campo de texto
 
 extension UITextField {
     func borderBottom(color: UIColor,borderSize: CGFloat){
@@ -246,6 +264,9 @@ extension UIColor {
 var azul = UIColor(hexString: "#48B1F3ff")
 var azulClaro = UIColor(hexString: "#F0F5F6ff")
 var gris = UIColor(hexString: "#3B3B3Bff")
+var rojo = UIColor(hexString: "#A91C1Cff")
+var verde = UIColor(hexString: "#006C27ff")
+var azulObscuro = UIColor(hexString: "#002E6Cff")
 
 //variable global, obtiene un valor en TableViewCell.swift dependiendo de la propiedad que se selecciono(StockConroller,SearchController,InfoController,UbicationController,FavoritosController,TableViewCell)
 var idOfertaSeleccionada = ""
@@ -260,10 +281,13 @@ var navBarStyleCase = 0
 //indicador de linea de negocio (StockController,LineasInfoController)
 var lineaSeleccionada = 0
 
+//variable para controlat la vista dinamica de las etapas del brokerage
+var etapaBrokerage = "DatosPropiedad"
+
 //variable para contener los datos entregados por el json de detalles(InfoController,UbicationController)
 var propiedad: Details = Details(Id: "",calle: "",colonia: "",construccion: "",cp: "",estacionamiento: "",estado: "",habitaciones: "",idp: "",lat: "0",lon: "0",municipio: "",niveles: "",origen_propiedad: "",patios: "",precio: "",terreno: "",tipo: "",descripcion: "",pros: "",wcs: "",fotos: [])
 
-//instancia para mostrar el boton de enu contextual en informacion de usuario
+//instancia para mostrar el boton de menu contextual en informacion de usuario
 var instanciaMisLineasController: MisLineasController!
 
 //variable para obtener la imagen de fondo de la descripcion
@@ -278,8 +302,15 @@ var instanciaCarritoController: CarritoController!
 //instancia para mostrar/ocultar indicador de carga en descripcion
 var instanciaDescripcionController: DescriptionViewController!
 
+//instancia para mostrar informacion de brokerages
+var instanciaMisBrokerageViewController: MisBrokerageViewController!
+
 //instancia para continuar con proceso Brokerage al tapear una propiedad en el controller
 var instanciaNuevoBrokerageViewController: NuevoBrokerageViewController!
+
+//instancia utilizar elementos de EtapasBrokerageController
+var instanciaEtapasBrokerageController: EtapasBrokerageController!
+
 
 
 class Utilities: NSObject {

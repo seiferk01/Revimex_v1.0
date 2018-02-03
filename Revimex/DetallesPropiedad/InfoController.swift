@@ -227,7 +227,11 @@ class InfoController: UIViewController, UIScrollViewDelegate {
     func showPhotos() {
         
         
-        var arrayFotos:[InputSource] = [ImageSource(image: Utilities.traerImagen(urlImagen: propiedad.fotos[0]))]
+        var arrayFotos:[InputSource] = [ImageSource(image: UIImage(named: "imagenNoEncontrada.png")! )]
+        
+        if propiedad.fotos.count > 0{
+            arrayFotos = [ImageSource(image: Utilities.traerImagen(urlImagen: propiedad.fotos[0]))]
+        }
         
         contenedorCarousel.setImageInputs(arrayFotos)
         

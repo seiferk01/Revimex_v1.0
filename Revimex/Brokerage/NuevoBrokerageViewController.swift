@@ -10,7 +10,7 @@ import UIKit
 import Material
 import AVFoundation
 import Photos.PHPhotoLibrary
-//
+
 class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     class navigationGestureRecognizer: UITapGestureRecognizer {
@@ -36,8 +36,7 @@ class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDele
     @IBOutlet weak var contenedorDatos: UIView!
     @IBOutlet weak var tableBrokerage: UITableView!
     
-    let descripcion = UIView()
-    let datosUsuario = UIView()
+    
     
     let contenedorCarga = UIView()
     
@@ -48,31 +47,19 @@ class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDele
     
     
     
-    var idBrokerageSeleccionado = -1
-    var brokerageSeleccionado:NuevoBrokerage = NuevoBrokerage(id:"",id_ai:0,estado:"",municipio:"",valorReferencia:"",precioOriginal:"",tipo:"",construccion:"",terreno:"",urlFotoPrincipal:"", urlFotos:[[:]])
     
     var txFlMontoInversion = TextField()
     var txFlTiempoInversion = TextField()
     var rendimientoMensual = TextField()
     var rendimientoTotal = TextField()
     
-    let foto = UIImageView()
-    let tipoInmueble = TextField()
-    let precio = TextField()
-    let estado = TextField()
-    let municipio = TextField()
-    
-    let nombre = TextField()
-    let primerApellido = TextField()
-    let segundoApellido = TextField()
-    let fechaNacimiento = TextField()
-    let telefono = TextField()
-    let correoElectronico = TextField()
-    let rfc = TextField()
-    let direccion = TextField()
+    var rendimientoAnual = ""
+    var montoInversion = 0
     
     
-    var json:[String:Any?] = [:]
+    
+    
+    
     
     private var actualAlert:UIAlertController!;
     
@@ -101,9 +88,9 @@ class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDele
         tableBrokerage.delegate = self;
         tableBrokerage.rowHeight = 200;
         
+        
         iniVista()
         
-        datosInversionista()
         
         cargarDocumentos()
         
@@ -117,7 +104,6 @@ class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDele
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     
     func iniVista(){
@@ -173,156 +159,7 @@ class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDele
     }
     
     
-    func datosInversionista(){
-        
-        
-        descripcion.frame = CGRect(x:0, y:barraNavegacion.bounds.height, width: ancho, height: largo*0.32)
-        descripcion.alpha = 0
-        
-        
-        datosUsuario.frame = CGRect(x:0, y:(largo*0.45), width: ancho, height: largo*0.6)
-        datosUsuario.alpha = 0
-        
-        let anchoDescripcion = descripcion.bounds.width
-        let largoDescripcion = descripcion.bounds.height
-        
-        let titulo = UILabel()
-        titulo.text = "Completa los datos del Brokerage"
-        titulo.frame = CGRect(x:0, y:0, width: anchoDescripcion, height: largoDescripcion*0.1)
-        
-        
-        foto.image = Utilities.traerImagen(urlImagen: brokerageSeleccionado.urlFotoPrincipal)
-        foto.frame = CGRect(x:0, y:largoDescripcion*0.2, width: anchoDescripcion*0.3, height: largoDescripcion*0.8)
-        foto.contentMode = .scaleAspectFit
-        foto.clipsToBounds = true
-        
-        
-        tipoInmueble.frame = CGRect(x:anchoDescripcion*0.35, y:largoDescripcion*0.7, width: anchoDescripcion*0.28, height: (largoDescripcion*0.25)/2)
-        tipoInmueble.placeholder = "Tipo de Inmueble"
-        tipoInmueble.font = UIFont.fontAwesome(ofSize: 12.0)
-        tipoInmueble.text = brokerageSeleccionado.tipo
-        tipoInmueble.isEnabled = false
-        
-        
-        precio.frame = CGRect(x:anchoDescripcion*0.67, y:largoDescripcion*0.7, width: anchoDescripcion*0.28, height: (largoDescripcion*0.25)/2)
-        precio.placeholder = "Precio"
-        precio.font = UIFont.fontAwesome(ofSize: 12.0)
-        precio.text = brokerageSeleccionado.valorReferencia
-        precio.isEnabled = false
-        
-        
-        estado.frame = CGRect(x:anchoDescripcion*0.35, y:largoDescripcion*0.2, width: anchoDescripcion*0.6, height: (largoDescripcion*0.25)/2)
-        estado.placeholder = "Estado"
-        estado.font = UIFont.fontAwesome(ofSize: 12.0)
-        estado.text = brokerageSeleccionado.estado
-        estado.isEnabled = false
-        
-        
-        municipio.frame = CGRect(x:anchoDescripcion*0.35, y:largoDescripcion*0.45, width: anchoDescripcion*0.6, height: (largoDescripcion*0.25)/2)
-        municipio.placeholder = "Municipio"
-        municipio.font = UIFont.fontAwesome(ofSize: 12.0)
-        municipio.text = brokerageSeleccionado.municipio
-        municipio.isEnabled = false
-        
-        let enviar = UITapGestureRecognizer(target: self, action: #selector(enviarDatos(tapGestureRecognizer:)))
-        let modificarBtn = UIButton()
-        modificarBtn.frame = CGRect(x:anchoDescripcion*0.45, y:largoDescripcion*0.93, width: anchoDescripcion*0.4, height: largoDescripcion*0.08)
-        modificarBtn.setTitle("Guardar cambios", for: .normal)
-        modificarBtn.setTitleColor(UIColor.black, for: .normal)
-        modificarBtn.layer.borderColor = UIColor.black.cgColor
-        modificarBtn.layer.borderWidth = 0.5
-        modificarBtn.addGestureRecognizer(enviar)
-        
-        
-        let anchoDatosUsuario = datosUsuario.bounds.width
-        let largoDatosUsuario = datosUsuario.bounds.height
-        
-        nombre.colorEnable()
-        nombre.frame = CGRect(x:anchoDatosUsuario*0.05, y:0, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        nombre.placeholder = "Nombre"
-        nombre.font = UIFont.fontAwesome(ofSize: 12.0)
-        
-        primerApellido.colorEnable()
-        primerApellido.frame = CGRect(x:anchoDatosUsuario*0.05, y:largoDatosUsuario*0.1, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        primerApellido.placeholder = "Apellido Paterno"
-        primerApellido.font = UIFont.fontAwesome(ofSize: 12.0)
-        
-        segundoApellido.colorEnable()
-        segundoApellido.frame = CGRect(x:anchoDatosUsuario*0.05, y:(largoDatosUsuario*0.1)*2, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        segundoApellido.placeholder = "Apellido Materno"
-        segundoApellido.font = UIFont.fontAwesome(ofSize: 12.0)
-        
-        fechaNacimiento.colorEnable()
-        fechaNacimiento.frame = CGRect(x:anchoDatosUsuario*0.05, y:(largoDatosUsuario*0.1)*3, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        fechaNacimiento.placeholder = "Fecha de Nacimiento"
-        fechaNacimiento.font = UIFont.fontAwesome(ofSize: 12.0)
-        
-        telefono.colorEnable()
-        telefono.frame = CGRect(x:anchoDatosUsuario*0.05, y:(largoDatosUsuario*0.1)*4, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        telefono.placeholder = "Telefono"
-        telefono.font = UIFont.fontAwesome(ofSize: 12.0)
-        
-        correoElectronico.colorEnable()
-        correoElectronico.frame = CGRect(x:anchoDatosUsuario*0.05, y:(largoDatosUsuario*0.1)*5, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        correoElectronico.placeholder = "Correo Electronico"
-        correoElectronico.font = UIFont.fontAwesome(ofSize: 12.0)
-        correoElectronico.isEnabled = false
-        
-        rfc.colorEnable()
-        rfc.frame = CGRect(x:anchoDatosUsuario*0.05, y:(largoDatosUsuario*0.1)*6, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        rfc.placeholder = "RFC"
-        rfc.font = UIFont.fontAwesome(ofSize: 12.0)
-        
-        direccion.colorEnable()
-        direccion.frame = CGRect(x:anchoDatosUsuario*0.05, y:(largoDatosUsuario*0.1)*7, width: anchoDatosUsuario*0.9, height: (largoDatosUsuario*0.1)/2)
-        direccion.placeholder = "Direccion"
-        direccion.font = UIFont.fontAwesome(ofSize: 12.0)
-        
-        let regreso = navigationGestureRecognizer(target: self, action: #selector(regresar(tapGestureRecognizer:)))
-        regreso.anterior = [contenedorDatos,tableBrokerage]
-        regreso.actual = [descripcion,datosUsuario]
-        let regresar = UIButton()
-        regresar.frame = CGRect(x:anchoDatosUsuario*0.05, y:largoDatosUsuario*0.8, width: anchoDatosUsuario*0.4, height: largoDatosUsuario*0.06)
-        regresar.setTitle("Regresar", for: .normal)
-        regresar.setTitleColor(UIColor.black, for: .normal)
-        regresar.layer.borderColor = UIColor.black.cgColor
-        regresar.layer.borderWidth = 0.5
-        regresar.addGestureRecognizer(regreso)
-        
-        let siguiente = navigationGestureRecognizer(target: self, action: #selector(continuar(tapGestureRecognizer:)))
-        siguiente.actual = [descripcion,datosUsuario]
-        siguiente.siguiente = [contenedorCarga]
-        let continuar = UIButton()
-        continuar.frame = CGRect(x:anchoDatosUsuario*0.55, y:largoDatosUsuario*0.8, width: anchoDatosUsuario*0.4, height: largoDatosUsuario*0.06)
-        continuar.setTitle("Continuar", for: .normal)
-        continuar.setTitleColor(UIColor.black, for: .normal)
-        continuar.layer.borderColor = UIColor.black.cgColor
-        continuar.layer.borderWidth = 0.5
-        continuar.addGestureRecognizer(siguiente)
-        
-        
-        descripcion.addSubview(titulo)
-        descripcion.addSubview(foto)
-        descripcion.addSubview(tipoInmueble)
-        descripcion.addSubview(precio)
-        descripcion.addSubview(estado)
-        descripcion.addSubview(municipio)
-        descripcion.addSubview(modificarBtn)
-        
-        datosUsuario.addSubview(nombre)
-        datosUsuario.addSubview(primerApellido)
-        datosUsuario.addSubview(segundoApellido)
-        datosUsuario.addSubview(fechaNacimiento)
-        datosUsuario.addSubview(telefono)
-        datosUsuario.addSubview(correoElectronico)
-        datosUsuario.addSubview(rfc)
-        datosUsuario.addSubview(direccion)
-        datosUsuario.addSubview(regresar)
-        datosUsuario.addSubview(continuar)
-        
-        view.addSubview(descripcion)
-        view.addSubview(datosUsuario)
-    }
+    
     
     func cargarDocumentos(){
         
@@ -347,7 +184,7 @@ class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDele
         continuar.addGestureRecognizer(siguiente)
         
         let regreso = navigationGestureRecognizer(target: self, action: #selector(regresar(tapGestureRecognizer:)))
-        regreso.anterior = [descripcion,datosUsuario]
+        //regreso.anterior = [descripcion,datosUsuario]
         regreso.actual = [contenedorCarga]
         let regresar = UIButton()
         regresar.frame = CGRect(x:ancho*0.05, y:largo*0.83, width: ancho*0.4, height: largo*0.035)
@@ -638,220 +475,10 @@ class NuevoBrokerageViewController: UIViewController,UIImagePickerControllerDele
         
     }
     
-    //llamado a los detalles de la propiedad seleccionada
-    func requestDetails() {
-        
-        propiedad = Details(Id: "",calle: "",colonia: "",construccion: "",cp: "",estacionamiento: "",estado: "",habitaciones: "",idp: "",lat: "0",lon: "0",municipio: "",niveles: "",origen_propiedad: "",patios: "",precio: "",terreno: "",tipo: "",descripcion: "",pros: "",wcs: "",fotos: [])
-        
-        //indicador de loading
-        let activityIndicator = UIActivityIndicatorView()
-        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
-        background.center = self.view.center
-        view.addSubview(background)
-        activityIndicator.startAnimating()
-        
-        let urlRequestDetails = "http://18.221.106.92/api/public/propiedades/detalle"
-        
-        let parameters = "id=" + String(idBrokerageSeleccionado)
-        
-        guard let url = URL(string: urlRequestDetails) else { return }
-        
-        var request = URLRequest (url: url)
-        request.httpMethod = "POST"
-        
-        let httpBody = parameters.data(using: .utf8)
-        
-        request.httpBody = httpBody
-        
-        let session  = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            
-            if let response = response {
-                print(response)
-            }
-            
-            if let data = data {
-                
-                do {
-                    let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
-                    
-                    if let propiedadSeleccionada = json["propiedad"] as? NSDictionary {
-                        print("*********Propiedad seleccionada***********")
-                        print(propiedadSeleccionada)
-                        propiedad.fotos = []
-                        
-                        if  let id = propiedadSeleccionada["Id"] as? String { propiedad.Id = id }
-                        if  let estado = propiedadSeleccionada["estado"] as? String { propiedad.estado = estado }
-                        if  let idp = propiedadSeleccionada["idp"] as? String { propiedad.idp = idp }
-                        if  let municipio = propiedadSeleccionada["municipio"] as? String { propiedad.municipio = municipio }
-                        if  let precio = propiedadSeleccionada["precio"] as? String { propiedad.precio = "$" + precio}
-                        if  let tipo = propiedadSeleccionada["tipo"] as? String { propiedad.tipo = tipo}
-                        if  let fotoPrincipal = propiedadSeleccionada["fotoPrincipal"] as? String {
-                            propiedad.fotos.append(fotoPrincipal)
-                        }
-                    }
-                    
-                    
-                } catch {
-                    print("El error es: ")
-                    print(error)
-                }
-                
-                OperationQueue.main.addOperation({
-                    
-                    self.foto.image = Utilities.traerImagen(urlImagen: propiedad.fotos[0])
-                    self.tipoInmueble.text = propiedad.tipo
-                    self.precio.text = propiedad.precio
-                    self.estado.text = propiedad.estado
-                    self.municipio.text = propiedad.municipio
-                    
-                    activityIndicator.stopAnimating()
-                    background.removeFromSuperview()
-                })
-                
-            }
-        }.resume()
-        
-    }
     
     
-    func verificarDatos(){
-        //indicador de loading
-//        let activityIndicator = UIActivityIndicatorView()
-//        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
-//        background.center = self.view.center
-//        view.addSubview(background)
-//        activityIndicator.startAnimating()
-        
-        
-        if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
-            let url = "http://18.221.106.92/api/public/user/" + String(userId)
-            
-            guard let urlInfo = URL(string: url) else{ print("ERROR en URL"); return}
-            
-            var request = URLRequest(url: urlInfo)
-            request.httpMethod = "GET"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            let session = URLSession.shared
-            
-            session.dataTask(with: request){(data,response,error) in
-                if(error == nil){
-                    if let data = data{
-                        do{
-                            let jsonResponse = try JSONSerialization.jsonObject(with: data) as! [String:Any?]
-                            print("*****************Json de Informacion Usuario*****************")
-                            print(jsonResponse)
-                            
-                            self.json = jsonResponse
-                            
-                        }catch{
-                            print(error)
-                        }
-                        
-                    }
-                    
-                    OperationQueue.main.addOperation({
-//                        activityIndicator.stopAnimating()
-//                        background.removeFromSuperview()
-                        if let nom = self.json["name"] as? String{
-                            self.nombre.text = nom
-                        }
-                        if let ap1 = self.json["apellidoPaterno"] as? String{
-                            self.primerApellido.text = ap1
-                        }
-                        if let ap2 = self.json["apellidoMaterno"] as? String{
-                            self.segundoApellido.text = ap2
-                        }
-                        if let fec = self.json["fecha_nacimiento"] as? String{
-                            self.fechaNacimiento.text = fec
-                        }
-                        if let tel = self.json["tel"] as? String{
-                            self.telefono.text = tel
-                        }
-                        if let email = self.json["email"] as? String{
-                            self.correoElectronico.text = email
-                        }
-                        if let r_f_c = self.json["rfc"] as? String{
-                            self.rfc.text = r_f_c
-                        }
-                        if let dir = self.json["direccion"] as? String{
-                            self.direccion.text = dir
-                        }
-                        
-                        let alert = UIAlertController(title: "Aviso", message: "Verifique sus datos para continuar", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                        self.present(alert,animated:true,completion:nil)
-                        
-                    })
-                    
-                    
-                }
-            }.resume()
-        }
-    }
     
-    @objc func enviarDatos(tapGestureRecognizer: UITapGestureRecognizer) {
-        
-        let urlOferta = "http://18.221.106.92/api/public/oferta/user"
-        
-        if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
-            let parameters: [String:Any?] = [
-                "user_id" :  String(userId),
-                "nombre" : nombre.text,
-                "primerApellido" : primerApellido.text,
-                "segundoApellido" : segundoApellido.text,
-                "fecha_nacimiento" : fechaNacimiento.text,
-                "telefono" : telefono.text,
-                "rfc" : rfc.text,
-                "direccion" : direccion.text
-            ]
-            
-            guard let url = URL(string: urlOferta) else { return }
-            
-            var request = URLRequest (url: url)
-            request.httpMethod = "POST"
-            
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            } catch let error {
-                print(error.localizedDescription)
-            }
-            
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            
-            let session  = URLSession.shared
-            
-            session.dataTask(with: request) { (data, response, error) in
-                
-                if let response = response {
-                    print(response)
-                }
-                
-                if let data = data {
-                    
-                    do {
-                        let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
-                        
-                        print(json)
-                        
-                    } catch {
-                        print("El error es: ")
-                        print(error)
-                    }
-                    
-                }
-            }.resume()
-            
-            OperationQueue.main.addOperation({
-                let alert = UIAlertController(title: "Aviso", message: "Datos guardados", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert,animated:true,completion:nil)
-            })
-            
-        }
-    }
+
     
     
     func rowDocumento(documento: String, posicion: CGFloat) -> UIView{
@@ -1037,6 +664,7 @@ extension NuevoBrokerageViewController: UIPickerViewDelegate,UIPickerViewDataSou
         
         if(pickerView.tag == 10){
             self.indexMonto = row;
+            self.montoInversion = dataMonto[row]
             self.txFlMontoInversion.text = "$ "+numberF.string(from: NSNumber(value: dataMonto[row]))!;
         }else{
             self.indexTiempo = row;
@@ -1049,6 +677,8 @@ extension NuevoBrokerageViewController: UIPickerViewDelegate,UIPickerViewDataSou
         let total = res_mes * dataTiempo[indexTiempo]
         
         rendimientoMensual.text = "$ "+numberF.string(from: NSNumber(value: res_mes))!
+        
+        rendimientoAnual = "$ "+numberF.string(from: NSNumber(value: (res_mes * 12)))!
         
         rendimientoTotal.text = "$ "+numberF.string(from: NSNumber(value: total ) )!
     }

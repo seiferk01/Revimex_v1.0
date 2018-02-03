@@ -71,5 +71,22 @@ class LineasInfoController: UIViewController {
         self.setCustomBackgroundAndNavbar()
     }
     
+    @IBAction func comenzar(_ sender: Any) {
+        
+        if (UserDefaults.standard.object(forKey: "userId") as? Int) != nil{
+            performSegue(withIdentifier: "infoLineasToMisLineas", sender: nil)
+        }
+        else{
+            self.present(Utilities.showAlertSimple("Aviso","Inicia sesion para probar nuestras lineas de negocio"), animated: true, completion: {
+                OperationQueue.main.addOperation({
+                    self.performSegue(withIdentifier: "infoLineasToLogin", sender: nil)
+                })
+            })
+        }
+        
+        
+    }
+    
+    
 
 }

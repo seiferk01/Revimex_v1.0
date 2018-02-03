@@ -47,12 +47,14 @@ class DescriptionViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
         
+        descripcionBtn.frame = CGRect(x:0, y:view.bounds.height - 40, width: view.bounds.width/2, height:40)
         descripcionBtn.setTitleColor(azul, for: .normal)
-        descripcionBtn.layer.borderWidth = 1
+        descripcionBtn.layer.borderWidth = 0.5
         descripcionBtn.layer.borderColor = azul?.cgColor
         
+        serviciosBtn.frame = CGRect(x:view.bounds.width/2, y:view.bounds.height - 40, width: view.bounds.width/2, height:40)
         serviciosBtn.setTitleColor(UIColor.white, for: .normal)
-        serviciosBtn.layer.borderWidth = 1
+        serviciosBtn.layer.borderWidth = 0.5
         serviciosBtn.layer.borderColor = UIColor.white.cgColor
         
         let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))

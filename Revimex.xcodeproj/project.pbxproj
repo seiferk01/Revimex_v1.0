@@ -115,6 +115,13 @@
 		52590F592008409300742E31 /* InversionesViewCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52590F582008409200742E31 /* InversionesViewCellController.swift */; };
 		52590F5B20096DE300742E31 /* backBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 52590F5A20096DE100742E31 /* backBtn.png */; };
 		52590F5D200D30C100742E31 /* DatosInversionistaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52590F5C200D30B000742E31 /* DatosInversionistaController.swift */; };
+		5269AD8F2022B1D30076FCF6 /* DatosUsuarioInversionistaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5269AD8E2022B1D30076FCF6 /* DatosUsuarioInversionistaController.swift */; };
+		5269AD91202386760076FCF6 /* BrokerageTableCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5269AD90202386760076FCF6 /* BrokerageTableCellController.swift */; };
+		5269AD942023DFE10076FCF6 /* movimientosDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = 5269AD922023DFDF0076FCF6 /* movimientosDisable.png */; };
+		5269AD952023DFE10076FCF6 /* movimientos.png in Resources */ = {isa = PBXBuildFile; fileRef = 5269AD932023DFE00076FCF6 /* movimientos.png */; };
+		5277E69B2024E009009C25A8 /* PropiedadBrokerage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5277E69A2024E009009C25A8 /* PropiedadBrokerage.swift */; };
+		528FBDB9202128BF00911BC4 /* EtapasBrokerageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FBDB8202128BF00911BC4 /* EtapasBrokerageController.swift */; };
+		528FBDBB20215D4100911BC4 /* DetallesPropiedadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FBDBA20215D4100911BC4 /* DetallesPropiedadController.swift */; };
 		52D8A5B620102C89002B7D13 /* cargandoFotos.gif in Resources */ = {isa = PBXBuildFile; fileRef = 52D8A5B520102C86002B7D13 /* cargandoFotos.gif */; };
 		52D8A5BA20125F74002B7D13 /* NuevoBrokerage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D8A5B920125F6E002B7D13 /* NuevoBrokerage.swift */; };
 		52D8A5BC2016CDAD002B7D13 /* formasPago.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D8A5BB2016CD98002B7D13 /* formasPago.png */; };
@@ -235,6 +242,14 @@
 		52590F582008409200742E31 /* InversionesViewCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InversionesViewCellController.swift; sourceTree = "<group>"; };
 		52590F5A20096DE100742E31 /* backBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backBtn.png; sourceTree = "<group>"; };
 		52590F5C200D30B000742E31 /* DatosInversionistaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatosInversionistaController.swift; sourceTree = "<group>"; };
+		525C6C3D201FD1DF008400D9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5269AD8E2022B1D30076FCF6 /* DatosUsuarioInversionistaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatosUsuarioInversionistaController.swift; sourceTree = "<group>"; };
+		5269AD90202386760076FCF6 /* BrokerageTableCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrokerageTableCellController.swift; sourceTree = "<group>"; };
+		5269AD922023DFDF0076FCF6 /* movimientosDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movimientosDisable.png; sourceTree = "<group>"; };
+		5269AD932023DFE00076FCF6 /* movimientos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movimientos.png; sourceTree = "<group>"; };
+		5277E69A2024E009009C25A8 /* PropiedadBrokerage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropiedadBrokerage.swift; sourceTree = "<group>"; };
+		528FBDB8202128BF00911BC4 /* EtapasBrokerageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtapasBrokerageController.swift; sourceTree = "<group>"; };
+		528FBDBA20215D4100911BC4 /* DetallesPropiedadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetallesPropiedadController.swift; sourceTree = "<group>"; };
 		52D8A5B520102C86002B7D13 /* cargandoFotos.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = cargandoFotos.gif; sourceTree = "<group>"; };
 		52D8A5B920125F6E002B7D13 /* NuevoBrokerage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuevoBrokerage.swift; sourceTree = "<group>"; };
 		52D8A5BB2016CD98002B7D13 /* formasPago.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = formasPago.png; sourceTree = "<group>"; };
@@ -308,8 +323,13 @@
 			isa = PBXGroup;
 			children = (
 				524EBBB21FF6E13C00C31D0A /* MisBrokerageViewController.swift */,
+				52D8A5B920125F6E002B7D13 /* NuevoBrokerage.swift */,
 				524EBBB31FF6E13C00C31D0A /* NuevoBrokerageCellController.swift */,
 				524EBBB41FF6E13C00C31D0A /* NuevoBrokerageViewController.swift */,
+				528FBDB8202128BF00911BC4 /* EtapasBrokerageController.swift */,
+				528FBDBA20215D4100911BC4 /* DetallesPropiedadController.swift */,
+				5269AD8E2022B1D30076FCF6 /* DatosUsuarioInversionistaController.swift */,
+				5269AD90202386760076FCF6 /* BrokerageTableCellController.swift */,
 			);
 			path = Brokerage;
 			sourceTree = "<group>";
@@ -372,6 +392,8 @@
 				524EBB651FF6E0FA00C31D0A /* menu-vertical-24.png */,
 				524EBB5D1FF6E0F700C31D0A /* menu-vertical-100.png */,
 				524EBB501FF6E0F200C31D0A /* mercadoAbierto.jpeg */,
+				5269AD932023DFE00076FCF6 /* movimientos.png */,
+				5269AD922023DFDF0076FCF6 /* movimientosDisable.png */,
 				524EBB481FF6E0EF00C31D0A /* navBarBackground.png */,
 				524EBB551FF6E0F400C31D0A /* park.png */,
 				524EBB531FF6E0F300C31D0A /* parques.png */,
@@ -407,7 +429,7 @@
 				524EBBC71FF6E48300C31D0A /* Favorito.swift */,
 				524EBBC61FF6E48300C31D0A /* Usuario.swift */,
 				524EBBC81FF6E48300C31D0A /* Utilities.swift */,
-				52D8A5B920125F6E002B7D13 /* NuevoBrokerage.swift */,
+				5277E69A2024E009009C25A8 /* PropiedadBrokerage.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -534,6 +556,7 @@
 		F65E51813E7BA7EED7FADA56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				525C6C3D201FD1DF008400D9 /* AVFoundation.framework */,
 				F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */,
 			);
 			name = Frameworks;
@@ -642,6 +665,7 @@
 				524EBB741FF6E0FF00C31D0A /* compartir.ico in Resources */,
 				524EBB7A1FF6E0FF00C31D0A /* habitaciones.png in Resources */,
 				524EBB821FF6E0FF00C31D0A /* Tiendas.png in Resources */,
+				5269AD952023DFE10076FCF6 /* movimientos.png in Resources */,
 				524EBA941FF6CFA600C31D0A /* Assets.xcassets in Resources */,
 				52D8A5BC2016CDAD002B7D13 /* formasPago.png in Resources */,
 				524EBB841FF6E0FF00C31D0A /* banClienteFinal.png in Resources */,
@@ -658,6 +682,7 @@
 				5205B2CF2018EEB100CB353D /* GoogleService-Info.plist in Resources */,
 				524EBB791FF6E0FF00C31D0A /* convenience_store.png in Resources */,
 				524EBBA41FF6E0FF00C31D0A /* favoritoSeleccionado.png in Resources */,
+				5269AD942023DFE10076FCF6 /* movimientosDisable.png in Resources */,
 				524EBBAC1FF6E12D00C31D0A /* FormView.xib in Resources */,
 				524EBB891FF6E0FF00C31D0A /* info.png in Resources */,
 				524EBB981FF6E0FF00C31D0A /* houseMarker.png in Resources */,
@@ -774,8 +799,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5277E69B2024E009009C25A8 /* PropiedadBrokerage.swift in Sources */,
 				524EBB371FF6E0A000C31D0A /* DetallesInmuebleController.swift in Sources */,
 				524EBA871FF6CFA600C31D0A /* MisPropiedadesController.swift in Sources */,
+				528FBDBB20215D4100911BC4 /* DetallesPropiedadController.swift in Sources */,
 				524EBBCB1FF6E48300C31D0A /* Usuario.swift in Sources */,
 				524EBA9A1FF6CFA600C31D0A /* MisPropiedadesCellController.swift in Sources */,
 				524EBBCC1FF6E48300C31D0A /* Favorito.swift in Sources */,
@@ -792,6 +819,7 @@
 				524EBA801FF6CFA600C31D0A /* CarritoController.swift in Sources */,
 				524EBA8B1FF6CFA600C31D0A /* LineasInfoController.swift in Sources */,
 				524EBA8D1FF6CFA600C31D0A /* DatosPrincipalesCellController.swift in Sources */,
+				5269AD91202386760076FCF6 /* BrokerageTableCellController.swift in Sources */,
 				524EBBB61FF6E13D00C31D0A /* NuevoBrokerageCellController.swift in Sources */,
 				524EBBAE1FF6E12D00C31D0A /* UserInfoCell.swift in Sources */,
 				524EBA861FF6CFA600C31D0A /* MapaUbicacionInmueble.swift in Sources */,
@@ -809,9 +837,11 @@
 				524EBA8E1FF6CFA600C31D0A /* InfoUserController.swift in Sources */,
 				524EBA8A1FF6CFA600C31D0A /* DatosPersonalesCellController.swift in Sources */,
 				524EBBCF1FFC69FD00C31D0A /* MisLineasController.swift in Sources */,
+				5269AD8F2022B1D30076FCF6 /* DatosUsuarioInversionistaController.swift in Sources */,
 				524EBA901FF6CFA600C31D0A /* LogInController.swift in Sources */,
 				524EBBCD1FF6E48300C31D0A /* Utilities.swift in Sources */,
 				524EBA841FF6CFA600C31D0A /* CuentasAsociadasCellController.swift in Sources */,
+				528FBDB9202128BF00911BC4 /* EtapasBrokerageController.swift in Sources */,
 				524EBA991FF6CFA600C31D0A /* RowButtonsCellController.swift in Sources */,
 				524EBA9B1FF6CFA600C31D0A /* FotosInmuebleCellController.swift in Sources */,
 				52590F592008409300742E31 /* InversionesViewCellController.swift in Sources */,

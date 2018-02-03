@@ -80,16 +80,9 @@ class NuevoBrokerageCellController: UITableViewCell {
     }
     
     @IBAction func continuar(_ sender: Any) {
-        UIView.animate(withDuration: 1, animations: {
-            instanciaNuevoBrokerageViewController.contenedorDatos.alpha = 0
-            instanciaNuevoBrokerageViewController.tableBrokerage.alpha = 0
-            instanciaNuevoBrokerageViewController.descripcion.alpha = 1
-            instanciaNuevoBrokerageViewController.datosUsuario.alpha = 1
-        },completion: nil)
         
-        instanciaNuevoBrokerageViewController.idBrokerageSeleccionado = idBrokerage
-        instanciaNuevoBrokerageViewController.requestDetails()
-        instanciaNuevoBrokerageViewController.verificarDatos()
+        etapaBrokerage = "DatosPropiedad"
+        idOfertaSeleccionada = String(idBrokerage)
         
     }
     
