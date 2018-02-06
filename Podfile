@@ -21,6 +21,7 @@ target 'Revimex' do
   pod 'GooglePlacePicker'
   pod 'Mapbox-iOS-SDK', '~> 3.7'
   pod 'GoogleSignIn'
+  pod 'EPSignature'
 
 
 end

@@ -40,13 +40,27 @@ class EtapasBrokerageController: UIViewController {
     
     var detallesPropiedad:UIViewController?
     var datosUsuario:UIViewController?
-    
+    var cargaDocumentos:UIViewController?
+    var validacionDocumentos:UIViewController?
+    var realizarPago:UIViewController?
+    var firmaContrato:UIViewController?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         instanciaEtapasBrokerageController = self
+        
+        
+        detallesPropiedad = storyboard?.instantiateViewController(withIdentifier: "BrokerageDetallesPropiedad") as! DetallesPropiedadController
+        datosUsuario = storyboard?.instantiateViewController(withIdentifier: "BrokerageDatosUsuarioInversionista") as! DatosUsuarioInversionistaController
+        cargaDocumentos = storyboard?.instantiateViewController(withIdentifier: "BrokerageDocumentosInversionista") as! DocumentosInversionistaController
+        validacionDocumentos = storyboard?.instantiateViewController(withIdentifier: "BrokerageValidarDocumentos") as! ValidacionDocumentosController
+        realizarPago = storyboard?.instantiateViewController(withIdentifier: "BrokerageRealizarPago") as! RealizarPagoController
+        firmaContrato = storyboard?.instantiateViewController(withIdentifier: "BrokerageFirmaContrato") as! FirmaContratoController
+        
+        arrayViews = [detallesPropiedad,datosUsuario,cargaDocumentos,validacionDocumentos,realizarPago,firmaContrato]
+        
         
         ancho = view.bounds.width
         largo = view.bounds.height
@@ -303,10 +317,6 @@ class EtapasBrokerageController: UIViewController {
         
          print(etapaBrokerage)
         
-        detallesPropiedad = storyboard?.instantiateViewController(withIdentifier: "BrokerageDetallesPropiedad") as! DetallesPropiedadController
-        datosUsuario = storyboard?.instantiateViewController(withIdentifier: "BrokerageDatosUsuarioInversionista") as! DatosUsuarioInversionistaController
-        
-        arrayViews = [detallesPropiedad,datosUsuario]
         
         switch etapaBrokerage {
         case "DatosPropiedad":
@@ -322,7 +332,24 @@ class EtapasBrokerageController: UIViewController {
             break
         case "datos_usuario":
             
-            actualViewController = arrayViews[1]
+            actualViewController = arrayViews[2]
+            
+            break
+        case "documentos_usuario":
+            
+            registrarProgreso(estatus: etapaBrokerage)
+            actualViewController = arrayViews[3]
+            
+            break
+        case "":
+            
+            actualViewController = arrayViews[4]
+            
+            break
+        case "pago_realizado":
+            
+            registrarProgreso(estatus: etapaBrokerage)
+            actualViewController = arrayViews[5]
             
             break
         default:
@@ -335,6 +362,8 @@ class EtapasBrokerageController: UIViewController {
         
     }
     
+    
+    //registra el progreso de la etapa del brokerage
     func registrarProgreso(estatus: String){
         
         let activityIndicator = UIActivityIndicatorView()

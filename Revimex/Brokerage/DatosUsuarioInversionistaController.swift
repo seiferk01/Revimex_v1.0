@@ -206,93 +206,96 @@ class DatosUsuarioInversionistaController: UIViewController {
     }
     
     
-        @objc func enviarDatos(tapGestureRecognizer: UITapGestureRecognizer) {
-            
-            let activityIndicator = UIActivityIndicatorView()
-            let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
-            background.center = self.view.center
-            self.view.addSubview(background)
-            activityIndicator.startAnimating()
-            
-            let estatus = "datos_usuario"
-            var respuesta = "x"
-    
-            let urlOferta = "http://18.221.106.92/api/public/brokerage/progressUser"
-    
-            if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
-                let parameters: [String:Any?] = [
-                    "id_prop" : propiedad.Id,
-                    "user_id" : String(userId),
-                    "inv_nombre" : nombre.text,
-                    "inv_primer_apellido" : primerApellido.text,
-                    "inv_segundo_apellido" : segundoApellido.text,
-                    "inv_fecha_nacimiento" : fechaNacimiento.text,
-                    "inv_telefono" : telefono.text,
-                    "inv_correo" : correoElectronico.text,
-                    "inv_rfc" : rfc.text,
-                    "inv_direccion" : direccion.text,
-                    "estatus" : estatus
-                ]
-    
-                guard let url = URL(string: urlOferta) else { return }
-    
-                var request = URLRequest (url: url)
-                request.httpMethod = "POST"
-    
-                do {
-                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-    
-                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-    
-                let session  = URLSession.shared
-    
-                session.dataTask(with: request) { (data, response, error) in
-    
-                    if let response = response {
-                        print(response)
-                    }
-    
-                    if let data = data {
-    
-                        do {
-                            let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
-    
-                            print(json)
-                            print(json["message"])
-                            if let msg = json["message"] as? String{
-                                respuesta = msg
-                            }
-    
-                        } catch {
-                            print("El error es: ")
-                            print(error)
-                        }
-    
-                    }
-                }.resume()
-    
-                OperationQueue.main.addOperation({
-                    
-                    activityIndicator.stopAnimating()
-                    background.removeFromSuperview()
-    
-                    let alert = UIAlertController(title: "Aviso", message: respuesta, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert,animated:true,completion:nil)
-                    
-                    if respuesta == "Se registro correctamente el avance"{
-                        instanciaEtapasBrokerageController.mostrarEtapa(estatus: estatus)
-                    }
-                    
-    
-                })
-    
+    @objc func enviarDatos(tapGestureRecognizer: UITapGestureRecognizer) {
+        
+        let activityIndicator = UIActivityIndicatorView()
+        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
+        background.center = self.view.center
+        self.view.addSubview(background)
+        activityIndicator.startAnimating()
+        
+        let estatus = "datos_usuario"
+        var respuesta = "Respuesta no recibida"
+
+        let urlOferta = "http://18.221.106.92/api/public/brokerage/progressUser"
+
+        if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
+            let parameters: [String:Any?] = [
+                "id_prop" : propiedad.Id,
+                "user_id" : String(userId),
+                "inv_nombre" : nombre.text,
+                "inv_primer_apellido" : primerApellido.text,
+                "inv_segundo_apellido" : segundoApellido.text,
+                "inv_fecha_nacimiento" : fechaNacimiento.text,
+                "inv_telefono" : telefono.text,
+                "inv_correo" : correoElectronico.text,
+                "inv_rfc" : rfc.text,
+                "inv_direccion" : direccion.text,
+                "estatus" : estatus
+            ]
+
+            guard let url = URL(string: urlOferta) else { return }
+
+            var request = URLRequest (url: url)
+            request.httpMethod = "POST"
+
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            } catch let error {
+                print(error.localizedDescription)
             }
+
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+
+            let session  = URLSession.shared
+
+            session.dataTask(with: request) { (data, response, error) in
+
+                if let response = response {
+                    print(response)
+                }
+
+                if let data = data {
+
+                    do {
+                        let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
+
+                        print(json)
+                        print(json["message"])
+                        
+                        if let msg = json["message"] as? String{
+                            respuesta = msg
+                        }
+
+                    } catch {
+                        print("El error es: ")
+                        print(error)
+                    }
+                    
+                    OperationQueue.main.addOperation({
+                        
+                        activityIndicator.stopAnimating()
+                        background.removeFromSuperview()
+                        
+                        let alert = UIAlertController(title: "Aviso", message: respuesta, preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert,animated:true,completion:nil)
+                        
+                        if respuesta == "Se registro correctamente el avance"{
+                            instanciaEtapasBrokerageController.mostrarEtapa(estatus: estatus)
+                        }
+                        
+                        
+                    })
+
+                }
+            }.resume()
+
+            
+
         }
+    }
 
 
 }

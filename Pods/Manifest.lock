@@ -1,10 +1,11 @@
 PODS:
-  - Bolts (1.8.4):
-    - Bolts/AppLinks (= 1.8.4)
-    - Bolts/Tasks (= 1.8.4)
-  - Bolts/AppLinks (1.8.4):
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.8.4)
+  - Bolts/Tasks (1.9.0)
+  - EPSignature (1.0.4)
   - Eureka (4.0.1)
   - FacebookCore (0.3.0):
     - Bolts (~> 1.8)
@@ -19,12 +20,12 @@ PODS:
     - FacebookCore (~> 0.3)
     - FBSDKCoreKit (~> 4.27)
     - FBSDKShareKit (~> 4.27)
-  - FBSDKCoreKit (4.29.0):
+  - FBSDKCoreKit (4.30.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.29.0):
+  - FBSDKLoginKit (4.30.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.29.0):
-    - FBSDKCoreKit
+  - FBSDKShareKit (4.30.0):
+    - FBSDKCoreKit (~> 4.30.0)
   - FontAwesome.swift (1.3.2)
   - GoogleMaps (2.5.0):
     - GoogleMaps/Maps (= 2.5.0)
@@ -36,7 +37,7 @@ PODS:
     - GooglePlaces (= 2.5.0)
   - GooglePlaces (2.5.0):
     - GoogleMaps/Base (= 2.5.0)
-  - GoogleSignIn (4.1.1):
+  - GoogleSignIn (4.1.2):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
     - GTMOAuth2 (~> 1.0)
@@ -51,26 +52,27 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.12):
-    - GTMSessionFetcher/Full (= 1.1.12)
-  - GTMSessionFetcher/Core (1.1.12)
-  - GTMSessionFetcher/Full (1.1.12):
-    - GTMSessionFetcher/Core (= 1.1.12)
-  - ImageSlideshow (1.4.1):
-    - ImageSlideshow/Core (= 1.4.1)
-  - ImageSlideshow/Core (1.4.1)
+  - GTMSessionFetcher (1.1.13):
+    - GTMSessionFetcher/Full (= 1.1.13)
+  - GTMSessionFetcher/Core (1.1.13)
+  - GTMSessionFetcher/Full (1.1.13):
+    - GTMSessionFetcher/Core (= 1.1.13)
+  - ImageSlideshow (1.5.1):
+    - ImageSlideshow/Core (= 1.5.1)
+  - ImageSlideshow/Core (1.5.1)
   - IQKeyboardManagerSwift (5.0.7)
-  - Mapbox-iOS-SDK (3.7.2)
-  - MapboxGeocoder.swift (0.7.0)
-  - Material (2.13.0):
-    - Material/Core (= 2.13.0)
-  - Material/Core (2.13.0):
+  - Mapbox-iOS-SDK (3.7.3)
+  - MapboxGeocoder.swift (0.8.0)
+  - Material (2.13.5):
+    - Material/Core (= 2.13.5)
+  - Material/Core (2.13.5):
     - Motion (~> 1.3.0)
-  - Motion (1.3.0):
-    - Motion/Core (= 1.3.0)
-  - Motion/Core (1.3.0)
+  - Motion (1.3.4):
+    - Motion/Core (= 1.3.4)
+  - Motion/Core (1.3.4)
 
 DEPENDENCIES:
+  - EPSignature
   - Eureka
   - FacebookCore
   - FacebookLogin
@@ -87,29 +89,30 @@ DEPENDENCIES:
   - Material (~> 2.0)
 
 SPEC CHECKSUMS:
-  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  EPSignature: a56bf2c41abc165bf2d0efb955b1c05dcabdcfa3
   Eureka: c8bd5cc07143b6f66268c208d28a246c99b41955
   FacebookCore: 3ffa190a3f1f96cec0e44d3fc221bc322c595ffa
   FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
   FacebookShare: 0469964297ebd75f052be2c5083389a4208e82b7
-  FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
-  FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
-  FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
+  FBSDKCoreKit: 7c4bba2877781a131ab5d54c0a78c405d4307b62
+  FBSDKLoginKit: fe7a7e82373dc5daad92e1623219e86224ab1fb1
+  FBSDKShareKit: a9427574b51bde4f437262c3f118c4ccfddeef6c
   FontAwesome.swift: b4e4c8ccbbecb12f9b592bc533ff237af3706667
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   GooglePlacePicker: 1573e644ab54564d95c2643edc0f29091609e966
   GooglePlaces: dd70d9d71ea1c7944846afe67de3712c99b30a77
-  GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
+  GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
-  ImageSlideshow: 1bb0e610e28a71e8936d57265d882f61714a470b
+  GTMSessionFetcher: 5bb1eae636127de695590f50e7d248483eb891e6
+  ImageSlideshow: ae3de479b8c70dc751142d21573f5a28dbb97d4d
   IQKeyboardManagerSwift: 30fb3a61de1af53a95e02b80fb54ed0a19d5ede5
-  Mapbox-iOS-SDK: d882f53debc26649b728755df5b7a160d9086367
-  MapboxGeocoder.swift: b1277a2ca6a63c1a8edfa82871f5771075b1e015
-  Material: eb21f195af9944f4002c219a6dadfc78d0242efc
-  Motion: 1dcb3db74e157a4ba79ad99b5d437fe0222f1ddc
+  Mapbox-iOS-SDK: 5304bd9605babe6da9050ea4cb23c1671420b737
+  MapboxGeocoder.swift: 16e8488bbb81a5036b9a11d4d7714200337db86b
+  Material: ced3fd11882147b135f897ca20227174bb104ad0
+  Motion: 85b8777db2e68801c03a5c629e918c35dd184c8d
 
-PODFILE CHECKSUM: c7e554558d5406c7a7d96dca4074785d71ddc638
+PODFILE CHECKSUM: cf1ac2d09052ecb9e6d127ddc068106acd14600a
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0

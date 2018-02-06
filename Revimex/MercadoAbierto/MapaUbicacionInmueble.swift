@@ -143,7 +143,7 @@ class MapaUbicacionInmueble: UIViewController,MGLMapViewDelegate,UIGestureRecogn
             guard let marcas = placemarks else{return;};
             for marca in  marcas{
                 let tempAnnotation = MGLPointAnnotation();
-                tempAnnotation.coordinate = marca.location.coordinate;
+                tempAnnotation.coordinate = (marca.location?.coordinate)!;
                 self.posiblesPropiedades.append(tempAnnotation);
             }
             

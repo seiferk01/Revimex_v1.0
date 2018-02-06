@@ -59,6 +59,7 @@ class BrokerageTableCellController: UITableViewCell {
     }
     
     
+    //Lee el estatus que tiene la propiedad seleccionada y lo tranfoma en el parametro necesario para enviar al servicio
     @IBAction func retomar(_ sender: Any) {
         
         idOfertaSeleccionada = detallesBrokerage.id_ai
@@ -69,6 +70,15 @@ class BrokerageTableCellController: UITableViewCell {
             break
         case "Propiedad apartada":
             estatus = "activo"
+            break
+        case "Datos de usuario registrado":
+            estatus = "datos_usuario"
+            break
+        case "Documentos de usuario registrado":
+            estatus = "documentos_usuario"
+            break
+        case "Pago realizado":
+            estatus = "pago_realizado"
             break
         default:
             estatus = "activo"

@@ -127,6 +127,11 @@
 		52D8A5BC2016CDAD002B7D13 /* formasPago.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D8A5BB2016CD98002B7D13 /* formasPago.png */; };
 		52D8A5BE2016D323002B7D13 /* contratoDemo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52D8A5BD2016D322002B7D13 /* contratoDemo.jpg */; };
 		8A76A7A86CA34F241DDD9AF9 /* Pods_Revimex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */; };
+		C400A8B02029342E0018F32E /* aprovado.png in Resources */ = {isa = PBXBuildFile; fileRef = C400A8AF2029342E0018F32E /* aprovado.png */; };
+		C400A8B2202936BC0018F32E /* RealizarPagoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400A8B1202936BC0018F32E /* RealizarPagoController.swift */; };
+		C43473BA2028E29900B34DB3 /* DocumentosInversionistaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43473B92028E29900B34DB3 /* DocumentosInversionistaController.swift */; };
+		C43473BC202918E500B34DB3 /* FirmaContratoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43473BB202918E500B34DB3 /* FirmaContratoController.swift */; };
+		C43473BE202927E900B34DB3 /* ValidacionDocumentosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43473BD202927E900B34DB3 /* ValidacionDocumentosController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -255,6 +260,11 @@
 		52D8A5BB2016CD98002B7D13 /* formasPago.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = formasPago.png; sourceTree = "<group>"; };
 		52D8A5BD2016D322002B7D13 /* contratoDemo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = contratoDemo.jpg; sourceTree = "<group>"; };
 		750D9608BEC693F8EAD3A928 /* Pods-Revimex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Revimex.release.xcconfig"; path = "Pods/Target Support Files/Pods-Revimex/Pods-Revimex.release.xcconfig"; sourceTree = "<group>"; };
+		C400A8AF2029342E0018F32E /* aprovado.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aprovado.png; sourceTree = "<group>"; };
+		C400A8B1202936BC0018F32E /* RealizarPagoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealizarPagoController.swift; sourceTree = "<group>"; };
+		C43473B92028E29900B34DB3 /* DocumentosInversionistaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentosInversionistaController.swift; sourceTree = "<group>"; };
+		C43473BB202918E500B34DB3 /* FirmaContratoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirmaContratoController.swift; sourceTree = "<group>"; };
+		C43473BD202927E900B34DB3 /* ValidacionDocumentosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidacionDocumentosController.swift; sourceTree = "<group>"; };
 		F11FB2C85841A7444DC40362 /* Pods_Revimex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Revimex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -323,13 +333,17 @@
 			isa = PBXGroup;
 			children = (
 				524EBBB21FF6E13C00C31D0A /* MisBrokerageViewController.swift */,
+				5269AD90202386760076FCF6 /* BrokerageTableCellController.swift */,
 				52D8A5B920125F6E002B7D13 /* NuevoBrokerage.swift */,
 				524EBBB31FF6E13C00C31D0A /* NuevoBrokerageCellController.swift */,
 				524EBBB41FF6E13C00C31D0A /* NuevoBrokerageViewController.swift */,
 				528FBDB8202128BF00911BC4 /* EtapasBrokerageController.swift */,
 				528FBDBA20215D4100911BC4 /* DetallesPropiedadController.swift */,
 				5269AD8E2022B1D30076FCF6 /* DatosUsuarioInversionistaController.swift */,
-				5269AD90202386760076FCF6 /* BrokerageTableCellController.swift */,
+				C43473B92028E29900B34DB3 /* DocumentosInversionistaController.swift */,
+				C43473BD202927E900B34DB3 /* ValidacionDocumentosController.swift */,
+				C400A8B1202936BC0018F32E /* RealizarPagoController.swift */,
+				C43473BB202918E500B34DB3 /* FirmaContratoController.swift */,
 			);
 			path = Brokerage;
 			sourceTree = "<group>";
@@ -350,6 +364,7 @@
 		524EBAC31FF6D5C500C31D0A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C400A8AF2029342E0018F32E /* aprovado.png */,
 				52590F5A20096DE100742E31 /* backBtn.png */,
 				524EBB431FF6E0ED00C31D0A /* banBrokerage.png */,
 				524EBB4F1FF6E0F100C31D0A /* banClienteFinal.png */,
@@ -652,6 +667,7 @@
 				524EBB9A1FF6E0FF00C31D0A /* menu-vertical-24.png in Resources */,
 				524EBB901FF6E0FF00C31D0A /* revimexBienvenida.jpg in Resources */,
 				524EBB8C1FF6E0FF00C31D0A /* facebook.png in Resources */,
+				C400A8B02029342E0018F32E /* aprovado.png in Resources */,
 				524EBB881FF6E0FF00C31D0A /* parques.png in Resources */,
 				524EBB9E1FF6E0FF00C31D0A /* revimex.png in Resources */,
 				524EBB8B1FF6E0FF00C31D0A /* filterButton.png in Resources */,
@@ -713,7 +729,10 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlacePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -746,6 +765,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Revimex/Pods-Revimex-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/EPSignature/EPSignature.framework",
 				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -768,6 +788,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EPSignature.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
@@ -820,13 +841,16 @@
 				524EBA8B1FF6CFA600C31D0A /* LineasInfoController.swift in Sources */,
 				524EBA8D1FF6CFA600C31D0A /* DatosPrincipalesCellController.swift in Sources */,
 				5269AD91202386760076FCF6 /* BrokerageTableCellController.swift in Sources */,
+				C400A8B2202936BC0018F32E /* RealizarPagoController.swift in Sources */,
 				524EBBB61FF6E13D00C31D0A /* NuevoBrokerageCellController.swift in Sources */,
 				524EBBAE1FF6E12D00C31D0A /* UserInfoCell.swift in Sources */,
 				524EBA861FF6CFA600C31D0A /* MapaUbicacionInmueble.swift in Sources */,
+				C43473BE202927E900B34DB3 /* ValidacionDocumentosController.swift in Sources */,
 				524EBBB01FF6E12D00C31D0A /* InputCellText.swift in Sources */,
 				524EBBB71FF6E13D00C31D0A /* NuevoBrokerageViewController.swift in Sources */,
 				524EBA981FF6CFA600C31D0A /* StockController.swift in Sources */,
 				52D8A5BA20125F74002B7D13 /* NuevoBrokerage.swift in Sources */,
+				C43473BC202918E500B34DB3 /* FirmaContratoController.swift in Sources */,
 				524EBA951FF6CFA600C31D0A /* SubirPropiedadViewController.swift in Sources */,
 				524EBA821FF6CFA600C31D0A /* UbicacionInmuebleController.swift in Sources */,
 				524EBA831FF6CFA600C31D0A /* DescriptionViewController.swift in Sources */,
@@ -844,6 +868,7 @@
 				528FBDB9202128BF00911BC4 /* EtapasBrokerageController.swift in Sources */,
 				524EBA991FF6CFA600C31D0A /* RowButtonsCellController.swift in Sources */,
 				524EBA9B1FF6CFA600C31D0A /* FotosInmuebleCellController.swift in Sources */,
+				C43473BA2028E29900B34DB3 /* DocumentosInversionistaController.swift in Sources */,
 				52590F592008409300742E31 /* InversionesViewCellController.swift in Sources */,
 				524EBA4C1FF6CE7400C31D0A /* AppDelegate.swift in Sources */,
 				524EBBC91FF6E48300C31D0A /* Carrito.swift in Sources */,
