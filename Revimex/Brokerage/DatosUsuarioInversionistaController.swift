@@ -205,7 +205,7 @@ class DatosUsuarioInversionistaController: UIViewController {
         }
     }
     
-    
+    //actualiza los datos del usuario y registra el progreso del brokerage, se envia el estatus "datos_usuario" y la propiedad queda en estatus "Datos de usuario registrado"
     @objc func enviarDatos(tapGestureRecognizer: UITapGestureRecognizer) {
         
         let activityIndicator = UIActivityIndicatorView()

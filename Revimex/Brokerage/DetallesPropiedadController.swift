@@ -130,6 +130,8 @@ class DetallesPropiedadController: UIViewController {
         
     }
     
+    
+    //funcion para apartar la propiedad, envia el estatus "activo", la propiedad quedara con estatus "Propiedad apartada"
     @objc func apartarBrokerage(tapGestureRecognizer: UITapGestureRecognizer) {
         
         let alert = UIAlertController(title: "Confirmar ", message: "¿Estas seguro que deseas aparatar esta propiedad?", preferredStyle: UIAlertControllerStyle.alert)
@@ -146,7 +148,7 @@ class DetallesPropiedadController: UIViewController {
             self.view.addSubview(background)
             activityIndicator.startAnimating()
             
-            let estatus = "datos_usuario"
+            let estatus = "activo"
             var respuesta = ""
             
             let urlRegistro = "http://18.221.106.92/api/public/brokerage/register"

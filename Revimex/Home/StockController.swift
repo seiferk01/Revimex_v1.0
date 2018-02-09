@@ -63,7 +63,7 @@ class StockController: UIViewController,UITableViewDataSource {
         navigationBarSizeWidth = (navigationBarSize?.width)!
         navigationBarSizeHeigth = (navigationBarSize?.height)!
         
-        tableView.backgroundColor = .clear
+//        tableView.backgroundColor = .clear
         
         //inserta la imagen de Bienvenida
         imagenBinvenida.image = UIImage(named: "revimexBienvenida.jpg")
@@ -284,21 +284,23 @@ class StockController: UIViewController,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let row = tableView.dequeueReusableCell(withIdentifier: "row") as! TableViewCell
+        row.contenedorImagen.image = arregloOfertas[indexPath.row].foto
         row.idOfertaActual = arregloOfertas[indexPath.row].id
         row.referencia.textColor = UIColor.white
         row.estado.textColor = UIColor.white
         row.precio.textColor = UIColor.white
-        row.referencia.font = UIFont(name:"HelveticaNeue-Bold", size: 16.0)
-        row.estado.font = UIFont(name:"HelveticaNeue-Bold", size: 16.0)
-        row.precio.font = UIFont(name:"HelveticaNeue-Bold", size: 16.0)
+        row.referencia.placeholderLabel.textColor = UIColor.white
+        row.estado.placeholderLabel.textColor = UIColor.white
+        row.precio.placeholderLabel.textColor = UIColor.white
         row.referencia.text = arregloOfertas[indexPath.row].referencia
         row.estado.text = arregloOfertas[indexPath.row].estado
         row.precio.text = "$" + arregloOfertas[indexPath.row].precio
         row.vistaFoto.image = arregloOfertas[indexPath.row].foto
         row.vistaFoto.contentMode = .scaleAspectFill
+        row.vistaFoto.clipsToBounds = true
         print(indexPath.row)
         
-        row.backgroundColor = .clear
+    
         
         if arregloOfertas.count == (indexPath.row + 1){
             if haySiguiente {

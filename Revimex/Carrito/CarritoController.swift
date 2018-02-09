@@ -33,6 +33,9 @@ class CarritoController: UIViewController,UITableViewDataSource {
     let continuarBtn = UIButton()
     
     var totalPago = "0"
+    var totalOfertado = "0"
+    
+    var datosoferta:[String:Any?] = [:]
     
     var arrayCarritos = [Carrito]()
     
@@ -42,35 +45,13 @@ class CarritoController: UIViewController,UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.navigationController != nil{
-            self.setCustomBackgroundAndNavbar()
-        }
-        else{
-            let regresarPagina = UITapGestureRecognizer(target: self, action: #selector(back(tapGestureRecognizer:)))
-            let regresar = UIButton()
-            regresar.setBackgroundImage(UIImage(named: "backBtn.png"), for: .normal)
-            regresar.frame = CGRect(x:0,y: 20,width:view.bounds.width*0.15,height:view.bounds.width*0.15)
-            regresar.addGestureRecognizer(regresarPagina)
-            view.addSubview(regresar)
-            self.view.backgroundColor = UIColor(patternImage: UIImage(named:"fondo.png")!)
-        }
+        
         instanciaCarritoController = self
         
-        tituloCarrito.isHidden = true
-        contenedorTotales.isHidden = true
-        tablaCarritos.isHidden = true
         
-        crearVista()
+        inicio()
         
-        anchoPantalla = view.bounds.width
-        largoPantalla = view.bounds.height
         
-        if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
-            mostrarCarritos(userId: userId)
-        }
-        else{
-            solicitarRegistro()
-        }
         
     }
     
@@ -94,6 +75,41 @@ class CarritoController: UIViewController,UITableViewDataSource {
         }
         
     }
+    
+    
+    func inicio(){
+        
+        if self.navigationController != nil{
+            self.setCustomBackgroundAndNavbar()
+        }
+        else{
+            let regresarPagina = UITapGestureRecognizer(target: self, action: #selector(back(tapGestureRecognizer:)))
+            let regresar = UIButton()
+            regresar.setBackgroundImage(UIImage(named: "backBtn.png"), for: .normal)
+            regresar.frame = CGRect(x:0,y: 20,width:view.bounds.width*0.15,height:view.bounds.width*0.15)
+            regresar.addGestureRecognizer(regresarPagina)
+            view.addSubview(regresar)
+            self.view.backgroundColor = UIColor(patternImage: UIImage(named:"fondo.png")!)
+        }
+        
+        tituloCarrito.isHidden = true
+        contenedorTotales.isHidden = true
+        tablaCarritos.isHidden = true
+        
+        crearVista()
+        
+        anchoPantalla = view.bounds.width
+        largoPantalla = view.bounds.height
+        
+        if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
+            mostrarCarritos(userId: userId)
+        }
+        else{
+            solicitarRegistro()
+        }
+        
+    }
+    
     
     func crearVista(){
         
@@ -185,6 +201,8 @@ class CarritoController: UIViewController,UITableViewDataSource {
                         self.totalPago = total
                     }
                     if let dat = json["data"] as? NSArray {
+                        
+                        self.datosoferta = ["propiedades":dat]
                         
                         for element in dat {
                             if let carrito = element as? NSDictionary{
@@ -284,41 +302,42 @@ class CarritoController: UIViewController,UITableViewDataSource {
         totalMonto.text = "$"+totalPago
         totalMontoOferta.text = "$"+totalPago
         
-        if arrayCarritos.count > 1{
+        labelOferta.text = "100%"
+        subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.15)
+        total.frame = CGRect(x:0,y:largo*0.15,width:ancho/2,height:largo*0.15)
+        totalOferta.frame = CGRect(x:0,y:largo*0.3,width:ancho/2,height:largo*0.15)
+        subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.15)
+        totalMonto.frame = CGRect(x:ancho/2,y:largo*0.15,width:ancho/2,height:largo*0.15)
+        totalMontoOferta.frame = CGRect(x:ancho/2,y:largo*0.3,width:ancho/2,height:largo*0.15)
+        buttonContainer.frame = CGRect(x:0,y:largo*0.45,width:ancho,height:largo*0.55)
+        tituloOferta.frame = CGRect(x:0,y:0,width:ancho*0.8,height:buttonContainer.bounds.height*0.2)
+        sliderOferta.frame = CGRect(x:ancho*0.05,y:buttonContainer.bounds.height*0.2,width:ancho*0.8,height:buttonContainer.bounds.height*0.4)
+        labelOferta.frame = CGRect(x:ancho*0.85,y:buttonContainer.bounds.height*0.2,width:ancho*0.15,height:buttonContainer.bounds.height*0.4)
+        continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.6 + 1,width:ancho*0.5,height:buttonContainer.bounds.height*0.4 - 6)
+        
+        buttonContainer.addSubview(tituloOferta)
+        buttonContainer.addSubview(sliderOferta)
+        buttonContainer.addSubview(labelOferta)
+        
+        contenedorTotales.addSubview(totalOferta)
+        contenedorTotales.addSubview(totalMontoOferta)
+        
+        if arrayCarritos.count == 1{
             
-            labelOferta.text = "100%"
-            subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.15)
-            total.frame = CGRect(x:0,y:largo*0.15,width:ancho/2,height:largo*0.15)
-            totalOferta.frame = CGRect(x:0,y:largo*0.3,width:ancho/2,height:largo*0.15)
-            subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.15)
-            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.15,width:ancho/2,height:largo*0.15)
-            totalMontoOferta.frame = CGRect(x:ancho/2,y:largo*0.3,width:ancho/2,height:largo*0.15)
-            buttonContainer.frame = CGRect(x:0,y:largo*0.45,width:ancho,height:largo*0.55)
-            tituloOferta.frame = CGRect(x:0,y:0,width:ancho*0.8,height:buttonContainer.bounds.height*0.2)
-            sliderOferta.frame = CGRect(x:ancho*0.05,y:buttonContainer.bounds.height*0.2,width:ancho*0.8,height:buttonContainer.bounds.height*0.4)
-            labelOferta.frame = CGRect(x:ancho*0.85,y:buttonContainer.bounds.height*0.2,width:ancho*0.15,height:buttonContainer.bounds.height*0.4)
-            continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.6 + 1,width:ancho*0.5,height:buttonContainer.bounds.height*0.4 - 6)
+            let alert = UIAlertController(title: "¿Cual es su forma de pago?", message: nil, preferredStyle: UIAlertControllerStyle.alert)
             
-            buttonContainer.addSubview(tituloOferta)
-            buttonContainer.addSubview(sliderOferta)
-            buttonContainer.addSubview(labelOferta)
             
-            contenedorTotales.addSubview(totalOferta)
-            contenedorTotales.addSubview(totalMontoOferta)
+            alert.addAction(UIAlertAction(title: "Contado", style: .default))
             
-        }
-        else{
             
-            for vista in buttonContainer.subviews{
-                vista.removeFromSuperview()
-            }
+            alert.addAction(UIAlertAction(title:"Credito",style: UIAlertActionStyle.default,handler: { action in
+                
+                //Proceso para iniciar clinte final
+                
+            }))
             
-            subtotal.frame = CGRect(x:0,y:0,width:ancho/2,height:largo*0.3)
-            total.frame = CGRect(x:0,y:largo*0.3,width:ancho/2,height:largo*0.3)
-            subtotalMonto.frame = CGRect(x:ancho/2,y:0,width:ancho/2,height:largo*0.3)
-            totalMonto.frame = CGRect(x:ancho/2,y:largo*0.3,width:ancho/2,height:largo*0.3)
-            buttonContainer.frame = CGRect(x:0,y:largo*0.6,width:ancho,height:largo*0.4)
-            continuarBtn.frame = CGRect(x:ancho*0.25,y:buttonContainer.bounds.height*0.2,width:ancho*0.5,height:buttonContainer.bounds.height*0.6)
+            self.present(alert, animated: true, completion: nil)
+            
         }
         
         
@@ -337,6 +356,7 @@ class CarritoController: UIViewController,UITableViewDataSource {
         labelOferta.text = String(format: "%.0f", round(sender.value))+"%"
         let unoPorciento = (totalPago.replacingOccurrences(of: ",", with: "") as NSString).doubleValue / 100
         let porcentaje = unoPorciento * Double(round(sender.value))
+        totalOfertado = String(porcentaje)
         totalMontoOferta.text = "$"+String(format: "%.2f", porcentaje)
         
         
@@ -408,6 +428,10 @@ class CarritoController: UIViewController,UITableViewDataSource {
     }
     
     @objc func continuarProceso(tapGestureRecognizer: UITapGestureRecognizer) {
+        
+        datosoferta["total_oferta"] = totalOfertado
+        datosoferta["total"] = totalPago
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let nuevaInversionCtrl = storyboard.instantiateViewController(withIdentifier: "datosInversionista") as! DatosInversionistaController
         self.present(nuevaInversionCtrl, animated: true, completion: nil)

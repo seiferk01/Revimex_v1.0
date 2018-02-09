@@ -227,6 +227,7 @@ class InfoController: UIViewController, UIScrollViewDelegate {
     func showPhotos() {
         
         
+        
         var arrayFotos:[InputSource] = [ImageSource(image: UIImage(named: "imagenNoEncontrada.png")! )]
         
         if propiedad.fotos.count > 0{
@@ -247,8 +248,15 @@ class InfoController: UIViewController, UIScrollViewDelegate {
             arrayFotos = []
             for foto in propiedad.fotos{
                 
-                let photo = ImageSource(image: Utilities.traerImagen(urlImagen: foto))
-                arrayFotos.append(photo)
+                let fotoExtencion = foto.split(separator: ".")[foto.split(separator: ".").count-1].uppercased()
+                
+                if fotoExtencion.contains("JPG") || fotoExtencion.contains("JPEG") || fotoExtencion.contains("PNG") || fotoExtencion.contains("BMP"){
+                    
+                    let photo = ImageSource(image: Utilities.traerImagen(urlImagen: foto))
+                    arrayFotos.append(photo)
+                    
+                }
+                
                 
             }
             

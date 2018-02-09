@@ -305,6 +305,8 @@ class EtapasBrokerageController: UIViewController {
         
         cargarVista()
         
+        instanciaMisBrokerageViewController.solicitarBrokerages()
+        
     }
     
     
@@ -312,11 +314,10 @@ class EtapasBrokerageController: UIViewController {
         back(vista: self)
     }
     
-    
+    //muestra la vista correspondiente al estatus en el que se encuentra el brokerage
     func cargarVista(){
         
          print(etapaBrokerage)
-        
         
         switch etapaBrokerage {
         case "DatosPropiedad":
@@ -350,6 +351,11 @@ class EtapasBrokerageController: UIViewController {
             
             registrarProgreso(estatus: etapaBrokerage)
             actualViewController = arrayViews[5]
+            
+            break
+        case "firma_contrato":
+            
+            registrarProgreso(estatus: etapaBrokerage)
             
             break
         default:

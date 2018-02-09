@@ -312,7 +312,6 @@ var instanciaNuevoBrokerageViewController: NuevoBrokerageViewController!
 var instanciaEtapasBrokerageController: EtapasBrokerageController!
 
 
-
 class Utilities: NSObject {
 
     public static let GEOCODING_URL:String! = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBuwBiNaQQcYb6yXDoxEDBASvrtjWgc03Q&components=country:MX&address=";

@@ -71,7 +71,7 @@ class ValidacionDocumentosController: UIViewController {
         
     }
     
-    
+    //funcion para registrar el estatus de documentos en proceso de validacion (PENDIENTE DE DEFINIR)
     @objc func siguiente(tapGestureRecognizer: UITapGestureRecognizer) {
         
         var estatus = ""

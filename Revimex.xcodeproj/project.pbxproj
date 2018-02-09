@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		5205B2CF2018EEB100CB353D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */; };
 		5205B2D720193F4600CB353D /* customWhiteStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 5205B2D620193F4500CB353D /* customWhiteStyle.json */; };
+		5217111A202A232E0064D34C /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 52171118202A232C0064D34C /* unchecked.png */; };
+		5217111B202A232E0064D34C /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 52171119202A232E0064D34C /* checked.png */; };
+		5217111D202D36DC0064D34C /* InversionesTableCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5217111C202D36CD0064D34C /* InversionesTableCellController.swift */; };
 		524EBA4C1FF6CE7400C31D0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */; };
 		524EBA4E1FF6CE7400C31D0A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524EBA4D1FF6CE7400C31D0A /* ViewController.swift */; };
 		524EBA511FF6CE7400C31D0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 524EBA4F1FF6CE7400C31D0A /* Main.storyboard */; };
@@ -139,6 +142,9 @@
 		5205B2CE2018EEB000CB353D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5205B2D32019170A00CB353D /* Revimex-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Revimex-Bridging-Header.h"; sourceTree = "<group>"; };
 		5205B2D620193F4500CB353D /* customWhiteStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = customWhiteStyle.json; sourceTree = "<group>"; };
+		52171118202A232C0064D34C /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
+		52171119202A232E0064D34C /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
+		5217111C202D36CD0064D34C /* InversionesTableCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InversionesTableCellController.swift; sourceTree = "<group>"; };
 		524EBA481FF6CE7400C31D0A /* Revimex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Revimex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		524EBA4B1FF6CE7400C31D0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		524EBA4D1FF6CE7400C31D0A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -379,6 +385,8 @@
 				524EBB621FF6E0F900C31D0A /* carritoDisponible.png */,
 				524EBB5F1FF6E0F800C31D0A /* carritoSeleccionado.png */,
 				524EBB421FF6E0EC00C31D0A /* centroComercial.png */,
+				52171119202A232E0064D34C /* checked.png */,
+				52171118202A232C0064D34C /* unchecked.png */,
 				524EBB4C1FF6E0F000C31D0A /* clienteFinal.jpg */,
 				524EBB3F1FF6E0EB00C31D0A /* compartir.ico */,
 				52D8A5BD2016D322002B7D13 /* contratoDemo.jpg */,
@@ -452,9 +460,10 @@
 		524EBBD120046F4C00C31D0A /* Inversionista */ = {
 			isa = PBXGroup;
 			children = (
-				52590F582008409200742E31 /* InversionesViewCellController.swift */,
-				524EBA621FF6CF9F00C31D0A /* InversionistaController.swift */,
 				524EBBDF2005730E00C31D0A /* MisInversionesController.swift */,
+				5217111C202D36CD0064D34C /* InversionesTableCellController.swift */,
+				524EBA621FF6CF9F00C31D0A /* InversionistaController.swift */,
+				52590F582008409200742E31 /* InversionesViewCellController.swift */,
 				52590F5C200D30B000742E31 /* DatosInversionistaController.swift */,
 			);
 			path = Inversionista;
@@ -674,6 +683,7 @@
 				524EBB931FF6E0FF00C31D0A /* entrarConFcebook.png in Resources */,
 				524EBB731FF6E0FF00C31D0A /* favoritos.png in Resources */,
 				5205B2D720193F4600CB353D /* customWhiteStyle.json in Resources */,
+				5217111A202A232E0064D34C /* unchecked.png in Resources */,
 				524EBB921FF6E0FF00C31D0A /* menu-vertical-100.png in Resources */,
 				524EBB751FF6E0FF00C31D0A /* restaurant.png in Resources */,
 				524EBBA21FF6E0FF00C31D0A /* restaurantes.png in Resources */,
@@ -702,6 +712,7 @@
 				524EBBAC1FF6E12D00C31D0A /* FormView.xib in Resources */,
 				524EBB891FF6E0FF00C31D0A /* info.png in Resources */,
 				524EBB981FF6E0FF00C31D0A /* houseMarker.png in Resources */,
+				5217111B202A232E0064D34C /* checked.png in Resources */,
 				524EBB961FF6E0FF00C31D0A /* menu-horizontal-100.png in Resources */,
 				524EBA511FF6CE7400C31D0A /* Main.storyboard in Resources */,
 				524EBB781FF6E0FF00C31D0A /* banBrokerage.png in Resources */,
@@ -860,6 +871,7 @@
 				524EBA921FF6CFA600C31D0A /* UbicationContoller.swift in Sources */,
 				524EBA8E1FF6CFA600C31D0A /* InfoUserController.swift in Sources */,
 				524EBA8A1FF6CFA600C31D0A /* DatosPersonalesCellController.swift in Sources */,
+				5217111D202D36DC0064D34C /* InversionesTableCellController.swift in Sources */,
 				524EBBCF1FFC69FD00C31D0A /* MisLineasController.swift in Sources */,
 				5269AD8F2022B1D30076FCF6 /* DatosUsuarioInversionistaController.swift in Sources */,
 				524EBA901FF6CFA600C31D0A /* LogInController.swift in Sources */,

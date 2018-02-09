@@ -27,23 +27,6 @@ class BrokerageTableCellController: UITableViewCell {
         estatusBrokerage.font = UIFont(name: "Marion-Italic", size: 15.0)
         estatusBrokerage.textColor = UIColor.gray
         
-        movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientosDisable.png") as UIImage?, for: .normal)
-        self.opcionesBtnBrokerage.setTitle("x Cancelar Proceso", for: .normal)
-        
-        
-        switch estatusBrokerage.text! {
-        case "firma_contrato":
-            movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientos.png") as UIImage?, for: .normal)
-            self.opcionesBtnBrokerage.setTitle("Finalizar Brokerage", for: .normal)
-            break
-        default:
-            movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientosDisable.png") as UIImage?, for: .normal)
-            self.opcionesBtnBrokerage.setTitle("x Cancelar Proceso", for: .normal)
-            break
-        }
-        
-        
-        
         
     }
 
@@ -65,9 +48,6 @@ class BrokerageTableCellController: UITableViewCell {
         idOfertaSeleccionada = detallesBrokerage.id_ai
         
         switch estatusBrokerage.text! {
-        case "firma_contrato":
-            estatus = "firma_contrato"
-            break
         case "Propiedad apartada":
             estatus = "activo"
             break
@@ -80,10 +60,13 @@ class BrokerageTableCellController: UITableViewCell {
         case "Pago realizado":
             estatus = "pago_realizado"
             break
+        case "Firma del contrato":
+            print("El proceso de brokerage ya ha finalizado")
+            instanciaMisBrokerageViewController.msgBrokerageTerminado()
+            return
         default:
-            estatus = "activo"
             print("ERROR: El estaus enviado no esta dentro de los casos BrokerageTableCellController")
-            break
+            return
         }
         
         etapaBrokerage = estatus

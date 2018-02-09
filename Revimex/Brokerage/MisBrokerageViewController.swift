@@ -11,6 +11,10 @@ import Material
 //
 class MisBrokerageViewController: UIViewController,UITableViewDataSource {
     
+    class movimientosRecognizer: UITapGestureRecognizer {
+        var idSalesforce: String!
+    }
+    
     @IBOutlet weak var flBtnNuevo: FABButton!
     public var nuevoBrokerage:NuevoBrokerageViewController!
     
@@ -220,7 +224,224 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         row.detallesBrokerage.urlImagen = arrayBrokerages[indexPath.row].urlImagen
         row.detallesBrokerage.foto = arrayBrokerages[indexPath.row].foto
         
+        switch arrayBrokerages[indexPath.row].estatus {
+        case "Firma del contrato":
+            let enviar = movimientosRecognizer(target: self, action: #selector(llamarMovimientos(tapGestureRecognizer:)))
+            enviar.idSalesforce = arrayBrokerages[indexPath.row].idp
+            row.movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientos.png") as UIImage?, for: .normal)
+            row.movimientosBtnBrokerage.addGestureRecognizer(enviar)
+            row.opcionesBtnBrokerage.setTitle("Finalizar Brokerage", for: .normal)
+            break
+        default:
+            row.movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientosDisable.png") as UIImage?, for: .normal)
+            row.opcionesBtnBrokerage.setTitle("x Cancelar Proceso", for: .normal)
+            break
+        }
+        
         return row
+    }
+    
+    
+    func msgBrokerageTerminado(){
+        let alert = UIAlertController(title: "Aviso", message: "El proceso de brokerage ya esta finalizado", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert,animated:true,completion:nil)
+    }
+    
+    
+    @objc func llamarMovimientos(tapGestureRecognizer: movimientosRecognizer) {
+    
+        let activityIndicator = UIActivityIndicatorView()
+        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
+        background.center = self.view.center
+        self.view.addSubview(background)
+        activityIndicator.startAnimating()
+        
+        var jsonResponse:[String:Any?] = [:]
+        
+        let urlProgreso = "http://18.221.106.92/api/public//brokerage/allPays"
+        
+        
+        var parameters: [String:Any?] = [:]
+        
+        if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
+            parameters = [
+                "id_prop" : tapGestureRecognizer.idSalesforce,
+                "user_id" : String(userId)
+            ]
+        }
+        
+        guard let url = URL(string: urlProgreso) else { return }
+        
+        var request = URLRequest (url: url)
+        request.httpMethod = "POST"
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        
+        let session  = URLSession.shared
+        
+        session.dataTask(with: request) { (data, response, error) in
+            
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                
+                do {
+                    let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
+                    
+                    print(json)
+                    
+                    jsonResponse = json
+                    
+                } catch {
+                    print("El error es: ")
+                    print(error)
+                }
+                
+                OperationQueue.main.addOperation({
+                    
+                    self.siguientePago(movimientos: jsonResponse,idSalesforce: tapGestureRecognizer.idSalesforce)
+                    
+                    activityIndicator.stopAnimating()
+                    background.removeFromSuperview()
+                })
+                
+            }
+        }.resume()
+        
+    }
+    
+    func siguientePago(movimientos: [String:Any?],idSalesforce: String){
+        
+        let urlProgreso = "http://18.221.106.92/api/public/brokerage/nextPay"
+        var siguientePago = ""
+        var parameters: [String:Any?] = [:]
+        
+        if let userId = UserDefaults.standard.object(forKey: "userId") as? Int{
+            parameters = [
+                "id_prop" : idSalesforce,
+                "user_id" : String(userId)
+            ]
+        }
+        
+        guard let url = URL(string: urlProgreso) else { return }
+        
+        var request = URLRequest (url: url)
+        request.httpMethod = "POST"
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let session  = URLSession.shared
+        
+        session.dataTask(with: request) { (data, response, error) in
+            
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                
+                do {
+                    let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
+                    print(json)
+                    if let sigPago = json["fecha"] as? String{
+                        siguientePago = sigPago
+                    }
+                } catch {
+                    print("El error es: ")
+                    print(error)
+                }
+                OperationQueue.main.addOperation({
+                    self.mostrarMovimientos(movimientos: movimientos, siguientePago: siguientePago)
+                })
+            }
+        }.resume()
+        
+    }
+    
+    
+    func mostrarMovimientos(movimientos: [String:Any?],siguientePago: String){
+        
+        let modalDetalles = UIViewController()
+        modalDetalles.view.frame = CGRect(x:0, y:0, width:ancho, height:largo)
+        modalDetalles.view.backgroundColor = UIColor.white
+        
+        
+        let titulo = UILabel()
+        titulo.frame = CGRect(x:0, y:largo*0.05, width:ancho, height:largo*0.1)
+        titulo.text = "Historial de pagos"
+        titulo.font = UIFont(name: "CourierNewPSMT ", size: 40.0)
+        titulo.textAlignment = .center
+        
+        let subtitulo = UILabel()
+        subtitulo.frame = CGRect(x:0, y:largo*0.15, width:ancho, height:largo*0.05)
+        subtitulo.font = UIFont(name: "Marion-Italic", size: 17.0)
+        subtitulo.textColor = azulObscuro
+        subtitulo.text = "El siguiente pago sera el \(siguientePago)"
+        
+        let contenedorPagos = UIScrollView()
+        
+        if let pagos = movimientos["pagos"] as? NSArray{
+            
+            contenedorPagos.frame = CGRect(x: 0, y: largo*0.25, width: ancho, height: largo*0.65)
+            let largoContenido = (largo*0.1) * CGFloat(pagos.count)
+            contenedorPagos.contentSize = CGSize(width: ancho, height: largoContenido)
+            
+            for (index, pago) in pagos.enumerated() {
+                
+                if let pagoObject = pago as? [String:Any?]{
+                    
+                    let infoPago = TextField()
+                    infoPago.frame = CGRect(x:0, y:((largo*0.1) * CGFloat(index)) + largo*0.05, width:ancho, height:(largo*0.1)/2)
+                    if let numPago = pagoObject["numero_pago"] as? Int{
+                        infoPago.placeholder = "Pago " + String(numPago)
+                    }
+                    if let fecha = pagoObject["fecha_hora"] as? String, let monto = pagoObject["monto"] as? String {
+                        infoPago.text = fecha + " | " + monto
+                    }
+                    infoPago.isEnabled = false
+                    infoPago.placeholderLabel.textColor = azulObscuro
+                    infoPago.textAlignment = .center
+                    
+                    contenedorPagos.addSubview(infoPago)
+                    
+                }
+                
+            }
+        }
+        
+        let dismissButton:UIButton! = UIButton()
+        dismissButton.setTitle("Ok", for: .normal)
+        dismissButton.setTitleColor(UIColor.black, for: .normal)
+        dismissButton.frame = CGRect(x:ancho/4, y:largo*0.92, width:ancho/2, height:largo*0.05)
+        dismissButton.layer.borderColor = UIColor.black.cgColor
+        dismissButton.layer.borderWidth = 0.5
+        dismissButton.addTarget(self,action: #selector(self.cerrarModal),for: .touchUpInside)
+        
+        
+        modalDetalles.view.addSubview(titulo)
+        modalDetalles.view.addSubview(subtitulo)
+        modalDetalles.view.addSubview(contenedorPagos)
+        modalDetalles.view.addSubview(dismissButton)
+        
+        
+        modalDetalles.modalTransitionStyle = .partialCurl
+        present(modalDetalles, animated: true, completion: nil)
     }
     
     
@@ -265,7 +486,10 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         let pagoMensual = TextField()
         pagoMensual.frame = CGRect(x:0, y:largo*0.45, width:ancho, height:(largo*0.1)/2)
         pagoMensual.placeholder = "Pago mensual"
-        pagoMensual.text = String(Int(detallesBrokerageSeleccionado.monto)!/Int(detallesBrokerageSeleccionado.tiempo)!)
+        let tmp = ((0.2/12) * Double(detallesBrokerageSeleccionado.tiempo)!)+1;
+        let res_tot = ( Double(detallesBrokerageSeleccionado.monto)! * tmp);
+        let res_mes = Int( ( res_tot - Double(detallesBrokerageSeleccionado.monto)! ) / Double(detallesBrokerageSeleccionado.tiempo)! )
+        pagoMensual.text = String(res_mes)
         pagoMensual.isEnabled = false
         pagoMensual.placeholderLabel.textColor = azulObscuro
         pagoMensual.textAlignment = .center
@@ -303,7 +527,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         mejora.textAlignment = .center
         
         let dismissButton:UIButton! = UIButton()
-        dismissButton.setTitle("Regresar", for: .normal)
+        dismissButton.setTitle("Ok", for: .normal)
         dismissButton.setTitleColor(UIColor.black, for: .normal)
         dismissButton.frame = CGRect(x:ancho/4, y:largo*0.92, width:ancho/2, height:largo*0.05)
         dismissButton.layer.borderColor = UIColor.black.cgColor

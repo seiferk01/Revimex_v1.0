@@ -25,7 +25,7 @@ class DocumentosInversionistaController: UIViewController,UIImagePickerControlle
     let imagePicker = UIImagePickerController()
     var identificadorImagen:Int = -1
     
-    
+    var placeholderImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +35,7 @@ class DocumentosInversionistaController: UIViewController,UIImagePickerControlle
         ancho = view.bounds.width
         largo = view.bounds.height
         
+        placeholderImage = UIImage.fontAwesomeIcon(name: .camera,textColor: UIColor.black,size: CGSize(width: 80, height: 80))
         
         cargarDocumentos()
         
@@ -74,7 +75,7 @@ class DocumentosInversionistaController: UIViewController,UIImagePickerControlle
         
         let preview = UIImageView()
         preview.frame = CGRect(x: 0, y: 0, width: ancho*0.25, height: (largo*0.2)-2)
-        preview.image = UIImage.fontAwesomeIcon(name: .camera,textColor: UIColor.black,size: CGSize(width: 80, height: 80))
+        preview.image = placeholderImage
         preview.contentMode = .scaleAspectFit
         preview.clipsToBounds = true
         preview.tag = Int(posicion)+100
@@ -166,37 +167,212 @@ class DocumentosInversionistaController: UIViewController,UIImagePickerControlle
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        if let rowImage = view.viewWithTag(identificadorImagen) as? UIImageView{
-            rowImage.image = image
-        }
         
         self.imagePicker.dismiss(animated: true, completion: nil)
+        
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let binaryImageData = base64EncodeImage(pickedImage)
+            createRequest(with: binaryImageData,pickedImage: pickedImage)
+        }
+        
+    }
+    
+    func base64EncodeImage(_ image: UIImage) -> String {
+        var imagedata = UIImagePNGRepresentation(image)
+        
+        // Resize the image if it exceeds the 2MB API limit
+        let oldSize: CGSize = image.size
+        let newSize: CGSize = CGSize(width: 800, height: oldSize.height / oldSize.width * 800)
+        imagedata = resizeImage(newSize, image: image)
+        
+        
+        return imagedata!.base64EncodedString(options: .endLineWithCarriageReturn)
+    }
+    
+    func resizeImage(_ imageSize: CGSize, image: UIImage) -> Data {
+        UIGraphicsBeginImageContext(imageSize)
+        image.draw(in: CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        let resizedImage = UIImagePNGRepresentation(newImage!)
+        UIGraphicsEndImageContext()
+        return resizedImage!
+    }
+    
+    func createRequest(with imageBase64: String, pickedImage: UIImage){
+        
+        var resultado = false
+        
+        let activityIndicator = UIActivityIndicatorView()
+        let background = Utilities.activityIndicatorBackground(activityIndicator: activityIndicator)
+        background.center = self.view.center
+        self.view.addSubview(background)
+        activityIndicator.startAnimating()
+        
+        let urlGoogle = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCoufQ-7IiWlsYdUQDBywYSoH1SfQfVTIo"
+        
+        let parameters: [String:Any?] = [
+            "requests": [
+                "image": [
+                    "content": imageBase64
+                ],
+                "features": [
+                    [
+                        "type": "SAFE_SEARCH_DETECTION"
+                    ],
+                    [
+                        "type": "LABEL_DETECTION"
+                    ]
+                ]
+            ]
+        ]
+        
+        guard let url = URL(string: urlGoogle) else { return }
+        
+        var request = URLRequest (url: url)
+        request.httpMethod = "POST"
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        
+        let session  = URLSession.shared
+        
+        session.dataTask(with: request) { (data, response, error) in
+            
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                
+                do {
+                    let json = try JSONSerialization.jsonObject (with: data) as! [String:Any?]
+                    
+                    print(json)
+                    
+                    if let responses = json["responses"] as? NSArray{
+                        for response in responses{
+                            if let Result = response as? [String:Any?]{
+                                
+                                if let labels = Result["labelAnnotations"] as? NSArray{
+                                    for label in labels{
+                                        if let labelElement = label as? [String:Any?]{
+                                            if (labelElement["description"] as! String) == "identity document" || (labelElement["description"] as! String) == "document" || (labelElement["description"] as! String) == "text"{
+                                                resultado = true
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                if let anotation = Result["safeSearchAnnotation"] as? [String:Any?]{
+                                    if let adult = anotation["adult"] as? String,
+                                    let violence = anotation["violence"] as? String{
+                                        if !((adult == "VERY_UNLIKELY" || adult == "UNLIKELY")&&(violence == "VERY_UNLIKELY" || violence == "UNLIKELY")){
+                                            resultado = false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                } catch {
+                    print("El error es: ")
+                    print(error)
+                }
+                
+                OperationQueue.main.addOperation({
+                    activityIndicator.stopAnimating()
+                    background.removeFromSuperview()
+                    
+                    if let rowImage = self.view.viewWithTag(self.identificadorImagen) as? UIImageView{
+                        
+                        if resultado{
+                            rowImage.image = pickedImage
+                        }
+                        else{
+                            let alert = UIAlertController(title: "Aviso", message: "La imagen seleccionada no es un documento o se ha detectado contenido inapropiado, por favor intente con otra", preferredStyle: UIAlertControllerStyle.alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                            self.present(alert,animated:true,completion:nil)
+                        }
+                        
+                    }
+                    
+                })
+                
+            }
+        }.resume()
+        
     }
     
     
-    
+    //funcion para registrar el avance del brokerage, sen envia el estatus "documentos_usuario" y la propiedad queda en estatus "Documentos de usuario registrado"
     @objc func enviarDocumentos(tapGestureRecognizer: UITapGestureRecognizer) {
         
-        let estatus = "documentos_usuario"
-        
-        let alert = UIAlertController(title: "Confirmar ", message: "¿Estas seguro que deseas enviar estos documentos?", preferredStyle: UIAlertControllerStyle.alert)
-        
-        
-        alert.addAction(UIAlertAction(title: "No", style: .default))
-        
-        
-        alert.addAction(UIAlertAction(title:"Si",style: UIAlertActionStyle.default,handler: { action in
+        if let rfc = view.viewWithTag(100) as? UIImageView,
+           let ine = view.viewWithTag(101) as? UIImageView,
+           let comprobante = view.viewWithTag(102) as? UIImageView,
+           let edoCuenta = view.viewWithTag(103) as? UIImageView{
             
-            //integrar aqui servicio para enviar documentos a salesforce
+            if rfc.image == placeholderImage{
+                documentoFaltante(documento: "CEDULA RFC SAT")
+                return
+            }
+            if ine.image == placeholderImage{
+                documentoFaltante(documento: "INE")
+                return
+            }
+            if comprobante.image == placeholderImage{
+                documentoFaltante(documento: "COMPROBANTE DE DOMICILIO")
+                return
+            }
+            if edoCuenta.image == placeholderImage{
+                documentoFaltante(documento: "ESTADO DE CUENTA BANCARIO")
+                return
+            }
             
-            instanciaEtapasBrokerageController.mostrarEtapa(estatus: estatus)
+            let estatus = "documentos_usuario"
             
-        }))
+            let alert = UIAlertController(title: "Confirmar ", message: "¿Estas seguro que deseas enviar estos documentos?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            
+            alert.addAction(UIAlertAction(title: "No", style: .default))
+            
+            
+            alert.addAction(UIAlertAction(title:"Si",style: UIAlertActionStyle.default,handler: { action in
+                
+                //integrar aqui servicio para enviar documentos a salesforce
+                
+                let alertValidacion = UIAlertController(title: "Aviso ", message: "Gracias, se han registrado tus documentos con éxito. A partir de ahora empezará el proceso de validación de tus documentos. Te notificaremos cuando esten validados para que puedas realizar el pago.", preferredStyle: UIAlertControllerStyle.alert)
+                alertValidacion.addAction(UIAlertAction(title: "Ok", style: .default))
+                self.present(alertValidacion, animated: true, completion: nil)
+                
+                instanciaEtapasBrokerageController.mostrarEtapa(estatus: estatus)
+                
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+        else{
+            let alert = UIAlertController(title: "Aviso", message: "Hubo un problema al verificar los documentos, por favor intente mas tarde", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert,animated:true,completion:nil)
+        }
         
-        self.present(alert, animated: true, completion: nil)
         
-        
+    }
+    
+    func documentoFaltante(documento: String){
+        let alert = UIAlertController(title: "Aviso", message: "Por favor carga tu "+documento, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert,animated:true,completion:nil)
     }
     
 
