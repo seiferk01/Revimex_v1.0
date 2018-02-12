@@ -9,7 +9,7 @@
 import UIKit
 import Material
 
-class MisInversionesController: UIViewController,UITableViewDataSource {
+class MisInversionesController: UIViewController,UITableViewDataSource,TableViewDelegate {
     
     @IBOutlet weak var nuevaInversionBtn: FABButton!
     
@@ -23,7 +23,7 @@ class MisInversionesController: UIViewController,UITableViewDataSource {
         var created_at:String = ""
         var total_oferta:String = ""
         var numPropiedades:Int = 0
-        var validacion:String = ""
+        var validacion:Int = -1
         var propiedades:[propiedadInversionsita] = []
     }
     
@@ -110,7 +110,7 @@ class MisInversionesController: UIViewController,UITableViewDataSource {
                                     if let total = oferta["total_oferta"] as? String{
                                         ofertaInversion.total_oferta  = total
                                     }
-                                    if let validacion = oferta["validacion"] as? String{
+                                    if let validacion = oferta["validacion"] as? Int{
                                         ofertaInversion.validacion  = validacion
                                     }
                                     
@@ -180,49 +180,46 @@ class MisInversionesController: UIViewController,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = tableView.dequeueReusableCell(withIdentifier: "InversionesTableCell") as! InversionesTableCellController
         
-        row.public_id = arrayOfertas[indexPath.row].public_id
-        row.created_at = arrayOfertas[indexPath.row].created_at
-        row.total_oferta = arrayOfertas[indexPath.row].total_oferta
+        row.oferta.text = arrayOfertas[indexPath.row].public_id
+        row.fecha.text = arrayOfertas[indexPath.row].created_at
+        row.totalOfertado.text = arrayOfertas[indexPath.row].total_oferta
         row.numPropiedades = arrayOfertas[indexPath.row].numPropiedades
         
         
-//        switch Int(arrayOfertas[indexPath.row].validacion)! {
-//        case 0:
-//            let enviar = movimientosRecognizer(target: self, action: #selector(llamarMovimientos(tapGestureRecognizer:)))
-//            enviar.idSalesforce = arrayBrokerages[indexPath.row].idp
-//            row.movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientos.png") as UIImage?, for: .normal)
-//            row.movimientosBtnBrokerage.addGestureRecognizer(enviar)
-//            row.opcionesBtnBrokerage.setTitle("Finalizar Brokerage", for: .normal)
-//            break
-//        case 1:
-//            let enviar = movimientosRecognizer(target: self, action: #selector(llamarMovimientos(tapGestureRecognizer:)))
-//            enviar.idSalesforce = arrayBrokerages[indexPath.row].idp
-//            row.movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientos.png") as UIImage?, for: .normal)
-//            row.movimientosBtnBrokerage.addGestureRecognizer(enviar)
-//            row.opcionesBtnBrokerage.setTitle("Finalizar Brokerage", for: .normal)
-//            break
-//        case 2:
-//            let enviar = movimientosRecognizer(target: self, action: #selector(llamarMovimientos(tapGestureRecognizer:)))
-//            enviar.idSalesforce = arrayBrokerages[indexPath.row].idp
-//            row.movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientos.png") as UIImage?, for: .normal)
-//            row.movimientosBtnBrokerage.addGestureRecognizer(enviar)
-//            row.opcionesBtnBrokerage.setTitle("Finalizar Brokerage", for: .normal)
-//            break
-//        case 3:
-//            let enviar = movimientosRecognizer(target: self, action: #selector(llamarMovimientos(tapGestureRecognizer:)))
-//            enviar.idSalesforce = arrayBrokerages[indexPath.row].idp
-//            row.movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientos.png") as UIImage?, for: .normal)
-//            row.movimientosBtnBrokerage.addGestureRecognizer(enviar)
-//            row.opcionesBtnBrokerage.setTitle("Finalizar Brokerage", for: .normal)
-//            break
-//        default:
-//            row.movimientosBtnBrokerage.setBackgroundImage(UIImage(named: "movimientosDisable.png") as UIImage?, for: .normal)
-//            row.opcionesBtnBrokerage.setTitle("x Cancelar Proceso", for: .normal)
-//            break
-//        }
+        switch arrayOfertas[indexPath.row].validacion {
+        case 0:
+            row.estatus.setTitle("Denegada", for: .normal)
+            row.estatus.backgroundColor = rojo
+            break
+        case 1:
+            row.estatus.setTitle("En Validacion", for: .normal)
+            row.estatus.backgroundColor = UIColor.orange
+            break
+        case 2:
+            row.estatus.setTitle("Aceptada", for: .normal)
+            row.estatus.backgroundColor = verde
+            break
+        case 3:
+            row.estatus.alpha = 0
+            row.etiquetaEstatus.alpha = 1
+            break
+        default:
+            print("Error: caso no especificado boton en celda mis inversiones cell controller")
+            break
+        }
+        
+        row.layer.masksToBounds = true
+        row.layer.borderWidth = 0.5
+        row.layer.shadowOffset = CGSize(width: -1, height: 0.5)
+        let borderColor: UIColor = gris!
+        row.layer.borderColor = borderColor.cgColor
         
         
         return row
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140.0
     }
     
     @objc func nuevaInversion() {
