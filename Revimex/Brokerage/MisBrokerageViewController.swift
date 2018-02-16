@@ -57,7 +57,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
     func retomarProceso() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let etapasBrokerage = storyboard.instantiateViewController(withIdentifier: "etapasBrokerage") as! EtapasBrokerageController
+        let etapasBrokerage = storyboard.instantiateViewController(withIdentifier: "EtapasBrokerage") as! EtapasBrokerageController
         navigationController?.present(etapasBrokerage, animated: true, completion: nil)
         
         
@@ -385,8 +385,11 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         let titulo = UILabel()
         titulo.frame = CGRect(x:0, y:largo*0.05, width:ancho, height:largo*0.1)
         titulo.text = "Historial de pagos"
-        titulo.font = UIFont(name: "CourierNewPSMT ", size: 40.0)
+        titulo.font = UIFont.boldSystemFont(ofSize: 20.0)
         titulo.textAlignment = .center
+        titulo.layer.borderColor = gris?.cgColor
+        titulo.layer.borderWidth = 0.3
+        
         
         let subtitulo = UILabel()
         subtitulo.frame = CGRect(x:0, y:largo*0.15, width:ancho, height:largo*0.05)
@@ -402,6 +405,12 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
             let largoContenido = (largo*0.1) * CGFloat(pagos.count)
             contenedorPagos.contentSize = CGSize(width: ancho, height: largoContenido)
             
+            contenedorPagos.layer.masksToBounds = true
+            contenedorPagos.layer.borderWidth = 0.3
+            contenedorPagos.layer.shadowOffset = CGSize(width: -1, height: 0.3)
+            let borderColor: UIColor = gris!
+            contenedorPagos.layer.borderColor = borderColor.cgColor
+            
             for (index, pago) in pagos.enumerated() {
                 
                 if let pagoObject = pago as? [String:Any?]{
@@ -416,7 +425,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
                     }
                     infoPago.isEnabled = false
                     infoPago.placeholderLabel.textColor = azulObscuro
-                    infoPago.textAlignment = .center
+                    //infoPago.textAlignment = .center
                     
                     contenedorPagos.addSubview(infoPago)
                     
@@ -427,10 +436,9 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         
         let dismissButton:UIButton! = UIButton()
         dismissButton.setTitle("Ok", for: .normal)
-        dismissButton.setTitleColor(UIColor.black, for: .normal)
-        dismissButton.frame = CGRect(x:ancho/4, y:largo*0.92, width:ancho/2, height:largo*0.05)
-        dismissButton.layer.borderColor = UIColor.black.cgColor
-        dismissButton.layer.borderWidth = 0.5
+        dismissButton.setTitleColor(UIColor.white, for: .normal)
+        dismissButton.frame = CGRect(x:ancho*0.65, y:largo*0.92, width:ancho/4, height:largo*0.05)
+        dismissButton.backgroundColor = azulObscuro
         dismissButton.addTarget(self,action: #selector(self.cerrarModal),for: .touchUpInside)
         
         
@@ -481,7 +489,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         inversionInicial.text = detallesBrokerageSeleccionado.monto
         inversionInicial.isEnabled = false
         inversionInicial.placeholderLabel.textColor = azulObscuro
-        inversionInicial.textAlignment = .center
+        //inversionInicial.textAlignment = .center
         
         let pagoMensual = TextField()
         pagoMensual.frame = CGRect(x:0, y:largo*0.45, width:ancho, height:(largo*0.1)/2)
@@ -492,7 +500,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         pagoMensual.text = String(res_mes)
         pagoMensual.isEnabled = false
         pagoMensual.placeholderLabel.textColor = azulObscuro
-        pagoMensual.textAlignment = .center
+        //pagoMensual.textAlignment = .center
         
         let rendimiento = TextField()
         rendimiento.frame = CGRect(x:0, y:largo*0.55, width:ancho, height:(largo*0.1)/2)
@@ -500,7 +508,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         rendimiento.text = String(Int(pagoMensual.text!)!*Int(detallesBrokerageSeleccionado.tiempo)!)
         rendimiento.isEnabled = false
         rendimiento.placeholderLabel.textColor = azulObscuro
-        rendimiento.textAlignment = .center
+        //rendimiento.textAlignment = .center
         
         let tiempoInversion = TextField()
         tiempoInversion.frame = CGRect(x:0, y:largo*0.65, width:ancho, height:(largo*0.1)/2)
@@ -508,7 +516,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         tiempoInversion.text = detallesBrokerageSeleccionado.tiempo
         tiempoInversion.isEnabled = false
         tiempoInversion.placeholderLabel.textColor = azulObscuro
-        tiempoInversion.textAlignment = .center
+        //tiempoInversion.textAlignment = .center
         
         let valor = TextField()
         valor.frame = CGRect(x:0, y:largo*0.75, width:ancho, height:(largo*0.1)/2)
@@ -516,7 +524,7 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         valor.text = "$7,530 MXN. vs $10,530 MXN."
         valor.isEnabled = false
         valor.placeholderLabel.textColor = azulObscuro
-        valor.textAlignment = .center
+        //valor.textAlignment = .center
         
         let mejora = TextField()
         mejora.frame = CGRect(x:0, y:largo*0.85, width:ancho, height:(largo*0.1)/2)
@@ -524,14 +532,13 @@ class MisBrokerageViewController: UIViewController,UITableViewDataSource {
         mejora.text = String(Int(detallesBrokerageSeleccionado.monto)!+Int(rendimiento.text!)!)
         mejora.isEnabled = false
         mejora.placeholderLabel.textColor = azulObscuro
-        mejora.textAlignment = .center
+        //mejora.textAlignment = .center
         
         let dismissButton:UIButton! = UIButton()
         dismissButton.setTitle("Ok", for: .normal)
-        dismissButton.setTitleColor(UIColor.black, for: .normal)
-        dismissButton.frame = CGRect(x:ancho/4, y:largo*0.92, width:ancho/2, height:largo*0.05)
-        dismissButton.layer.borderColor = UIColor.black.cgColor
-        dismissButton.layer.borderWidth = 0.5
+        dismissButton.setTitleColor(UIColor.white, for: .normal)
+        dismissButton.frame = CGRect(x:ancho*0.65, y:largo*0.92, width:ancho/4, height:largo*0.05)
+        dismissButton.backgroundColor = azulObscuro
         dismissButton.addTarget(self,action: #selector(self.cerrarModal),for: .touchUpInside)
         
         

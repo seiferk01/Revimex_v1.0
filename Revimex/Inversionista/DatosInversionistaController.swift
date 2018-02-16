@@ -714,6 +714,7 @@ class DatosInversionistaController: UIViewController,UIImagePickerControllerDele
                         let alert = UIAlertController(title: "¡Datos enviados!", message: "A partir de ahora tu OFERTA estará sujeta en proceso de Aprobación.", preferredStyle: UIAlertControllerStyle.alert)
                         
                         alert.addAction(UIAlertAction(title:"Aceptar",style: UIAlertActionStyle.default,handler: { action in
+                            instanciaMisInversionesController.solicitarOfertas()
                             self.back(vista: self)
                         }))
                         

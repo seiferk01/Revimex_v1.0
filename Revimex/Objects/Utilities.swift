@@ -281,7 +281,7 @@ var navBarStyleCase = 0
 //indicador de linea de negocio (StockController,LineasInfoController)
 var lineaSeleccionada = 0
 
-//variable para controlat la vista dinamica de las etapas del brokerage
+//variable para controlar la vista dinamica de las etapas del brokerage
 var etapaBrokerage = "DatosPropiedad"
 
 //variable para contener los datos entregados por el json de detalles(InfoController,UbicationController)
@@ -310,6 +310,12 @@ var instanciaNuevoBrokerageViewController: NuevoBrokerageViewController!
 
 //instancia utilizar elementos de EtapasBrokerageController
 var instanciaEtapasBrokerageController: EtapasBrokerageController!
+
+//instancia para actualizar la lista de ofertas de inversionista
+var instanciaMisInversionesController: MisInversionesController!
+
+//instancia para actualizar las vistas de las etapas de Inversionistas
+var instanciaEtapasInversionistaController: EtapasInversionistaController!
 
 
 class Utilities: NSObject {

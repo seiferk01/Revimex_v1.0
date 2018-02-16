@@ -20,7 +20,7 @@ class DescriptionViewController: UIViewController {
     var info:UIViewController?
     var ubication:UIViewController?
     
-    var arrayViews:[UIViewController?]!;
+    var arrayViews:[UIViewController?]!
     
     private var actualViewController: UIViewController?{
         didSet{
@@ -73,7 +73,7 @@ class DescriptionViewController: UIViewController {
         
         arrayViews = [info,ubication]
         
-        actualViewController = arrayViews[0];
+        actualViewController = arrayViews[0]
         
     }
     
